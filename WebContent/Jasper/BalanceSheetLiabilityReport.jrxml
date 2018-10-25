@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BalanceSheetLiabilityReport" pageWidth="277" pageHeight="421" columnWidth="277" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0abf4b66-215a-462f-9926-4781f7bf8401">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<style name="ZFieldStyle">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{level}==0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#080000" backcolor="#DEDFE0" fontSize="12" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{level}==1]]></conditionExpression>
+			<style mode="Opaque" forecolor="#030000" backcolor="#FCFAFC" fontSize="10" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{level}==2]]></conditionExpression>
+			<style forecolor="#050000" backcolor="#FFFFFF" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="LIAB_ACCOUNT_NAME_LABEL" class="java.lang.String"/>
+	<parameter name="LIAB_AMOUNT_LABEL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="ledgerName" class="java.lang.String"/>
+	<field name="level" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement key="" style="ZFieldStyle" stretchType="RelativeToTallestObject" x="175" y="0" width="102" height="21" isRemoveLineWhenBlank="true" uuid="d1a0b501-ba3d-4e5c-820d-aca9cb69df64">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="1" rightIndent="3" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="ZFieldStyle" stretchType="RelativeToBandHeight" x="0" y="0" width="175" height="21" isRemoveLineWhenBlank="true" uuid="da4b4199-8112-422c-b201-eefd41321a8b">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="3" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ledgerName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

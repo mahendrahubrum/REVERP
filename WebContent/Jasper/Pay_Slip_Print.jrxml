@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-11-30T09:35:12 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Pay_Slip_Print" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="1c36c90f-c1ee-4bcc-81aa-c219c709aea7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.zoom" value="1.0000000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="REPORT_SUB_TITLE" class="java.lang.String"/>
+	<parameter name="HEADER_DIR" class="java.lang.String"/>
+	<parameter name="FOOTER_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ORGANIZATION" class="java.lang.String"/>
+	<parameter name="LOGO_PATH" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="OFFICE" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="LOGIN" class="java.lang.String"/>
+	<parameter name="REPORT_TITLE_LABEL" class="java.lang.String"/>
+	<parameter name="REPORT_SUB_TITLE_LABEL" class="java.lang.String"/>
+	<parameter name="LEDGER_NAME_LABEL" class="java.lang.String"/>
+	<parameter name="LEDGER" class="java.lang.String"/>
+	<parameter name="EMPLOYEE_NAME_LABEL" class="java.lang.String"/>
+	<parameter name="EMPLOYEE" class="java.lang.String"/>
+	<parameter name="INVOICE_DATE_LABEL" class="java.lang.String"/>
+	<parameter name="INVOICE_DATE" class="java.lang.String"/>
+	<parameter name="BILL_NO_LABEL" class="java.lang.String"/>
+	<parameter name="BILL_NO" class="java.lang.String"/>
+	<parameter name="SL_NO_LABEL" class="java.lang.String"/>
+	<parameter name="USER_LABEL" class="java.lang.String"/>
+	<parameter name="MONTH_LABEL" class="java.lang.String"/>
+	<parameter name="PAYROLL_LABEL" class="java.lang.String"/>
+	<parameter name="ADVANCE_LABEL" class="java.lang.String"/>
+	<parameter name="LOP_LABEL" class="java.lang.String"/>
+	<parameter name="OVER_TIME_LABEL" class="java.lang.String"/>
+	<parameter name="LOAN_LABEL" class="java.lang.String"/>
+	<parameter name="HEADER" class="java.lang.String"/>
+	<parameter name="FOOTER" class="java.lang.String"/>
+	<parameter name="TOTAL" class="java.lang.Double"/>
+	<parameter name="CURRENCY" class="java.lang.String"/>
+	<parameter name="PAYMENT_LABEL" class="java.lang.String"/>
+	<parameter name="TOTAL_LABEL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="user" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="payroll" class="java.lang.Double"/>
+	<field name="advance" class="java.lang.Double"/>
+	<field name="lop" class="java.lang.Double"/>
+	<field name="overTime" class="java.lang.Double"/>
+	<field name="loan" class="java.lang.Double"/>
+	<field name="payment" class="java.lang.Double"/>
+	<variable name="SL_NO" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{SL_NO}+1]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="PAYROLL_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{payroll}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="ADVANCE_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{advance}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="LOP_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{advance}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="OVERTIME_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{overTime}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="LOAN_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{loan}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="PAYMENT_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{payment}.doubleValue()]]></variableExpression>
+	</variable>
+	<title>
+		<band height="100" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="124" y="0" width="555" height="100" uuid="e645902d-5c8d-4fb2-b3d6-c3b1cdb3ad65"/>
+				<imageExpression><![CDATA[$P{HEADER}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="802" height="30" uuid="cbfaf1d9-a640-4491-8c8e-e57291fafd8e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_TITLE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="0" y="30" width="802" height="30" uuid="5740d7ba-1935-44d9-9e51-ae42968d421e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_SUB_TITLE_LABEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="30" backcolor="#BFBFBF" uuid="c9492052-f636-49b6-8756-975efc62c3fa"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SL_NO_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="40" y="0" width="131" height="30" backcolor="#BFBFBF" uuid="aa245ccc-5c22-4100-8838-04a08f184a79"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{USER_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="171" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="1f21fa5d-555d-4519-b0f5-b819dff79246"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MONTH_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="261" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="4c1726a3-7fac-4c34-99a9-d3d68582f542"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAYROLL_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="351" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="855310c5-1f68-45a9-aa7c-a8bf97e7c5da"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ADVANCE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="441" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="8f5cb34b-72ec-4b47-9f0d-8e27132b4b91"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LOP_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="531" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="4fb22639-0395-4de2-9114-a14729abcc32"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OVER_TIME_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="621" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="45985fbb-504e-4956-9d5b-4973d73c214f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LOAN_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="711" y="0" width="90" height="30" backcolor="#BFBFBF" uuid="e330ac46-c325-4496-a556-fe55a5a36d1a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAYMENT_LABEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="40" height="20" backcolor="#BFBFBF" uuid="d12ccaf6-663e-4c1f-8853-6e69beb0f105"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SL_NO}.intValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="40" y="0" width="131" height="20" backcolor="#BFBFBF" uuid="50763502-8eac-4101-8a03-1cf3ad20c0ce"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{user}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="171" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="3ac44676-bba0-4d58-899a-5a9e83f75f0f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="261" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="0e0f62ac-71ff-448f-a716-c740e31193d3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="351" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="5d688afa-c217-4d19-97c4-32b4e977c52d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{advance}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="441" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="6946073c-0490-4458-a110-d5d5ddfd0ffc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lop}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="531" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="dec15cfc-706e-4132-a01f-f0c31b2cf2d2"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{overTime}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="621" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="7f91e594-1cd3-4881-b6b3-c4648cc0f6e8"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{loan}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="711" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="9409dd11-4f10-4ce5-87dd-002fd1ae00a7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payment}.doubleValue()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="261" height="20" backcolor="#BFBFBF" uuid="14a1d260-23e7-4dd2-b0e6-b7500c91ac84"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="261" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="57e520e2-f964-464d-8b86-aaffcbc69e4d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAYROLL_SUM}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="351" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="652b5f12-4e28-4c25-a1a2-d4fa289f156e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ADVANCE_SUM}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="441" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="72080bf9-3c3e-48e2-8cfc-164bc76be9b0"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{LOP_SUM}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="531" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="2fb9de48-e880-4ccf-bca0-30e0a03d42a5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{OVERTIME_SUM}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="621" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="509b88de-f2ae-4578-bc1b-b651b38bcc3f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{LOAN_SUM}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="711" y="0" width="90" height="20" backcolor="#BFBFBF" uuid="08ff285c-2ce3-4990-ab9b-992fbc1180af"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" isBold="false" pdfFontName="Helvetica-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="0" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAYMENT_SUM}.doubleValue()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="124" y="0" width="555" height="50" uuid="8e4c8230-034c-4c10-8241-2fcfa93aa0c6"/>
+				<imageExpression><![CDATA[$P{FOOTER}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

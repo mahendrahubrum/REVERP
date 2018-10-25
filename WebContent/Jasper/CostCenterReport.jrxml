@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplierCreditNote" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="984a2d17-284e-4457-90a2-0c8b3e222106">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="callouts.1.fg=0,0,0\n callouts.1.bg=255,255,0\n "/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="trialStyle" fontSize="16">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{typeId}==0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#E8E8E8" fontName="Arial_IReport_Pdf_Arabic" fontSize="16" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{typeId} == 1]]></conditionExpression>
+			<style mode="Transparent" forecolor="#000000" backcolor="#D9D4EE" fontName="Arial_IReport_Pdf_Arabic" fontSize="12" isBold="true">
+				<box leftPadding="0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{typeId} == 2]]></conditionExpression>
+			<style mode="Transparent" forecolor="#000000" backcolor="#D9D4EE" fontSize="10" isBold="false">
+				<box leftPadding="10"/>
+			</style>
+		</conditionalStyle>
+	</style>
+	<parameter name="FromDate" class="java.lang.String"/>
+	<parameter name="ToDate" class="java.lang.String"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<parameter name="REPORT_SUB_TITLE" class="java.lang.String"/>
+	<parameter name="ORGANIZATION" class="java.lang.String"/>
+	<parameter name="FOOTER_DIR" class="java.lang.String"/>
+	<parameter name="HEADER_DIR" class="java.lang.String"/>
+	<parameter name="LOGO_PATH" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="OFFICE" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="LOGIN" class="java.lang.String"/>
+	<parameter name="HEADER" class="java.lang.String"/>
+	<parameter name="FOOTER" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ACCOUNT_NAME_LABEL" class="java.lang.String"/>
+	<parameter name="DEBIT_LABEL" class="java.lang.String"/>
+	<parameter name="CREDIT_LABEL" class="java.lang.String"/>
+	<parameter name="BALANCE_LABEL" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="creditAmount" class="java.lang.Double"/>
+	<field name="debitAmount" class="java.lang.Double"/>
+	<field name="balance" class="java.lang.Double"/>
+	<field name="typeId" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="167" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="0" y="126" width="555" height="38" uuid="3e071e92-41c6-4e07-9eee-03d90a3e76d9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_SUB_TITLE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement isPrintRepeatedValues="false" x="0" y="96" width="555" height="30" uuid="6e52a237-7650-4915-a284-62925f18ced1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="555" height="96" uuid="d99fe581-d279-43ed-b12f-b8ceebf2349d"/>
+				<imageExpression><![CDATA[$P{HEADER}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<textField pattern="">
+				<reportElement mode="Opaque" x="0" y="0" width="285" height="32" backcolor="#CFBFBF" uuid="47d89f0d-39be-42fc-b162-090c967f549e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ACCOUNT_NAME_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="285" y="0" width="90" height="32" backcolor="#CFBFBF" uuid="b7166dea-a480-42b4-b740-417b5d0ac465"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DEBIT_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="375" y="0" width="80" height="32" backcolor="#CFBFBF" uuid="e99cc807-39b4-48be-93d3-b2737fab0535"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CREDIT_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="455" y="0" width="95" height="32" backcolor="#CFBFBF" uuid="99efc9bf-6c8a-4564-b33f-a0f616582933"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{BALANCE_LABEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="" style="trialStyle" stretchType="RelativeToTallestObject" x="285" y="0" width="90" height="23" uuid="66950a1e-e5c7-4ac8-bf6d-502ded28d884"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="10" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{debitAmount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="" style="trialStyle" stretchType="RelativeToTallestObject" x="375" y="0" width="80" height="23" uuid="45e4eeea-6ac8-4158-8a10-78a103b205e0"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="10" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{creditAmount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="" style="trialStyle" stretchType="RelativeToTallestObject" x="455" y="0" width="95" height="23" uuid="9c16496e-0f2d-420e-8868-a013b3538b21"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="10" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="" style="trialStyle" stretchType="RelativeToTallestObject" x="0" y="0" width="285" height="23" uuid="575a6c64-0e1a-4eee-825b-a6ec56054aa5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10" isBold="false"/>
+					<paragraph leftIndent="5" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="33"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="76" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="555" height="72" uuid="17b679c6-9177-49af-9e0b-df5b52ee990b"/>
+				<imageExpression><![CDATA[$P{FOOTER}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

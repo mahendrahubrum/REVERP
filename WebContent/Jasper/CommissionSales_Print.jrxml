@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_Print_New" pageWidth="1100" pageHeight="1200" columnWidth="1044" leftMargin="56" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b2354f0b-789b-4146-b53d-40a3c7644f8f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="LOGO_PATH" class="java.lang.String"/>
+	<parameter name="BILL_DATE" class="java.lang.String"/>
+	<parameter name="SALES_BILL_NO" class="java.lang.Long"/>
+	<parameter name="CUSTOMER_NAME" class="java.lang.String"/>
+	<parameter name="CUSTOMER_ADDRESS" class="java.lang.String"/>
+	<parameter name="AMOUNT_IN_WORDS" class="java.lang.String"/>
+	<parameter name="SALES_TYPE" class="java.lang.String"/>
+	<parameter name="OFFICE_NAME" class="java.lang.String"/>
+	<parameter name="SALES_MAN" class="java.lang.String"/>
+	<parameter name="RESPONSIBLE_PERSON" class="java.lang.String"/>
+	<parameter name="received_date" class="java.lang.String"/>
+	<parameter name="issue_date" class="java.lang.String"/>
+	<parameter name="vessel" class="java.lang.String"/>
+	<parameter name="contr_no" class="java.lang.String"/>
+	<parameter name="consignment_mark" class="java.lang.String"/>
+	<parameter name="quantity" class="java.lang.String"/>
+	<parameter name="ss_cc" class="java.lang.String"/>
+	<parameter name="packages" class="java.lang.String"/>
+	<parameter name="quality" class="java.lang.String"/>
+	<parameter name="received_sound" class="java.lang.String"/>
+	<parameter name="damage" class="java.lang.String"/>
+	<parameter name="empty" class="java.lang.String"/>
+	<parameter name="shorte" class="java.lang.String"/>
+	<parameter name="gross_sale" class="java.lang.Double"/>
+	<parameter name="less_expense" class="java.lang.Double"/>
+	<parameter name="net_sale" class="java.lang.Double"/>
+	<parameter name="freight" class="java.lang.Double"/>
+	<parameter name="airport_charges" class="java.lang.Double"/>
+	<parameter name="waste" class="java.lang.Double"/>
+	<parameter name="dpa_charges" class="java.lang.Double"/>
+	<parameter name="pickup_charge" class="java.lang.Double"/>
+	<parameter name="unloading_charge" class="java.lang.Double"/>
+	<parameter name="storage_charge" class="java.lang.Double"/>
+	<parameter name="port" class="java.lang.Double"/>
+	<parameter name="auction" class="java.lang.Double"/>
+	<parameter name="commission" class="java.lang.Double"/>
+	<parameter name="details" class="java.lang.String"/>
+	<parameter name="NUMBER" class="java.lang.Long"/>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="154" splitType="Stretch">
+			<textField>
+				<reportElement x="99" y="52" width="124" height="30" uuid="df2ead6c-f4ce-4f56-8810-2debdee240a9"/>
+				<textFieldExpression><![CDATA[$P{NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="359" y="63" width="207" height="39" uuid="02aa4c21-cd2c-49a4-aea2-4bbe95dae56e">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Dialog" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sales Statement"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="759" y="52" width="135" height="30" uuid="71b7aa9c-c76f-42d3-9a1e-ea98e7cdc7bf"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{received_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="759" y="83" width="135" height="27" uuid="d3b750a6-1ba5-48d8-876d-ed724a6cc389"/>
+				<textFieldExpression><![CDATA[$P{issue_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="110" width="215" height="32" uuid="c5bf997d-69a6-4829-9a1a-2aabfb51e5b6"/>
+				<textElement>
+					<font fontName="Dialog" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OFFICE_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="635">
+			<textField>
+				<reportElement x="765" y="114" width="125" height="30" uuid="5755cf95-85ad-4829-a22d-fff8b8f67d30"/>
+				<textFieldExpression><![CDATA[$P{received_sound}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="765" y="74" width="125" height="30" uuid="502c3131-bbb6-4737-8715-6cc8f84318a1"/>
+				<textFieldExpression><![CDATA[$P{ss_cc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="75" width="121" height="30" uuid="858ee5f0-b8f3-4931-907c-437f50b09732"/>
+				<textFieldExpression><![CDATA[$P{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="114" width="140" height="30" uuid="2cd9039d-36ec-4bf3-980d-17c524675b4f"/>
+				<textFieldExpression><![CDATA[$P{packages}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="74" width="140" height="30" uuid="76d6de82-905a-4d10-83c2-30ed05a4d341"/>
+				<textFieldExpression><![CDATA[$P{consignment_mark}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="113" width="139" height="30" uuid="b6854cfc-1786-45a5-90bc-0d90e862bf83"/>
+				<textFieldExpression><![CDATA[$P{quality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="545" y="154" width="160" height="30" uuid="9ba1f2ce-7c65-4843-9b34-104703398eb5"/>
+				<textFieldExpression><![CDATA[$P{empty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="766" y="154" width="124" height="30" uuid="04a2cd9c-9a83-4e40-b55f-abfc364ed334"/>
+				<textFieldExpression><![CDATA[$P{shorte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="40" width="685" height="30" uuid="5ee666c7-6436-4976-a771-da8203926c0c"/>
+				<textFieldExpression><![CDATA[$P{contr_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="154" width="260" height="30" uuid="da02e3a3-9894-4e67-8084-af8f0870a7e7"/>
+				<textFieldExpression><![CDATA[$P{damage}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="10" width="580" height="20" uuid="781bdb4b-c4c3-4ef8-a721-79e14b715f2d"/>
+				<textFieldExpression><![CDATA[$P{vessel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="716" y="345" width="173" height="15" uuid="1df23a9c-a8bc-4b68-b2f9-f79bb02523e4"/>
+				<textFieldExpression><![CDATA[$P{waste}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="510" width="137" height="-20" uuid="cfe6e08a-b3d5-455c-845f-3515a969792a"/>
+				<textFieldExpression><![CDATA[$P{net_sale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="720" y="510" width="173" height="-20" uuid="12a74b21-4bf9-4d0f-9ff0-cf0cfb100b67"/>
+				<textFieldExpression><![CDATA[$P{dpa_charges}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="723" y="550" width="173" height="-60" uuid="8251bb88-920a-4671-b3a4-1ed7a48860f3"/>
+				<textFieldExpression><![CDATA[$P{pickup_charge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="720" y="270" width="173" height="30" uuid="f31c1d4d-22ed-44b6-b621-9fd3114b7634"/>
+				<textFieldExpression><![CDATA[$P{freight}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="716" y="310" width="172" height="30" uuid="f41baa8f-8571-4238-9be4-1b92f63f4793"/>
+				<textFieldExpression><![CDATA[$P{airport_charges}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="270" width="140" height="30" uuid="f3eac5d7-7f17-4cf4-876d-7fad631fb1b9"/>
+				<textFieldExpression><![CDATA[$P{gross_sale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="310" width="139" height="30" uuid="42ee2913-77a2-4cad-b2c7-f37d5e1b924e"/>
+				<textFieldExpression><![CDATA[$P{less_expense}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="680" y="220" width="107" height="20" uuid="019f0400-b00e-4007-a4ad-30580d0d7b29"/>
+				<textElement>
+					<font size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Expenses :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="405" width="400" height="74" uuid="c6985c2b-02b2-4053-9947-b03ca69b6ce0"/>
+				<textFieldExpression><![CDATA[$P{details}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="710" y="449" width="173" height="30" uuid="e54455a6-0323-43b3-a8f3-2934141721e9"/>
+				<textFieldExpression><![CDATA[$P{unloading_charge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="714" y="489" width="173" height="30" uuid="9f9ab2b1-bfa8-4143-88d3-ceacd48d82a1"/>
+				<textFieldExpression><![CDATA[$P{storage_charge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="714" y="519" width="172" height="30" uuid="97133b17-c781-4f27-8c4f-935b4e6ec100"/>
+				<textFieldExpression><![CDATA[$P{port}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="713" y="558" width="174" height="30" uuid="1c308fe4-2059-4096-ae4a-a567527e6984"/>
+				<textFieldExpression><![CDATA[$P{auction}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="714" y="598" width="169" height="19" uuid="00c81f3b-07ba-43ca-b935-5c7bc715a85d"/>
+				<textFieldExpression><![CDATA[$P{commission}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="716" y="370" width="170" height="30" uuid="46646886-17a5-41b3-bcfc-63537152f271"/>
+				<textFieldExpression><![CDATA[$P{dpa_charges}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="717" y="410" width="166" height="30" uuid="a061acd4-ef1b-48c6-b999-50c29303399a"/>
+				<textFieldExpression><![CDATA[$P{pickup_charge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="362" width="141" height="30" uuid="77af7983-3cd1-4f71-be12-b4f1506370d1"/>
+				<textFieldExpression><![CDATA[$P{net_sale}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50"/>
+	</columnFooter>
+</jasperReport>

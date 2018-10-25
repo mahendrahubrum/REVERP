@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales_Report" pageWidth="421" pageHeight="595" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="20" isIgnorePagination="true" uuid="1c36c90f-c1ee-4bcc-81aa-c219c709aea7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="REPORT_SUB_TITLE" class="java.lang.String"/>
+	<parameter name="HEADER_DIR" class="java.lang.String"/>
+	<parameter name="FOOTER_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ORGANIZATION" class="java.lang.String"/>
+	<parameter name="LOGO_PATH" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="OFFICE" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="LOGIN" class="java.lang.String"/>
+	<parameter name="customer" class="java.lang.String"/>
+	<parameter name="AMOUNT_IN_WORDS" class="java.lang.String"/>
+	<parameter name="receipt" class="java.lang.Long"/>
+	<parameter name="method" class="java.lang.String"/>
+	<parameter name="cheque" class="java.lang.String"/>
+	<parameter name="cdate" class="java.lang.String"/>
+	<parameter name="bank" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="currency" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="description" class="java.lang.String"/>
+	<variable name="SL_NO" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{SL_NO}+1]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="30" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="cffedeea-3a1e-4a74-a255-b189b146279d" x="0" y="0" width="381" height="30"/>
+				<subreportParameter name="LOGIN">
+					<subreportParameterExpression><![CDATA[$P{LOGIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ORGANIZATION">
+					<subreportParameterExpression><![CDATA[$P{ORGANIZATION}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="OFFICE">
+					<subreportParameterExpression><![CDATA[$P{OFFICE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ADDRESS">
+					<subreportParameterExpression><![CDATA[$P{ADDRESS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATE">
+					<subreportParameterExpression><![CDATA[$P{DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="LOGO_PATH">
+					<subreportParameterExpression><![CDATA[$P{LOGO_PATH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{HEADER_DIR}]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="cbfaf1d9-a640-4491-8c8e-e57291fafd8e" isPrintRepeatedValues="false" x="0" y="0" width="381" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="136" splitType="Stretch">
+			<textField>
+				<reportElement uuid="69230c3b-a915-42e8-bafe-2331dc437b27" x="3" y="0" width="127" height="20"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Receipt No : "+$P{receipt}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="ba0ca477-75ca-4bf1-99ad-8ed963e3eae9" x="253" y="0" width="127" height="20"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date : "+$P{date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="7c67bdbf-fa89-4c1b-b308-18f74f4b7724" x="0" y="53" width="381" height="36"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["A Sum of : "+$P{AMOUNT_IN_WORDS}+"<br> in figures : "+$F{currency}+" "+$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="a8aab5e3-3bb3-422e-bc87-0b8e268561da" x="0" y="20" width="381" height="33"/>
+				<textElement verticalAlignment="Top" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Received with thanks from : "+$P{customer}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d6331981-9aa8-4e25-b570-775a49f4a271" x="-1" y="89" width="381" height="20">
+					<printWhenExpression><![CDATA[$P{method}=="Cheque"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{method}+" No : "+$P{cheque}+" , Drawn on : "+$P{bank}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="aec9aadd-1605-4ea3-bfa3-72394ecec0ac" x="0" y="109" width="153" height="20">
+					<printWhenExpression><![CDATA[$P{method}=="Cheque"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cheque Dated : "+$P{cdate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="38">
+			<staticText>
+				<reportElement uuid="2f31d500-a7e7-4d00-aa5e-751b9a7342c1" x="0" y="0" width="129" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Signature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0eb6a2b1-a5d0-4d11-bd19-1b8fcdf8ae9a" x="251" y="0" width="129" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Seal]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

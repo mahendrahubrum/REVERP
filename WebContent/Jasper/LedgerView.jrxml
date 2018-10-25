@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplierCreditNote" pageWidth="780" pageHeight="842" columnWidth="740" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="984a2d17-284e-4457-90a2-0c8b3e222106">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="callouts.1.fg=0,0,0\n callouts.1.bg=255,255,0\n "/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="FromDate" class="java.lang.String"/>
+	<parameter name="ToDate" class="java.util.Date"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<parameter name="REPORT_SUB_TITLE" class="java.lang.String"/>
+	<parameter name="LedgerName" class="java.lang.String"/>
+	<parameter name="Opening Balance" class="java.lang.Double"/>
+	<parameter name="Office" class="java.lang.String"/>
+	<parameter name="Organization" class="java.lang.String"/>
+	<parameter name="HEADER_DIR" class="java.lang.String"/>
+	<parameter name="ORGANIZATION" class="java.lang.String"/>
+	<parameter name="FOOTER_DIR" class="java.lang.String"/>
+	<parameter name="LOGO_PATH" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="OFFICE" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="LOGIN" class="java.lang.String"/>
+	<parameter name="Current Balance" class="java.lang.Double"/>
+	<parameter name="inward_total" class="java.lang.Double"/>
+	<parameter name="outward_total" class="java.lang.Double"/>
+	<parameter name="Balance as on" class="java.lang.Double"/>
+	<parameter name="ToDateString" class="java.lang.String"/>
+	<parameter name="HEADER" class="java.lang.String"/>
+	<parameter name="FOOTER" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="NAME_LABEL" class="java.lang.String"/>
+	<parameter name="OPENING_BALANCE_LABEL" class="java.lang.String"/>
+	<parameter name="BALANCE_AS_ON_LABEL" class="java.lang.String"/>
+	<parameter name="OFFICE_LABEL" class="java.lang.String"/>
+	<parameter name="ORGANIZATION_LABEL" class="java.lang.String"/>
+	<parameter name="CURRENT_BALANCE_LABEL" class="java.lang.String"/>
+	<parameter name="SL_NO_LABEL" class="java.lang.String"/>
+	<parameter name="DATE_LABEL" class="java.lang.String"/>
+	<parameter name="TRANSACTION_TYPE_LABEL" class="java.lang.String"/>
+	<parameter name="INVOICE_NO_LABEL" class="java.lang.String"/>
+	<parameter name="FROM_OR_TO_LABEL" class="java.lang.String"/>
+	<parameter name="INWARDS_LABEL" class="java.lang.String"/>
+	<parameter name="OUTWARDS_LABEL" class="java.lang.String"/>
+	<parameter name="BALANCE_LABEL" class="java.lang.String"/>
+	<parameter name="COMMENTS_LABEL" class="java.lang.String"/>
+	<parameter name="TOTAL_LABEL" class="java.lang.String"/>
+	<field name="amount_type" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="dispaly_name" class="java.lang.String"/>
+	<field name="date" class="java.util.Date"/>
+	<field name="from_or_to" class="java.lang.String"/>
+	<field name="balance" class="java.lang.Double"/>
+	<field name="comments" class="java.lang.String"/>
+	<field name="bill_no" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="257" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="1" y="224" width="548" height="30" uuid="5a116c17-693d-45b0-9456-6e26473cf824"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_SUB_TITLE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="173" y="176" width="185" height="18" uuid="e896fa71-be3e-484b-9951-2df9246d3da0"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Opening Balance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" x="173" y="155" width="185" height="17" uuid="55a78429-391d-4267-970a-3cced2deb41c"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LedgerName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="516" y="179" width="140" height="17" uuid="365d5602-53ba-4a99-9a86-95edcbdbc9a0"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Organization}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="516" y="158" width="140" height="17" uuid="e284a9e3-1fd5-4e5f-ad73-c408b12a5a1b"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Office}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="1" y="111" width="739" height="30" uuid="f83ce8b8-870e-4d63-9b92-49f9b6e792f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="1" y="153" width="122" height="18" uuid="e4c006a0-cbc7-4938-8d3a-fabee9020a6e"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NAME_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="1" y="175" width="123" height="18" uuid="075ac5c4-fd14-4ef6-976d-f8d9d49208ab"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OPENING_BALANCE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="416" y="157" width="70" height="18" uuid="1ef1f6de-8280-4b86-ad26-699ce5486268"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OFFICE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="416" y="179" width="90" height="17" uuid="0198cc71-d778-412d-b891-38f5d7fcae46"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ORGANIZATION_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="516" y="205" width="140" height="18" uuid="f890b267-2fd2-44a3-a340-add2247ae4a7"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Current Balance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="416" y="205" width="100" height="18" uuid="321a67b7-603d-4301-b1ee-c2081c0e4c0a"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CURRENT_BALANCE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="173" y="201" width="182" height="20" uuid="12a2b672-c0ff-4fea-bff8-9f101e568365"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Balance as on}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement isPrintRepeatedValues="false" x="1" y="201" width="146" height="18" uuid="dcb5d9f2-ec56-4223-9bea-89bf52e086b8"/>
+				<textElement>
+					<font fontName="Arial_IReport_Pdf_Arabic"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{BALANCE_AS_ON_LABEL}+$P{ToDateString}.toString()+":"]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="1" y="0" width="739" height="100" uuid="9cea66ec-4a3d-4461-89a0-7f260aae3142"/>
+				<imageExpression><![CDATA[$P{HEADER}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="39" y="0" width="74" height="40" backcolor="#CFBFBF" uuid="a0da7039-8c8d-4ae6-80e9-6258f12ac2fe"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="370" y="0" width="85" height="40" backcolor="#CFBFBF" uuid="478558fe-c3e3-4584-949a-4dd0bb736523"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INWARDS_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="1" y="0" width="38" height="40" backcolor="#CFBFBF" uuid="33b8ff90-c030-45f7-9ff5-daf1bfb5edfe"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SL_NO_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="455" y="0" width="85" height="40" backcolor="#CFBFBF" uuid="6148b483-3811-4410-a2d4-7dab3c519265"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OUTWARDS_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="113" y="0" width="97" height="40" backcolor="#CFBFBF" uuid="74a10687-db9f-4269-9176-00624abcdfce"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TRANSACTION_TYPE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="280" y="0" width="90" height="40" backcolor="#CFBFBF" uuid="182c130a-f75d-432e-834b-dc1a662c6447"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FROM_OR_TO_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="540" y="0" width="80" height="40" backcolor="#CFBFBF" uuid="05b0bd98-77e1-4f89-b544-e931cb9fd8e4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{BALANCE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="210" y="0" width="70" height="40" backcolor="#CFBFBF" uuid="a0b52457-a618-41dc-953e-50b3a50777f1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INVOICE_NO_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="620" y="0" width="120" height="40" backcolor="#CFBFBF" uuid="a6707889-7d2f-4d63-bb07-68657f2ae90d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{COMMENTS_LABEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="table_TD" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" mode="Transparent" x="1" y="0" width="38" height="22" uuid="d81f8bdb-e435-4fe3-8e52-98d8251d9936"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="10" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="39" y="0" width="74" height="22" uuid="18b90887-bd42-4542-8a2e-2e30246b2b75"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="113" y="0" width="97" height="22" uuid="a0fd6fe3-5e32-45c7-8cc1-d81bde4639d1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dispaly_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement key="" stretchType="RelativeToTallestObject" x="370" y="0" width="85" height="22" uuid="bf952ab3-956b-4ed8-b129-2f4d11042726"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="10" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount_type}.contains("Dr")?$F{amount}:0]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="false">
+				<reportElement stretchType="RelativeToTallestObject" x="455" y="0" width="85" height="22" uuid="575a6c64-0e1a-4eee-825b-a6ec56054aa5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="5" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount_type}.contains("Cr")?$F{amount}:0]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="280" y="0" width="90" height="22" uuid="1f10c5cc-3724-4db1-9d81-cd51d7e24c89"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="5" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{from_or_to}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="false">
+				<reportElement stretchType="RelativeToTallestObject" x="540" y="0" width="80" height="22" uuid="6df933c8-be88-42c8-92d3-e960b4b5c88d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="5" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement stretchType="RelativeToTallestObject" x="620" y="0" width="120" height="22" uuid="3de6a1bb-b4ca-4806-8e64-d9401b50ae9f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="1" rightIndent="5" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comments}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="210" y="0" width="70" height="22" uuid="29bc618d-3799-4dd8-a302-6cdc77c2acbd"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="10"/>
+					<paragraph leftIndent="5" spacingBefore="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bill_no}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="75" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="1" y="0" width="739" height="72" uuid="5121c1f5-f9b7-4fa9-bad3-13e6af9be818"/>
+				<imageExpression><![CDATA[$P{FOOTER}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="31">
+			<textField pattern="#,##0.000">
+				<reportElement key="" isPrintRepeatedValues="false" x="370" y="0" width="85" height="30" uuid="a1314d44-1abd-49b8-a16f-096f22e11257"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{inward_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000">
+				<reportElement key="" isPrintRepeatedValues="false" x="455" y="0" width="85" height="30" uuid="c915698f-68b4-486e-abb1-deba79fab209"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{outward_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="1" y="0" width="369" height="30" uuid="d3606e88-d525-4f25-a7d2-08b7b4c27f46"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL_LABEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

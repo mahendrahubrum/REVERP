@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Profit_Report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b5a232f1-ef09-48a0-92e6-c00203dcecfd">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="170"/>
+	<parameter name="REPORT_SUB_TITLE" class="java.lang.String"/>
+	<parameter name="FOOTER_DIR" class="java.lang.String"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<parameter name="LOGO_PATH" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="HEADER_DIR" class="java.lang.String"/>
+	<parameter name="OFFICE" class="java.lang.String"/>
+	<parameter name="ORGANIZATION" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="LOGIN" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="SHOWSTOCK" class="java.lang.Boolean"/>
+	<parameter name="REPORT_TITLE_LABEL" class="java.lang.String"/>
+	<parameter name="GROSS_SALES_LABEL" class="java.lang.String"/>
+	<parameter name="TOTAL_SALES_RETURN_LABEL" class="java.lang.String"/>
+	<parameter name="NET_SALES_LABEL" class="java.lang.String"/>
+	<parameter name="GROSS_PURCHASE_LABEL" class="java.lang.String"/>
+	<parameter name="TOTAL_PURCHASE_RETURN_LABEL" class="java.lang.String"/>
+	<parameter name="NET_PURCHASE_LABEL" class="java.lang.String"/>
+	<parameter name="TRANSPORTATION_LABEL" class="java.lang.String"/>
+	<parameter name="OTHER_EXPENDETURES_LABEL" class="java.lang.String"/>
+	<parameter name="STOCK_VALUE_LABEL" class="java.lang.String"/>
+	<parameter name="NET_PROFIT_LOSS_LABEL" class="java.lang.String"/>
+	<parameter name="OTHER_INCOME_LABEL" class="java.lang.String"/>
+	<parameter name="HEADER" class="java.lang.String"/>
+	<parameter name="FOOTER" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="purchase" class="java.lang.Double"/>
+	<field name="sales" class="java.lang.Double"/>
+	<field name="profit" class="java.lang.Double"/>
+	<field name="transportation" class="java.lang.Double"/>
+	<field name="net_profit" class="java.lang.Double"/>
+	<field name="purchase_return" class="java.lang.Double"/>
+	<field name="sales_return" class="java.lang.Double"/>
+	<field name="expendetures" class="java.lang.Double"/>
+	<field name="stock_amount" class="java.lang.Double"/>
+	<field name="income" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="184" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="101" width="553" height="30" uuid="757e463b-c3f6-4dfe-8f0b-d366bdf3b58d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="14" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_TITLE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="131" width="553" height="50" uuid="372d041b-57ae-43ab-b99a-7f1b51bacf9a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="false" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_SUB_TITLE}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="1" y="1" width="555" height="100" uuid="e6cc0996-6a05-4952-8a7c-0b842bf4a3a5"/>
+				<imageExpression><![CDATA[$P{HEADER}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="359" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="90" width="175" height="30" uuid="1f58abd8-d637-407a-b93d-63ce0f5ec2a8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{purchase}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="0" width="175" height="30" uuid="1f90cdc5-12a0-460d-8791-641e269efd80"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="180" width="175" height="30" uuid="fc50fc1e-4c83-4483-8df6-4ef7572a2500"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transportation}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="210" width="175" height="30" uuid="d52b13ed-3d2d-4186-a9c9-41981aa21341"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expendetures}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="328" width="175" height="28" uuid="ff4b1d7c-7498-45c4-b7db-a9c6c2ce457c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{net_profit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="60" width="175" height="30" uuid="e20ce4e6-6aa3-4c7c-b84e-391c0fe920c4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales}.doubleValue()-$F{sales_return}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="150" width="175" height="30" uuid="6da917cd-befe-49c9-a784-7fcad73b6239"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{purchase}.doubleValue()-$F{purchase_return}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement stretchType="RelativeToTallestObject" x="285" y="327" width="140" height="1" uuid="9b81c1e3-a312-4e04-8bdf-84d66744e13b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement stretchType="RelativeToTallestObject" x="285" y="324" width="140" height="1" uuid="c41bd0fd-6edf-4213-8a88-d96421abfd95">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="30" width="175" height="30" uuid="ef820564-d824-4575-aa27-0f06a91569be"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( "+$F{sales_return}.doubleValue()+" )"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="120" width="175" height="30" uuid="9bbb414a-2a71-44f9-9f8c-4abf14543023"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( "+$F{purchase_return}.doubleValue()+" )"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="270" width="175" height="30" uuid="6e8a3e35-1073-4e10-aab6-92c611c4acbd">
+					<printWhenExpression><![CDATA[$P{SHOWSTOCK}==true]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock_amount}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="0" width="175" height="30" uuid="01cf99d3-c242-40bf-a01d-4a287e017f71"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{GROSS_SALES_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="30" width="175" height="30" uuid="954256d0-4beb-4acb-bc10-e0c34f9cee6b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL_SALES_RETURN_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="60" width="175" height="30" uuid="31519190-01e4-4c9d-8910-e1dd00100620"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NET_SALES_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="90" width="175" height="30" uuid="eedd8da1-d152-4c89-a1e4-a6bf0990e3c4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{GROSS_PURCHASE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="120" width="175" height="30" uuid="119a6af9-f160-4ae9-ba7d-7cbfae4c56ec"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL_PURCHASE_RETURN_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="150" width="175" height="30" uuid="bab247c8-a00c-4f73-9116-7eb981f266b0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NET_PURCHASE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="180" width="175" height="30" uuid="ce879f9e-d9cd-4994-b557-1ae209343c99"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TRANSPORTATION_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="210" width="175" height="30" uuid="5f0c7614-8ede-4944-b1db-0fe498a776d0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OTHER_EXPENDETURES_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="270" width="175" height="30" uuid="8af36245-4223-48c8-a646-d277c03c4a13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{STOCK_VALUE_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="326" width="175" height="30" uuid="45f42185-b2f2-4e8a-9909-0538307d6f85"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NET_PROFIT_LOSS_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="260" y="240" width="175" height="30" uuid="7d3bde5b-fed8-4d9c-b5de-50af446a6c1d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{income}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+				<reportElement x="75" y="240" width="175" height="30" uuid="1c1c6e1d-a8af-4014-bdbe-7af4f8eb3f0c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial_IReport_Pdf_Arabic" size="12" isBold="true" pdfFontName="Helvetica" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OTHER_INCOME_LABEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<textField>
+				<reportElement x="250" y="72" width="32" height="20" uuid="51136165-da46-4f37-9964-5c0fdff756ba"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="1" y="0" width="555" height="72" uuid="dce178e7-60ed-4552-9dd9-a7f442f9ab8b"/>
+				<imageExpression><![CDATA[$P{FOOTER}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

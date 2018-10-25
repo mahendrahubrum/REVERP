@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Footer" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="509cfa29-0026-4ef1-8649-675584129a2f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement uuid="cb1daab4-0895-4a39-b6f7-4348aa8dd1cf" x="120" y="10" width="320" height="40"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Footer]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="85bd5df1-a425-4782-b4a0-e198edb9f4dc" x="10" y="10" width="51" height="30"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
