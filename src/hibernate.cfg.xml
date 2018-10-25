@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!-- ********************** -->
+<!-- @Author Jinshad P.T. -->
+<!-- ********************** -->
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+
+		<!-- Local -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/reverpDep</property> -->
+		<property name="connection.url">jdbc:mysql://localhost:3306/jkd</property>
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/reverptest</property> -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/reverp</property> -->
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+
+
+		<!-- WHITE PENGUEN -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/whitepenguen</property> -->
+<!-- 		<property name="connection.username">root</property> -->
+<!-- 		<property name="connection.password">Q4ugvEcx7csJA</property> -->
+
+		<!-- YAMAMA -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/yamama</property> -->
+<!-- 		<property name="connection.username">root</property> -->
+<!-- 		<property name="connection.password">B9SkPC5okNAoQ</property> -->
+
+		<!-- JKD -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/jkd</property> -->
+<!-- 		<property name="connection.username">root</property> -->
+<!-- 		<property name="connection.password">zkN0aDqI5C076</property> -->
+
+		<!-- REVERP -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/reverp</property> -->
+<!-- 		<property name="connection.username">root</property> -->
+<!-- 		<property name="connection.password">zkN0aDqI5C076</property> -->
+
+
+
+		<property name="connection.pool_size">100</property>
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<property name="hbm2ddl.auto">update</property>
+		<property name="hibernate.connection.characterEncoding">utf8</property>
+
+		<property name="hibernate.show_sql">false</property>
+
+		<property name="hibernate.connection.autocommit">false</property>
+		<property name="hibernate.jdbc.batch_size">50</property>
+		<property name="hibernate.c3p0.max_size">600</property>
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.timeout">1800</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.idle_test_period">1750</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.preferredTestQuery">SELECT 1;</property>
+		<property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
+
+
+		<!-- <property name="hibernate.connection.isolation">1</property> -->
+
+		<!-- Mappings -->
+
+		<mapping class="com.webspark.model.S_StatusModel" />
+		<mapping class="com.webspark.model.S_ProjectTypeModel" />
+		<mapping class="com.webspark.model.S_ProjectOptionMapModel" />
+		<mapping class="com.webspark.model.S_OptionModel" />
+		<mapping class="com.webspark.model.S_IDGeneratorSettingsModel" />
+		<mapping class="com.webspark.model.S_IDValueModel" />
+		<mapping class="com.webspark.model.S_LoginModel" />
+		<mapping class="com.webspark.model.S_LoginHistoryModel" />
+		<mapping class="com.webspark.uac.model.S_OfficeModel" />
+		<mapping class="com.webspark.uac.model.S_OrganizationModel" />
+		<mapping class="com.webspark.uac.model.S_ModuleModel" />
+		<mapping class="com.webspark.model.S_OptionGroupModel" />
+		<mapping class="com.webspark.uac.model.S_UserRoleModel" />
+		<mapping class="com.webspark.model.S_RoleOptionMappingModel" />
+		<mapping class="com.webspark.model.S_LoginOptionMappingModel" />
+		<mapping class="com.webspark.model.S_SystemSettingsModel" />
+
+		<mapping class="com.webspark.uac.model.CountryModel" />
+		<mapping class="com.webspark.model.CurrencyModel" />
+		<mapping class="com.webspark.uac.model.DesignationModel" />
+		<mapping class="com.webspark.uac.model.DepartmentModel" />
+		<mapping class="com.webspark.uac.model.DivisionModel" />
+		<mapping class="com.webspark.uac.model.UserModel" />
+		<mapping class="com.webspark.model.CurrencyRateModel" />
+		<mapping class="com.webspark.model.AddressModel" />
+
+
+		<!-- Inventory mapping -->
+
+		<mapping class="com.inventory.model.BuildingModel" />
+		<mapping class="com.inventory.model.ItemGroupModel" />
+		<mapping class="com.inventory.config.stock.model.ItemDepartmentModel" />
+		<mapping class="com.inventory.model.ItemSubGroupModel" />
+		<mapping class="com.inventory.model.RackModel" />
+		<mapping class="com.inventory.model.RoomModel" />
+
+		<!-- Tax mapping -->
+
+		<mapping class="com.inventory.config.tax.model.TaxModel" />
+
+		<mapping class="com.inventory.config.unit.model.UnitModel" />
+
+		<!-- Accounting mapping -->
+		<mapping class="com.inventory.config.acct.model.GroupModel" />
+		<mapping class="com.inventory.config.acct.model.LedgerModel" />
+
+
+		<!-- Item mapping -->
+		<mapping class="com.inventory.config.stock.model.ItemModel" />
+		<mapping class="com.inventory.config.stock.model.SalesTypeModel" />
+
+
+		<!-- Transactions Mapping -->
+
+		<mapping class="com.inventory.purchase.model.PurchaseModel" />
+		<mapping class="com.inventory.purchase.model.PurchaseOrderModel" />
+		<mapping class="com.inventory.purchase.model.PurchaseReturnModel" />
+
+		<mapping class="com.inventory.purchase.model.PurchaseInventoryDetailsModel" />
+		<mapping
+			class="com.inventory.purchase.model.PurchaseReturnInventoryDetailsModel" />
+
+		<mapping class="com.inventory.sales.model.SalesOrderModel" />
+		<mapping class="com.inventory.sales.model.SalesModel" />
+		<mapping class="com.inventory.sales.model.SalesInventoryDetailsModel" />
+		<mapping class="com.inventory.sales.model.SalesOrderDetailsModel" />
+		<mapping class="com.inventory.sales.model.SalesExpenseDetailsModel" />
+		<mapping class="com.inventory.sales.model.SalesReturnModel" />
+
+		<mapping class="com.inventory.sales.model.SalesReturnInventoryDetailsModel" />
+
+		<mapping class="com.inventory.purchase.model.ItemStockModel" />
+
+		<mapping class="com.inventory.purchase.model.StockRackMappingModel" />
+
+		<mapping class="com.inventory.config.stock.model.StockTransferModel" />
+		<mapping
+			class="com.inventory.config.stock.model.StockTransferInventoryDetails" />
+
+		<mapping class="com.inventory.config.stock.model.TransferStockMap" />
+
+
+		<mapping class="com.inventory.transaction.model.TransactionModel" />
+		<mapping class="com.inventory.transaction.model.TransactionDetailsModel" />
+
+		<mapping class="com.inventory.config.settings.model.SettingsModel" />
+
+
+
+		<mapping class="com.inventory.config.settings.model.AccountSettingsModel" />
+
+		<mapping class="com.inventory.journal.model.JournalModel" />
+		<mapping class="com.inventory.journal.model.JournalDetailsModel" />
+
+		<!-- Payment Mappings -->
+		<mapping class="com.inventory.payment.model.PaymentModel" />
+
+
+
+		<mapping class="com.inventory.config.acct.model.CustomerModel" />
+		<mapping class="com.inventory.config.stock.model.PaymentTermsModel" />
+
+		<mapping class="com.inventory.config.acct.model.SupplierModel" />
+		<mapping class="com.inventory.config.tax.model.TaxGroupModel" />
+
+		<mapping class="com.inventory.config.acct.model.BankAccountModel" />
+
+		<mapping class="com.inventory.sales.model.DeliveryNoteModel" />
+		<mapping class="com.inventory.sales.model.DeliveryNoteDetailsModel" />
+		<mapping class="com.inventory.sales.model.WorkOrderModel" />
+
+		<mapping class="com.inventory.config.acct.model.BankAccountPaymentModel" />
+		<mapping class="com.inventory.config.acct.model.BankAccountDepositModel" />
+		<mapping
+			class="com.inventory.config.acct.model.BankAccountDepositDetailsModel" />
+		<mapping
+			class="com.inventory.config.acct.model.BankAccountPaymentDetailsModel" />
+
+		<!-- Payroll Mappings -->
+		<mapping class="com.inventory.payroll.model.PayrollComponentModel" />
+		<mapping class="com.inventory.payroll.model.PayrollEmployeeMapModel" />
+
+		<mapping class="com.inventory.payroll.model.SalaryDisbursalModel" />
+		<mapping class="com.inventory.payroll.model.SalaryDisbursalDetailsModel" />
+		<mapping class="com.inventory.payroll.model.AttendanceModel" />
+		<mapping class="com.inventory.payroll.model.OverTimeModel" />
+
+		<mapping class="com.inventory.config.unit.model.ItemUnitMangementModel" />
+
+		<mapping class="com.inventory.process.model.EndProcessModel" />
+		<mapping class="com.inventory.process.model.ItemClosingStockModel" />
+		<mapping class="com.inventory.process.model.FinancialYearsModel" />
+
+
+		<mapping class="com.inventory.config.acct.model.PaymentDepositModel" />
+
+		<mapping class="com.inventory.config.stock.model.ItemTransferModel" />
+		<mapping class="com.inventory.config.stock.model.ItemReceiveModel" />
+		<mapping
+			class="com.inventory.config.stock.model.ItemTransferInventoryDetails" />
+
+		<mapping class="com.inventory.config.acct.model.ContractorModel" />
+
+		<mapping class="com.inventory.payroll.model.EmployeeWorkingTimeModel" />
+		<mapping class="com.inventory.payroll.model.SalaryDisbursalNewModel" />
+
+		<mapping class="com.webspark.model.BillModel" />
+		<mapping class="com.webspark.model.BillNameModel" />
+		<mapping class="com.webspark.model.ActivityLogModel" />
+
+
+		<mapping class="com.inventory.config.acct.model.TranspotationModel" />
+		<mapping class="com.inventory.payment.model.TransportationPaymentModel" />
+
+
+		<mapping class="com.inventory.model.PrivilageSetupModel" />
+
+		<mapping class="com.inventory.payment.model.EmployeeAdvancePaymentModel" />
+
+		<mapping class="com.inventory.config.stock.model.ManualTradingMasterModel" />
+		<mapping class="com.inventory.config.stock.model.ManualTradingDetailsModel" />
+
+		<mapping class="com.inventory.config.stock.model.DailyQuotationModel" />
+		<mapping class="com.inventory.config.stock.model.DailyQuotationDetailsModel" />
+
+		<mapping class="com.inventory.model.OfficeAllocationModel" />
+		<mapping class="com.inventory.config.stock.model.ItemDailyRateModel" />
+		<mapping class="com.inventory.config.stock.model.ItemDailyRateDetailModel" />
+
+
+		<mapping class="com.inventory.config.stock.model.SupplierQuotationModel" />
+		<mapping
+			class="com.inventory.config.stock.model.SupplierQuotationDetailsModel" />
+
+		<mapping class="com.inventory.management.model.TasksModel" />
+		<mapping class="com.inventory.management.model.TasksAssignedUsersModel" />
+		<mapping class="com.inventory.management.model.TaskComponentDetailsModel" />
+
+		<mapping class="com.inventory.management.model.ContactModel" />
+		<mapping class="com.inventory.management.model.ContactCategoryModel" />
+
+		<mapping class="com.inventory.management.model.TaskComponentModel" />
+
+
+		<mapping class="com.inventory.payment.model.CashInvestmentModel" />
+
+		<mapping class="com.inventory.management.model.MailModel" />
+		<mapping class="com.webspark.model.MobileAppSettingsModel" />
+		<mapping class="com.webspark.model.MobileAppConfigModel" />
+
+		<mapping class="com.inventory.config.stock.model.StockResetDetailsModel" />
+
+
+		<mapping class="com.inventory.model.SalesManMapModel" />
+
+
+		<mapping class="com.inventory.finance.model.FinanceComponentModel" />
+		<mapping class="com.inventory.finance.model.FinancePaymentModel" />
+		<mapping class="com.inventory.finance.model.FinancePaymentDetailsModel" />
+
+		<mapping class="com.inventory.sales.model.LaundrySalesModel" />
+		<mapping class="com.inventory.sales.model.LaundrySalesDetailsModel" />
+
+
+		<mapping class="com.inventory.sales.model.TailoringItemSpecModel" />
+		<mapping class="com.inventory.sales.model.TailoringSalesModel" />
+		<mapping
+			class="com.inventory.sales.model.TailoringSalesInventoryDetailsModel" />
+
+
+		<mapping class="com.webspark.model.ProductLicenseModel" />
+		<mapping class="com.inventory.commissionsales.model.CommissionSalesModel" />
+
+		<mapping class="com.inventory.config.stock.model.ManufacturingMapModel" />
+		<mapping class="com.inventory.config.stock.model.ManufacturingModel" />
+		<mapping class="com.inventory.config.stock.model.ManufacturingDetailsModel" />
+
+		<mapping class="com.webspark.mailclient.model.EmailConfigurationModel" />
+		<mapping class="com.webspark.mailclient.model.MyMailsModel" />
+
+		<mapping
+			class="com.inventory.commissionsales.model.CustomerCommissionSalesModel" />
+		<mapping
+			class="com.inventory.commissionsales.model.CommissionSalesCustomerDetailsModel" />
+
+		<mapping
+			class="com.inventory.expenditureposting.model.ExpenditurePaymentSetupModel" />
+		<mapping
+			class="com.inventory.expenditureposting.model.ExpenditurePaymentSetupDetailsModel" />
+		<mapping
+			class="com.inventory.expenditureposting.model.BatchExpenditurePaymentMasterModel" />
+		<mapping
+			class="com.inventory.expenditureposting.model.BatchExpenditurePaymentDetailsModel" />
+
+
+		<mapping class="com.inventory.sales.model.QuotationModel" />
+		<mapping class="com.inventory.sales.model.QuotationDetailsModel" />
+
+
+		<mapping class="com.inventory.onlineSales.model.OnlineCustomerModel" />
+
+		<mapping class="com.inventory.onlineSales.model.OnlineSalesOrderModel" />
+		<mapping
+			class="com.inventory.onlineSales.model.OnlineSalesOrderDetailsModel" />
+
+		<mapping class="com.inventory.config.stock.model.BrandModel" />
+		<mapping class="com.inventory.config.stock.model.GradeModel" />
+
+		<mapping class="com.inventory.proposal.model.CustomerEnquiryModel" />
+		<mapping class="com.inventory.proposal.model.SupplierQuotationRequestModel" />
+		<mapping
+			class="com.inventory.proposal.model.SupplierProposalReceiptionModel" />
+		<mapping class="com.inventory.proposal.model.ProposalsSentToCustomersModel" />
+
+
+		<mapping class="com.inventory.budget.model.BudgetDefinitionModel" />
+		<mapping class="com.inventory.budget.model.BudgetModel" />
+		<mapping class="com.inventory.budget.model.BudgetLVChildModel" />
+		<mapping class="com.inventory.budget.model.BudgetLVMasterModel" />
+
+		<mapping class="com.inventory.config.stock.model.ItemComboModel" />
+		<mapping class="com.inventory.config.stock.model.ItemComboDetailsModel" />
+
+		<mapping class="com.inventory.sales.model.SalesStockMapModel" />
+
+		<mapping class="com.inventory.rent.model.RentInventoryDetailsModel" />
+		<mapping class="com.inventory.rent.model.RentDetailsModel" />
+		<mapping class="com.inventory.rent.model.RentTypeModel" />
+		<mapping class="com.inventory.rent.model.RentPaymentModel" />
+		<mapping class="com.inventory.rent.model.RentReturnItemDetailModel" />
+
+		<mapping class="com.inventory.purchase.model.StockCreateModel" />
+		<mapping class="com.inventory.purchase.model.StockCreateDetailsModel" />
+
+		<mapping class="com.inventory.purchase.model.StockRateModel" />
+		<mapping class="com.webspark.model.QuickMenuModel" />
+
+		<mapping class="com.webspark.model.SessionActivityModel" />
+		<mapping class="com.webspark.model.ReportIssueModel" />
+		<mapping class="com.webspark.model.ReviewModel" />
+
+		<mapping class="com.inventory.sales.model.PaymentInvoiceMapModel" />
+
+		<mapping
+			class="com.inventory.subscription.model.SubscriptionConfigurationModel" />
+		<mapping class="com.inventory.subscription.model.SubscriptionCreationModel" />
+		<mapping class="com.inventory.subscription.model.SubscriptionPaymentModel" />
+		<mapping class="com.inventory.subscription.model.SubscriptionInModel" />
+		<mapping
+			class="com.inventory.subscription.model.SubscriptionInventoryDetailsModel" />
+		<mapping
+			class="com.inventory.subscription.model.SubscriptionPaymentDetailsModel" />
+		<mapping
+			class="com.inventory.subscription.model.SubscriptionExpenditureModel" />
+
+		<mapping class="com.inventory.config.stock.model.ManufacturingStockMap" />
+
+		<mapping class="com.inventory.survey.model.SurveyModel" />
+
+		<mapping class="com.inventory.commissionsales.model.CommissionPurchaseModel" />
+		<mapping
+			class="com.inventory.commissionsales.model.CommissionPurchaseDetailsModel" />
+		<mapping class="com.inventory.commissionsales.model.CommissionSalesNewModel" />
+		<mapping
+			class="com.inventory.commissionsales.model.CommissionSalesDetailsNewModel" />
+		<mapping class="com.inventory.commissionsales.model.CommissionPaymentModel" />
+		<mapping class="com.inventory.purchase.model.CommissionStockModel" />
+
+		<mapping class="com.webspark.uac.model.EmployeeDocumentCategoryModel" />
+		<mapping class="com.webspark.uac.model.EmployeeDocumentModel" />
+
+		<mapping class="com.webspark.model.OfficeOptionMappingModel" />
+		<mapping class="com.webspark.model.OrganizationOptionMappingModel" />
+		<mapping class="com.webspark.uac.model.S_DepartmentOptionMappingModel" />
+
+
+		<mapping class="com.inventory.tailoring.model.ProductionUnitModel" />
+		<mapping class="com.inventory.tailoring.model.MaterialMappingModel" />
+		<mapping
+			class="com.inventory.tailoring.model.MaterialMappingInventoryDetailsModel" />
+
+		<mapping class="com.inventory.gcm.model.GcmUserModel" />
+
+		<mapping class="com.webspark.model.S_LanguageModel" />
+		<mapping class="com.webspark.model.S_LanguageMappingModel" />
+
+		<mapping class="com.inventory.config.stock.model.ItemPhysicalStockModel" />
+
+		<mapping class="com.inventory.subscription.model.RentalTransactionModel" />
+		<mapping
+			class="com.inventory.subscription.model.RentalTransactionDetailsModel" />
+
+		<mapping class="com.inventory.subscription.model.RentalPaymentModel" />
+		<mapping class="com.inventory.subscription.model.RentalPaymentMapModel" />
+
+		<mapping class="com.inventory.config.acct.model.CustomerGroupModel" />
+		<mapping class="com.inventory.payroll.model.CommissionSalaryModel" />
+		<mapping class="com.inventory.payroll.model.SalaryCommissionMapModel" />
+		<mapping class="com.inventory.payroll.model.SalaryBalanceMapModel" />
+
+		<mapping class="com.inventory.config.stock.model.SizeModel" />
+		<mapping class="com.inventory.config.stock.model.ColourModel" />
+		<mapping class="com.inventory.config.stock.model.ItemModelModel" />
+		<mapping class="com.inventory.config.stock.model.StyleModel" />
+		<mapping class="com.inventory.config.stock.model.ContainerModel" />
+
+		<mapping class="com.webspark.uac.model.VisaTypeModel" />
+		<mapping class="com.webspark.uac.model.QualificationModel" />
+		<mapping class="com.webspark.uac.model.UserQualificationModel" />
+
+		<mapping class="com.inventory.model.DocumentAccessModel" />
+		<mapping class="com.inventory.model.DocumentAccessDetailsModel" />
+
+		<mapping class="com.webspark.uac.model.UserContactModel" />
+		<mapping class="com.webspark.uac.model.UserFamilyContactModel" />
+		<mapping class="com.webspark.uac.model.UserPreviousEmployerModel" />
+
+		<mapping class="com.inventory.purchase.model.PurchaseInquiryModel" />
+		<mapping class="com.inventory.purchase.model.PurchaseInquiryDetailsModel" />
+
+		<mapping class="com.inventory.purchase.model.PurchaseQuotationModel" />
+		<mapping class="com.inventory.purchase.model.PurchaseQuotationDetailsModel" />
+
+		<mapping class="com.inventory.purchase.model.PurchaseOrderDetailsModel" />
+
+		<mapping class="com.inventory.model.LocationModel" />
+
+		<mapping class="com.inventory.purchase.model.PurchaseGRNModel" />
+		<mapping class="com.inventory.purchase.model.PurchaseGRNDetailsModel" />
+
+		<mapping class="com.inventory.sales.model.SalesInquiryModel" />
+		<mapping class="com.inventory.sales.model.SalesInquiryDetailsModel" />
+		<mapping class="com.inventory.config.acct.model.ClearingAgentModel" />
+
+		<mapping class="com.inventory.config.stock.model.BatchModel" />
+		<mapping class="com.inventory.config.acct.model.LedgerOpeningBalanceModel" />
+
+		<mapping class="com.inventory.purchase.model.PurchaseExpenseDetailsModel" />
+
+		<mapping class="com.inventory.purchase.model.ProformaPurchaseModel" />
+		<mapping
+			class="com.inventory.purchase.model.ProformaPurchaseInventoryDetailsModel" />
+		<mapping
+			class="com.inventory.purchase.model.ProformaPurchaseExpenseDetailsModel" />
+
+
+		<mapping class="com.inventory.config.acct.model.CashAccountPaymentModel" />
+		<mapping
+			class="com.inventory.config.acct.model.CashAccountPaymentDetailsModel" />
+
+		<mapping class="com.inventory.config.acct.model.CashAccountDepositModel" />
+		<mapping
+			class="com.inventory.config.acct.model.CashAccountDepositDetailsModel" />
+		<mapping
+			class="com.inventory.purchase.model.PurchaseReturnExpenseDetailsModel" />
+		<mapping class="com.inventory.sales.model.SalesReturnExpenseDetailsModel" />
+		<mapping class="com.inventory.payroll.model.LoanRequestModel" />
+		<mapping class="com.inventory.payroll.model.LoanApprovalModel" />
+		<mapping class="com.inventory.config.acct.model.DebitCreditInvoiceMapModel" />
+
+		<mapping class="com.inventory.config.acct.model.DebitNoteModel" />
+		<mapping class="com.inventory.config.acct.model.DebitNoteDetailsModel" />
+
+		<mapping class="com.inventory.config.acct.model.CreditNoteModel" />
+		<mapping class="com.inventory.config.acct.model.CreditNoteDetailsModel" />
+		<mapping class="com.inventory.config.acct.model.BankDetailsInvoiceMapModel" />
+
+		<mapping class="com.inventory.config.acct.model.ChequeReturnModel" />
+		<mapping class="com.inventory.config.acct.model.ChequeReturnDetailsModel" />
+
+		<mapping class="com.inventory.config.acct.model.PdcModel" />
+		<mapping class="com.inventory.config.acct.model.PdcDetailsModel" />
+
+		<mapping class="com.inventory.config.acct.model.PdcPaymentModel" />
+		<mapping class="com.inventory.config.acct.model.PdcPaymentDetailsModel" />
+
+		<mapping class="com.inventory.finance.model.BankRecociliationModel" />
+
+		<mapping class="com.inventory.payroll.model.HolidayModel" />
+		<mapping class="com.inventory.config.stock.model.ItemCustomerBarcodeMapModel" />
+
+		<mapping class="com.inventory.payroll.model.LeaveTypeModel" />
+		<mapping class="com.inventory.payroll.model.RoleLeaveMapModel" />
+		<mapping class="com.inventory.payroll.model.UserLeaveAllocationModel" />
+		<mapping class="com.inventory.payroll.model.LeaveModel" />
+		<mapping class="com.inventory.payroll.model.LeaveHistoryModel" />
+		<mapping class="com.inventory.payroll.model.LeaveDateModel" />
+
+		<mapping class="com.webspark.uac.model.StickerPrintingModel" />
+		<mapping class="com.webspark.uac.model.StickerPrintingDetailsModel" />
+		<mapping class="com.inventory.payroll.model.UserLeaveMapModel" />
+		
+		<mapping class="com.inventory.fixedasset.model.FixedAssetModel" />
+		<mapping class="com.inventory.fixedasset.model.FixedAssetPurchaseModel" />
+		<mapping class="com.inventory.fixedasset.model.FixedAssetPurchaseDetailsModel" />
+		<mapping class="com.inventory.fixedasset.model.FixedAssetDepreciationModel" />		
+		<mapping class="com.inventory.fixedasset.model.FixedAssetSalesDetailsModel" />
+		<mapping class="com.inventory.fixedasset.model.FixedAssetSalesModel" />
+		<mapping class="com.inventory.fixedasset.model.FixedAssetDepreciationMainModel" />
+		
+		<mapping class="com.inventory.payroll.model.SalesManCommissionMapModel" />
+		<mapping class="com.inventory.payroll.model.LoanDateModel" />
+
+		<mapping class="com.inventory.payroll.model.EmployeeStatusModel" />
+		
+		<mapping class="com.hotel.service.model.CashPayDetailsModel" />
+		<mapping class="com.hotel.service.model.CustomerBookingModel" />
+		<mapping class="com.hotel.service.model.HotelSalesInventoryDetailsModel" />
+		<mapping class="com.hotel.service.model.HotelSalesModel" />
+		<mapping class="com.hotel.service.model.ProductionModel" />
+		<mapping class="com.hotel.service.model.ProductionDetailsModel" />
+		<mapping class="com.hotel.config.model.TableModel" />
+		
+		<mapping class="com.inventory.config.stock.model.DisposeItemsModel" />
+		<mapping class="com.inventory.config.stock.model.DisposalItemsDetailsModel" />
+		
+		<mapping class="com.inventory.sales.model.GrvSalesModel" />
+		<mapping class="com.inventory.sales.model.GrvSalesInventoryDetailsModel" />
+		<mapping class="com.inventory.sales.model.GrvSalesExpenseDetailsModel" />
+		
+		<mapping class="com.manufacturing.config.model.MachineModel" />
+		<mapping class="com.manufacturing.config.model.MouldModel" />
+		
+		<mapping class="com.webspark.uac.model.InvoiceFormatModel" />
+		<mapping class="com.inventory.finance.model.PaymentModeModel" />
+		
+		<mapping class="com.inventory.sales.model.SalesPaymentModeDetailsModel" />
+		
+		<mapping class="com.inventory.sales.model.HoldSalesModel" />
+		<mapping class="com.inventory.sales.model.HoldSalesInventoryDetailsModel" />
+		<mapping class="com.inventory.config.stock.model.ReasonModel" />
+		<!-- Mappings -->
+
+	</session-factory>
+</hibernate-configuration>
