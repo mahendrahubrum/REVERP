@@ -298,8 +298,6 @@ public class LedgerPanel extends SContainerPanel {
 										Notification.show(getPropertyName("Cannot delete the ledger since it is already in the payment mode"), Type.WARNING_MESSAGE);
 										ce.printStackTrace();
 									}catch (Exception e) {
-										// TODO Auto-generated catch
-										// block
 										Notification.show(getPropertyName("Error"), Type.ERROR_MESSAGE);
 										e.printStackTrace();
 									}
