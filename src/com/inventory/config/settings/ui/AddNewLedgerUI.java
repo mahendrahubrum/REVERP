@@ -1,10 +1,12 @@
 package com.inventory.config.settings.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
+import com.inventory.config.acct.business.LedgerBusiness;
 import com.inventory.config.acct.dao.GroupDao;
 import com.inventory.config.acct.dao.LedgerDao;
 import com.inventory.config.acct.model.GroupModel;
@@ -56,6 +58,7 @@ public class AddNewLedgerUI extends SparkLogic {
 
 	List list;
 	LedgerDao objDao = new LedgerDao();
+	LedgerBusiness ledgerBusiness = new LedgerBusiness();
 
 	SButton createNewButton;
 
@@ -152,28 +155,31 @@ public class AddNewLedgerUI extends SparkLogic {
 					try {
 
 						if (isValid()) {
-							LedgerModel objModel = new LedgerModel();
-							objModel.setName(ledgerNameTextField.getValue());
-							objModel.setGroup(new GroupModel((Long) groupCombo
+							LedgerModel ledgerModel = new LedgerModel();
+							ledgerModel.setName(ledgerNameTextField.getValue());
+							ledgerModel.setGroup(new GroupModel((Long) groupCombo
 									.getValue()));
 							// objModel.setAddress(new AddressModel(1));
-							objModel.setCurrent_balance(Double
+							ledgerModel.setCurrent_balance(Double
 									.parseDouble(openingBalanceTextField
 											.getValue()));
-							objModel.setStatus((Long) statusCombo.getValue());
+							ledgerModel.setStatus((Long) statusCombo.getValue());
 
-							objModel.setOffice(new S_OfficeModel(getOfficeID()));
-							objModel.setType(SConstants.LEDGER_ADDED_DIRECTLY);
+							ledgerModel.setOffice(new S_OfficeModel(getOfficeID()));
+							ledgerModel.setType(SConstants.LEDGER_ADDED_DIRECTLY);
 							try {
-								id = objDao.save(objModel);
-								Notification.show(
-										getPropertyName("save_success"),
-										Type.WARNING_MESSAGE);
+								
+//								id = objDao.save(objModel);
+								id =ledgerBusiness.save(new ArrayList<LedgerModel>(Arrays.asList(ledgerModel)), getOfficeID());
+								if (id == 0) {
+									Notification.show(getPropertyName("Duplicate ledger name"), Type.ERROR_MESSAGE);
+								} else
+									Notification.show(getPropertyName("Success"), getPropertyName("save_success"),
+											Type.WARNING_MESSAGE);
 
 								closeWindow();
 
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								Notification.show(getPropertyName("error"),
 										Type.WARNING_MESSAGE);
 								e.printStackTrace();
