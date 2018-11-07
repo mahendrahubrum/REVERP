@@ -86,6 +86,7 @@ import com.webspark.Components.SVerticalLayout;
 import com.webspark.Components.SWindow;
 import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.KeyValue;
 import com.webspark.common.util.SConstants;
@@ -2105,7 +2106,7 @@ public class SalesOrderUI extends SparkLogic {
 							CustomerModel ledger =  new CustomerDao().getCustomerFromLedger(toLong(customerCombo.getValue().toString()));
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							
@@ -2268,7 +2269,7 @@ public class SalesOrderUI extends SparkLogic {
 							CustomerModel ledger =  new CustomerDao().getCustomerFromLedger(toLong(customerCombo.getValue().toString()));
 							String addr = "";
 							if (ledger != null) {
-								addr = new AddressDao().getAddressString(ledger.getAddress().getId());
+								addr = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							

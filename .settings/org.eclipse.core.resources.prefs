@@ -24,3 +24,5 @@ encoding//WebContent/Jasper/StockLedger.jrxml=UTF-8
 encoding//WebContent/Jasper/TrialBalanceNew.jrxml=UTF-8
 encoding//WebContent/Jasper/White_Penguen_POS_Print.jrxml=UTF-8
 encoding//WebContent/Jasper/item.jrxml=UTF-8
+encoding//src/com/inventory/sales/ui/GRVSalesUI.java=UTF-8
+encoding//src/com/inventory/sales/ui/POSSalesUI.java=UTF-8

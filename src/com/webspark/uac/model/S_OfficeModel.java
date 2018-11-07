@@ -81,22 +81,33 @@ public class S_OfficeModel implements Serializable {
 
 	@Column(name = "admin_user_id")
 	private long admin_user_id;
-	
-	@Column(name = "language",columnDefinition="bigint default 1",nullable=false)
+
+	@Column(name = "language", columnDefinition = "bigint default 1", nullable = false)
 	private long language;
-	
+
 	@Column(name = "timezone", length = 200)
-	private String timezone;	
-	
-	@Column(name = "header",columnDefinition="varchar(500) default ''",nullable=false)
-    private String header;
-    
-    @Column(name = "footer",columnDefinition="varchar(500) default ''",nullable=false)
-    private String footer;
-	
-    @Column(name = "holidays", length = 100,columnDefinition="varchar(100) default ''",nullable=false)
+	private String timezone;
+
+	@Column(name = "header", columnDefinition = "varchar(500) default ''", nullable = false)
+	private String header;
+
+	@Column(name = "footer", columnDefinition = "varchar(500) default ''", nullable = false)
+	private String footer;
+
+	@Column(name = "holidays", length = 100, columnDefinition = "varchar(100) default ''", nullable = false)
 	private String holidays;
-    
+	
+	@Column(name = "vat_number", length = 100, columnDefinition = "varchar(100) default ''", nullable = false)
+	private String vat_number;
+
+	public String getVat_number() {
+		return vat_number;
+	}
+
+	public void setVat_number(String vat_number) {
+		this.vat_number = vat_number;
+	}
+
 	public String getHeader() {
 		return header;
 	}
@@ -224,5 +235,5 @@ public class S_OfficeModel implements Serializable {
 	public void setHolidays(String holidays) {
 		this.holidays = holidays;
 	}
-	
+
 }

@@ -62,6 +62,7 @@ import com.webspark.Components.STextArea;
 import com.webspark.Components.STextField;
 import com.webspark.Components.SVerticalLayout;
 import com.webspark.Components.SparkLogic;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.NumberToWords;
 import com.webspark.common.util.SConstants;
@@ -1649,7 +1650,7 @@ public class SalesOrderManufacturingUI extends SparkLogic {
 										.getValue().toString()));
 						String address = "";
 						if (customerModel != null) {
-							address = new AddressDao()
+							address = new AddressBusiness()
 									.getAddressString(customerModel
 											.getAddress().getId());
 						}

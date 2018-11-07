@@ -77,6 +77,7 @@ import com.webspark.Components.SVerticalLayout;
 import com.webspark.Components.SWindow;
 import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.NumberToWords;
 import com.webspark.common.util.SConstants;
@@ -2623,7 +2624,7 @@ public class TailoringMaterialMappingUI extends SparkLogic {
 						map.put("ADDRESS1", adr1);
 						map.put("ADDRESS2", adr2);
 						map.put("OFFICE_ADDRESS",
-								new AddressDao().getAddressString(salObj
+								new AddressBusiness().getAddressString(salObj
 										.getOffice().getAddress().getId()));
 
 						String resp = "";

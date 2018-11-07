@@ -95,32 +95,10 @@ public class AddressDao extends SHibernate implements Serializable{
 		}
 	}
 
-	public String getAddressString(long addressId) throws Exception {
-		String address = "";
-		AddressModel addressModel = null;
+	public AddressModel getAddressString(long addressId) throws Exception {
 		try {
-			begin();
-			addressModel = (AddressModel) getSession().get(AddressModel.class,
+			return (AddressModel) getSession().get(AddressModel.class,
 					addressId);
-			commit();
-			if (addressModel != null) {
-				if (addressModel.getAddress_area() != null&&!addressModel.getAddress_area().equals("")) {
-					address += CommonUtil.removeHtml(addressModel.getAddress_area());
-				}
-				if (addressModel.getCountry() != null && addressModel.getCountry().getName() != null &&!addressModel.getCountry().getName().equals("")) {
-					address += addressModel.getCountry().getName() + ", ";
-				}
-				if (addressModel.getEmail() != null&&!addressModel.getEmail().equals("")) {
-					address += addressModel.getEmail() + ", ";
-				}
-				if (addressModel.getPhone() != null&&!addressModel.getPhone().equals("")) {
-					address += addressModel.getPhone() + ", ";
-				}
-				if (addressModel.getMobile() != null&&!addressModel.getMobile().equals("")) {
-					address += addressModel.getMobile() + ", ";
-				}
-			}
-
 		} catch (Exception e) {
 			rollback();
 			close();
@@ -130,9 +108,8 @@ public class AddressDao extends SHibernate implements Serializable{
 			flush();
 			close();
 		}
-		return address;
 	}
-	
+
 	public String getLocationAddressString(long addressId) throws Exception {
 		String address = "";
 		AddressModel addressModel = null;

@@ -92,6 +92,7 @@ import com.webspark.Components.SVerticalLayout;
 import com.webspark.Components.SWindow;
 import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.SConstants;
 import com.webspark.common.util.SMail;
@@ -2270,7 +2271,7 @@ public class DeliveryNoteUI extends SparkLogic {
 									ledger =  new CustomerDao().getCustomerFromLedger(mdl.getCustomer().getId());
 									String address = "";
 									if (ledger != null) {
-										address = new AddressDao().getAddressString(ledger.getAddress().getId());
+										address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 									}
 									map.put("ADDRESS", address);
 								}
@@ -2371,7 +2372,7 @@ public class DeliveryNoteUI extends SparkLogic {
 									ledger =  new CustomerDao().getCustomerFromLedger(mdl.getCustomer().getId());
 									String address = "";
 									if (ledger != null) {
-										address = new AddressDao().getAddressString(ledger.getAddress().getId());
+										address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 									}
 									map.put("ADDRESS", address);
 								}

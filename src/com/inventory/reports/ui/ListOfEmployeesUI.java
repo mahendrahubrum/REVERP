@@ -17,6 +17,7 @@ import com.webspark.Components.SOfficeComboField;
 import com.webspark.Components.SPanel;
 import com.webspark.Components.SReportChoiceField;
 import com.webspark.Components.SparkLogic;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.KeyValue;
 import com.webspark.common.util.SConstants;
@@ -139,7 +140,7 @@ public class ListOfEmployeesUI extends SparkLogic {
 									
 									String address="";
 									if(model.getAddress()!=null)
-										address=new AddressDao()
+										address=new AddressBusiness()
 										.getAddressString(model.getAddress().getId());
 									beans = new ListOfEmployeesBeans(
 											model.getFirst_name()

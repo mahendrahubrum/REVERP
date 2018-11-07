@@ -98,6 +98,7 @@ import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
 import com.webspark.bean.ExpenseBean;
 import com.webspark.bean.ExpenseTransactionBean;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.KeyValue;
 import com.webspark.common.util.SConstants;
@@ -3431,26 +3432,26 @@ public class GRVSalesUI extends SparkLogic {
 							CustomerModel ledger =  new CustomerDao().getCustomerFromLedger(mdl.getCustomer().getId());
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							map.put("ADDRESS_LABEL", getPropertyName("address"));
 							map.put("ADDRESS", address);
 							map.put("LEDGER_NAME_LABEL", getPropertyName("mr_messers"));
-							map.put("LEDGER_NAME_LABEL_IN_ARABIC", "السيد / السادة");
+							map.put("LEDGER_NAME_LABEL_IN_ARABIC", "Ø§Ù„Ø³ÙŠØ¯ / Ø§Ù„Ø³Ø§Ø¯Ø©");
 							map.put("LEDGER", mdl.getCustomer().getName());
 							
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							
 							map.put("REPORT_TITLE_LABEL", getPropertyName("cash_credit_invoice"));
-							map.put("REPORT_TITLE_LABEL_ARABIC", "الائتمان الفاتورة / النقدية");
+							map.put("REPORT_TITLE_LABEL_ARABIC", "Ø§Ù„Ø§Ø¦ØªÙ…Ø§Ù† Ø§Ù„Ù�Ø§ØªÙˆØ±Ø© / Ø§Ù„Ù†Ù‚Ø¯ÙŠØ©");
 							
 							map.put("BILL_NO_LABEL", getPropertyName("bill_no"));
 							map.put("BILL_NO", mdl.getSales_number());
 							map.put("INVOICE_DATE_LABEL", getPropertyName("date"));
-							map.put("INVOICE_DATE_LABEL_ARABIC", "التاريخ");
+							map.put("INVOICE_DATE_LABEL_ARABIC", "Ø§Ù„ØªØ§Ø±ÙŠØ®");
 							
 							map.put("PACK_LABEL", getPropertyName("pack"));
-							map.put("PACK_LABEL_ARABIC", "حزمة");
+							map.put("PACK_LABEL_ARABIC", "Ø­Ø²Ù…Ø©");
 							map.put("INVOICE_DATE", CommonUtil.formatDateToDDMMYYYY(mdl.getDate()));
 							map.put("LPO_NO_LABEL", getPropertyName("lpo_no"));
 							map.put("LPO_NO", dao.getSalesOrderSales(mdl.getId(), getOfficeID()));
@@ -3476,18 +3477,18 @@ public class GRVSalesUI extends SparkLogic {
 							map.put("NET_PRICE_LABEL", getPropertyName("total_amount"));
 							map.put("TOTAL_LABEL", getPropertyName("total"));
 							
-							map.put("SL_NO_LABEL_ARABIC", "رقم");
-							map.put("ITEM_LABEL_ARABIC", "الوصف");
-							map.put("QUANTITY_LABEL_ARABIC", "الكمية");
-							map.put("UNIT_LABEL_ARABIC", "الوحدات");
-							map.put("UNIT_PRICE_LABEL_ARABIC", "سعر الوحدة");
-							map.put("NET_PRICE_LABEL_ARABIC", "الكمية الكلية");
-							map.put("TOTAL_LABEL_ARABIC", "المجموع");
+							map.put("SL_NO_LABEL_ARABIC", "Ø±Ù‚Ù…");
+							map.put("ITEM_LABEL_ARABIC", "Ø§Ù„ÙˆØµÙ�");
+							map.put("QUANTITY_LABEL_ARABIC", "Ø§Ù„ÙƒÙ…ÙŠØ©");
+							map.put("UNIT_LABEL_ARABIC", "Ø§Ù„ÙˆØ­Ø¯Ø§Øª");
+							map.put("UNIT_PRICE_LABEL_ARABIC", "Ø³Ø¹Ø± Ø§Ù„ÙˆØ­Ø¯Ø©");
+							map.put("NET_PRICE_LABEL_ARABIC", "Ø§Ù„ÙƒÙ…ÙŠØ© Ø§Ù„ÙƒÙ„ÙŠØ©");
+							map.put("TOTAL_LABEL_ARABIC", "Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹");
 							
 							map.put("CURRENCY_LABEL", new CurrencyManagementDao().getselecteditem(getCurrencyID()).getCode());
-							map.put("CURRENCY_LABEL_ARABIC", "دينار");
+							map.put("CURRENCY_LABEL_ARABIC", "Ø¯ÙŠÙ†Ø§Ø±");
 							map.put("FILS_LABEL", new CurrencyManagementDao().getselecteditem(getCurrencyID()).getFractional_part());
-							map.put("FILS_LABEL_ARABIC", "فلس");
+							map.put("FILS_LABEL_ARABIC", "Ù�Ù„Ø³");
 							
 							S_OfficeModel office = new OfficeDao().getOffice(mdl.getOffice().getId());
 							map.put("OFFICE_NAME", office.getName());
@@ -3532,13 +3533,13 @@ public class GRVSalesUI extends SparkLogic {
 							map.put("PINK_COPY_LABEL", getPropertyName("pink_copy_accounts"));
 							
 							map.put("PREPARED_BY_LABEL", getPropertyName("prepared_by"));
-							map.put("PREPARED_BY_LABEL_ARABIC", "أُعدت بواسطة");
+							map.put("PREPARED_BY_LABEL_ARABIC", "Ø£Ù�Ø¹Ø¯Øª Ø¨ÙˆØ§Ø³Ø·Ø©");
 							
 							map.put("REVIEWED_BY_LABEL", getPropertyName("received_by"));
-							map.put("REVIEWED_BY_LABEL_ARABIC", "التي تلقاها");
+							map.put("REVIEWED_BY_LABEL_ARABIC", "Ø§Ù„ØªÙŠ ØªÙ„Ù‚Ø§Ù‡Ø§");
 							
 							map.put("SIGN_LABEL", getPropertyName("signature"));
-							map.put("SIGN_LABEL_ARABIC", "التوقيع");
+							map.put("SIGN_LABEL_ARABIC", "Ø§Ù„ØªÙˆÙ‚ÙŠØ¹");
 							
 							UserModel user=new UserManagementDao().getUser(mdl.getResponsible_employee());
 							map.put("PREPARED_BY", user.getFirst_name()+" "+user.getMiddle_name()+" "+user.getLast_name());
@@ -3580,26 +3581,26 @@ public class GRVSalesUI extends SparkLogic {
 							CustomerModel ledger =  new CustomerDao().getCustomerFromLedger(mdl.getCustomer().getId());
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							map.put("ADDRESS_LABEL", getPropertyName("address"));
 							map.put("ADDRESS", address);
 							map.put("LEDGER_NAME_LABEL", getPropertyName("mr_messers"));
-							map.put("LEDGER_NAME_LABEL_IN_ARABIC", "السيد / السادة");
+							map.put("LEDGER_NAME_LABEL_IN_ARABIC", "Ø§Ù„Ø³ÙŠØ¯ / Ø§Ù„Ø³Ø§Ø¯Ø©");
 							map.put("LEDGER", mdl.getCustomer().getName());
 							
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							
 							map.put("REPORT_TITLE_LABEL", getPropertyName("cash_credit_invoice"));
-							map.put("REPORT_TITLE_LABEL_ARABIC", "الائتمان الفاتورة / النقدية");
+							map.put("REPORT_TITLE_LABEL_ARABIC", "Ø§Ù„Ø§Ø¦ØªÙ…Ø§Ù† Ø§Ù„Ù�Ø§ØªÙˆØ±Ø© / Ø§Ù„Ù†Ù‚Ø¯ÙŠØ©");
 							
 							map.put("BILL_NO_LABEL", getPropertyName("bill_no"));
 							map.put("BILL_NO", mdl.getSales_number());
 							map.put("INVOICE_DATE_LABEL", getPropertyName("date"));
-							map.put("INVOICE_DATE_LABEL_ARABIC", "التاريخ");
+							map.put("INVOICE_DATE_LABEL_ARABIC", "Ø§Ù„ØªØ§Ø±ÙŠØ®");
 							
 							map.put("PACK_LABEL", getPropertyName("pack"));
-							map.put("PACK_LABEL_ARABIC", "حزمة");
+							map.put("PACK_LABEL_ARABIC", "Ø­Ø²Ù…Ø©");
 							map.put("INVOICE_DATE", CommonUtil.formatDateToDDMMYYYY(mdl.getDate()));
 							map.put("LPO_NO_LABEL", getPropertyName("lpo_no"));
 							map.put("LPO_NO", dao.getSalesOrderSales(mdl.getId(), getOfficeID()));
@@ -3624,18 +3625,18 @@ public class GRVSalesUI extends SparkLogic {
 							map.put("NET_PRICE_LABEL", getPropertyName("total_amount"));
 							map.put("TOTAL_LABEL", getPropertyName("total"));
 							
-							map.put("SL_NO_LABEL_ARABIC", "رقم");
-							map.put("ITEM_LABEL_ARABIC", "الوصف");
-							map.put("QUANTITY_LABEL_ARABIC", "الكمية");
-							map.put("UNIT_LABEL_ARABIC", "الوحدات");
-							map.put("UNIT_PRICE_LABEL_ARABIC", "سعر الوحدة");
-							map.put("NET_PRICE_LABEL_ARABIC", "الكمية الكلية");
-							map.put("TOTAL_LABEL_ARABIC", "المجموع");
+							map.put("SL_NO_LABEL_ARABIC", "Ø±Ù‚Ù…");
+							map.put("ITEM_LABEL_ARABIC", "Ø§Ù„ÙˆØµÙ�");
+							map.put("QUANTITY_LABEL_ARABIC", "Ø§Ù„ÙƒÙ…ÙŠØ©");
+							map.put("UNIT_LABEL_ARABIC", "Ø§Ù„ÙˆØ­Ø¯Ø§Øª");
+							map.put("UNIT_PRICE_LABEL_ARABIC", "Ø³Ø¹Ø± Ø§Ù„ÙˆØ­Ø¯Ø©");
+							map.put("NET_PRICE_LABEL_ARABIC", "Ø§Ù„ÙƒÙ…ÙŠØ© Ø§Ù„ÙƒÙ„ÙŠØ©");
+							map.put("TOTAL_LABEL_ARABIC", "Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹");
 							
 							map.put("CURRENCY_LABEL", new CurrencyManagementDao().getselecteditem(getCurrencyID()).getCode());
-							map.put("CURRENCY_LABEL_ARABIC", "دينار");
+							map.put("CURRENCY_LABEL_ARABIC", "Ø¯ÙŠÙ†Ø§Ø±");
 							map.put("FILS_LABEL", new CurrencyManagementDao().getselecteditem(getCurrencyID()).getFractional_part());
-							map.put("FILS_LABEL_ARABIC", "فلس");
+							map.put("FILS_LABEL_ARABIC", "Ù�Ù„Ø³");
 							
 							S_OfficeModel office = new OfficeDao().getOffice(mdl.getOffice().getId());
 							map.put("OFFICE_NAME", office.getName());
@@ -3680,13 +3681,13 @@ public class GRVSalesUI extends SparkLogic {
 							map.put("PINK_COPY_LABEL", getPropertyName("pink_copy_accounts"));
 							
 							map.put("PREPARED_BY_LABEL", getPropertyName("prepared_by"));
-							map.put("PREPARED_BY_LABEL_ARABIC", "أُعدت بواسطة");
+							map.put("PREPARED_BY_LABEL_ARABIC", "Ø£Ù�Ø¹Ø¯Øª Ø¨ÙˆØ§Ø³Ø·Ø©");
 							
 							map.put("REVIEWED_BY_LABEL", getPropertyName("received_by"));
-							map.put("REVIEWED_BY_LABEL_ARABIC", "التي تلقاها");
+							map.put("REVIEWED_BY_LABEL_ARABIC", "Ø§Ù„ØªÙŠ ØªÙ„Ù‚Ø§Ù‡Ø§");
 							
 							map.put("SIGN_LABEL", getPropertyName("signature"));
-							map.put("SIGN_LABEL_ARABIC", "التوقيع");
+							map.put("SIGN_LABEL_ARABIC", "Ø§Ù„ØªÙˆÙ‚ÙŠØ¹");
 							
 							UserModel user=new UserManagementDao().getUser(mdl.getResponsible_employee());
 							map.put("PREPARED_BY", user.getFirst_name()+" "+user.getMiddle_name()+" "+user.getLast_name());

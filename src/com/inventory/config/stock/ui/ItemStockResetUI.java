@@ -102,48 +102,38 @@ public class ItemStockResetUI extends SparkLogic {
 			fillQtyTextField = new STextField();
 			fillAllBtn = new SButton(getPropertyName("fill_all"));
 
-			organizationComboField = new SComboField(null, 150,
-					new OrganizationDao().getAllOrganizations(), "id", "name");
+			organizationComboField = new SComboField(null, 150, new OrganizationDao().getAllOrganizations(), "id",
+					"name");
 			officeComboField = new SComboField(null, 150);
 
 			dao = new ItemStockResetDao();
 			unitDao = new UnitDao();
 			unitMgtDao = new UnitManagementDao();
 
-			dateField = new SDateField(null, 100, getDateFormat(),
-					getWorkingDate());
+			dateField = new SDateField(null, 100, getDateFormat(), getWorkingDate());
 
-			allHeaders = new Object[] { TBL_NO, TBL_ITEM_ID, TBL_ITEM_NAME,
-					TBL_UNIT_ID, TBL_UNIT, TBL_RATE };
-			reqHeaders = new Object[] { TBL_NO, TBL_ITEM_NAME, TBL_UNIT,
-					TBL_RATE };
+			allHeaders = new Object[] { TBL_NO, TBL_ITEM_ID, TBL_ITEM_NAME, TBL_UNIT_ID, TBL_UNIT, TBL_RATE };
+			reqHeaders = new Object[] { TBL_NO, TBL_ITEM_NAME, TBL_UNIT, TBL_RATE };
 
 			table = new STable(null, 600, 400);
 			table.setSelectable(false);
-			table.addContainerProperty(TBL_NO, Integer.class, null, TBL_NO,
-					null, Align.CENTER);
-			table.addContainerProperty(TBL_ITEM_ID, Long.class, null,
-					TBL_ITEM_ID, null, Align.CENTER);
-			table.addContainerProperty(TBL_ITEM_NAME, String.class, null,
-					getPropertyName("name"), null, Align.LEFT);
-			table.addContainerProperty(TBL_UNIT_ID, Long.class, null,
-					TBL_UNIT_ID, null, Align.LEFT);
-			table.addContainerProperty(TBL_UNIT, String.class, null,
-					getPropertyName("unit"), null, Align.LEFT);
-			table.addContainerProperty(TBL_RATE, STextField.class, null,
-					getPropertyName("reset_qty"), null, Align.LEFT);
+			table.addContainerProperty(TBL_NO, Integer.class, null, TBL_NO, null, Align.CENTER);
+			table.addContainerProperty(TBL_ITEM_ID, Long.class, null, TBL_ITEM_ID, null, Align.CENTER);
+			table.addContainerProperty(TBL_ITEM_NAME, String.class, null, getPropertyName("name"), null, Align.LEFT);
+			table.addContainerProperty(TBL_UNIT_ID, Long.class, null, TBL_UNIT_ID, null, Align.LEFT);
+			table.addContainerProperty(TBL_UNIT, String.class, null, getPropertyName("unit"), null, Align.LEFT);
+			table.addContainerProperty(TBL_RATE, STextField.class, null, getPropertyName("reset_qty"), null,
+					Align.LEFT);
 
 			saveButton = new SButton(getPropertyName("reset"));
 			deleteButton = new SButton(getPropertyName("clear"));
 
 			lay.addComponent(saveButton);
 
-			dateLayout.addComponent(
-					new SLabel(getPropertyName("organization")), 1, 0);
+			dateLayout.addComponent(new SLabel(getPropertyName("organization")), 1, 0);
 			dateLayout.addComponent(organizationComboField, 2, 0);
 
-			dateLayout
-					.addComponent(new SLabel(getPropertyName("office")), 3, 0);
+			dateLayout.addComponent(new SLabel(getPropertyName("office")), 3, 0);
 			dateLayout.addComponent(officeComboField, 4, 0);
 
 			dateLayout.addComponent(new SLabel(getPropertyName("date")), 5, 0);
@@ -151,36 +141,31 @@ public class ItemStockResetUI extends SparkLogic {
 
 			layout.addComponent(dateLayout);
 			layout.addComponent(table);
-			layout.addComponent(new SHorizontalLayout(true, fillQtyTextField,
-					fillAllBtn));
+			layout.addComponent(new SHorizontalLayout(true, fillQtyTextField, fillAllBtn));
 
 			layout.addComponent(lay);
 
 			pan.setContent(layout);
 
-			organizationComboField
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						public void valueChange(ValueChangeEvent event) {
+			organizationComboField.addValueChangeListener(new Property.ValueChangeListener() {
+				public void valueChange(ValueChangeEvent event) {
 
-							try {
+					try {
 
-								SCollectionContainer bic = SCollectionContainer.setList(
-										new OfficeDao()
-												.getAllOfficeNamesUnderOrg((Long) organizationComboField
-														.getValue()), "id");
-								officeComboField.setContainerDataSource(bic);
-								officeComboField
-										.setItemCaptionPropertyId("name");
+						SCollectionContainer bic = SCollectionContainer.setList(
+								new OfficeDao().getAllOfficeNamesUnderOrg((Long) organizationComboField.getValue()),
+								"id");
+						officeComboField.setContainerDataSource(bic);
+						officeComboField.setItemCaptionPropertyId("name");
 
-								Iterator it = officeComboField.getItemIds()
-										.iterator();
-								if (it.hasNext())
-									officeComboField.setValue(it.next());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					});
+						Iterator it = officeComboField.getItemIds().iterator();
+						if (it.hasNext())
+							officeComboField.setValue(it.next());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 
 			officeComboField.addValueChangeListener(new Property.ValueChangeListener() {
 				public void valueChange(ValueChangeEvent event) {
@@ -204,14 +189,12 @@ public class ItemStockResetUI extends SparkLogic {
 							Iterator itr = table.getItemIds().iterator();
 							while (itr.hasNext()) {
 								item = table.getItem(itr.next());
-								((STextField) item.getItemProperty(TBL_RATE)
-										.getValue()).setValue(asString(val));
+								((STextField) item.getItemProperty(TBL_RATE).getValue()).setValue(asString(val));
 							}
 
 							setRequiredError(fillQtyTextField, null, false);
 						} catch (Exception e) {
-							setRequiredError(fillQtyTextField,
-									getPropertyName("invalid_data"), true);
+							setRequiredError(fillQtyTextField, getPropertyName("invalid_data"), true);
 						}
 					}
 
@@ -227,8 +210,7 @@ public class ItemStockResetUI extends SparkLogic {
 				public void buttonClick(ClickEvent event) {
 					try {
 						table.setComponentError(null);
-						Date date = CommonUtil.getSQLDateFromUtilDate(dateField
-								.getValue());
+						Date date = CommonUtil.getSQLDateFromUtilDate(dateField.getValue());
 						List list = new ArrayList();
 						Item item = null;
 						STextField field;
@@ -237,11 +219,9 @@ public class ItemStockResetUI extends SparkLogic {
 						Iterator itr = table.getItemIds().iterator();
 						while (itr.hasNext()) {
 							item = table.getItem(itr.next());
-							field = (STextField) item.getItemProperty(TBL_RATE)
-									.getValue();
+							field = (STextField) item.getItemProperty(TBL_RATE).getValue();
 							stkObj = new StockBean();
-							stkObj.setItem_id((Long) item.getItemProperty(
-									TBL_ITEM_ID).getValue());
+							stkObj.setItem_id((Long) item.getItemProperty(TBL_ITEM_ID).getValue());
 							stkObj.setQuantity(toDouble(field.getValue()));
 							list.add(stkObj);
 
@@ -249,11 +229,10 @@ public class ItemStockResetUI extends SparkLogic {
 
 						if (list.size() > 0) {
 
-							takeBackUP();
+//							takeBackUP();
 
 							dao.save(list, date);
-							Notification.show(getPropertyName("save_success"),
-									Type.WARNING_MESSAGE);
+							Notification.show(getPropertyName("save_success"), Type.WARNING_MESSAGE);
 
 						} else {
 							setRequiredError(table, "Enter Rate", true);
@@ -261,8 +240,7 @@ public class ItemStockResetUI extends SparkLogic {
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),
-								Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -302,17 +280,13 @@ public class ItemStockResetUI extends SparkLogic {
 		}
 
 		SimpleDateFormat frmt = new SimpleDateFormat("ddMMyyyyHHmmss");
-		String realName = ("BackUPBeforeReset" + frmt.format(CommonUtil
-				.getCurrentDateTime())).replace('.', ' ').replace(',', ' ')
-				.replace(':', ' ').replace('/', ' ').replace('-', ' ')
-				.replace('~', ' ').replace('!', ' ').replace('\\', ' ')
-				.replace(';', ' ').trim();
+		String realName = ("BackUPBeforeReset" + frmt.format(CommonUtil.getCurrentDateTime())).replace('.', ' ')
+				.replace(',', ' ').replace(':', ' ').replace('/', ' ').replace('-', ' ').replace('~', ' ')
+				.replace('!', ' ').replace('\\', ' ').replace(';', ' ').trim();
 
 		String fileName = "";
 
-		File dir = new File(VaadinServlet.getCurrent().getServletContext()
-				.getRealPath("/")
-				+ "Backup");
+		File dir = new File(VaadinServlet.getCurrent().getServletContext().getRealPath("/") + "Backup");
 
 		if (dir != null && dir.isDirectory()) {
 			try {
@@ -321,20 +295,21 @@ public class ItemStockResetUI extends SparkLogic {
 					file.delete();
 				}
 			} catch (Exception e) {
-				Notification.show(getPropertyName("no_files_found"),
-						Type.ERROR_MESSAGE);
+				Notification.show(getPropertyName("no_files_found"), Type.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
 
-		fileName = VaadinServlet.getCurrent().getServletContext()
-				.getRealPath("/")
-				+ "Backup/" + realName + ".sql";
+		fileName = VaadinServlet.getCurrent().getServletContext().getRealPath("\\") + "Backup\\" + realName + ".sql";
+		File sqlFile = new File(fileName);
+		try {
+			sqlFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		boolean flag = takeBackup(properties.getProperty("database"),
-				properties.getProperty("username"),
-				properties.getProperty("password"), fileName,
-				properties.getProperty("backupscripttype"));
+		boolean flag = takeBackup(properties.getProperty("database"), properties.getProperty("username"),
+				properties.getProperty("password"), fileName, properties.getProperty("backupscripttype"));
 		if (flag) {
 			// Notification.show("Backup created Successfully",
 			// Type.WARNING_MESSAGE);
@@ -342,19 +317,16 @@ public class ItemStockResetUI extends SparkLogic {
 			fileResource = new FileResource(new File(fileName));
 
 		} else {
-			Notification.show(getPropertyName("backup_failed"),
-					Type.ERROR_MESSAGE);
+			Notification.show(getPropertyName("backup_failed"), Type.ERROR_MESSAGE);
 		}
 
 		// TODO Auto-generated method stub
 
 	}
 
-	public boolean takeBackup(String dbName, String dbUserName,
-			String dbPassword, String path, String dbType) {
+	public boolean takeBackup(String dbName, String dbUserName, String dbPassword, String path, String dbType) {
 
-		String executeCmd = dbType + " -u " + dbUserName + " -p" + dbPassword
-				+ " " + dbName + " -r " + path;
+		String executeCmd = dbType + " -u " + dbUserName + " -p" + dbPassword + " " + dbName + " -r " + path;
 		Process runtimeProcess;
 		try {
 			System.out.println(executeCmd);// this out put works in mysql shell
@@ -392,8 +364,7 @@ public class ItemStockResetUI extends SparkLogic {
 
 				field = new STextField();
 				field.setValue(mdl.getCurrent_balalnce() + "");
-				rows = new Object[] { index, mdl.getId(),
-						mdl.getName() + " (" + mdl.getItem_code() + ")",
+				rows = new Object[] { index, mdl.getId(), mdl.getName() + " (" + mdl.getItem_code() + ")",
 						mdl.getUnit().getId(), mdl.getUnit().getSymbol(), field };
 				table.addItem(rows, index);
 				index++;
@@ -416,8 +387,7 @@ public class ItemStockResetUI extends SparkLogic {
 		ItemDailyRateDetailModel detailMdl;
 		try {
 
-			rateModel = dao.getItemDailyRate(1,
-					CommonUtil.getSQLDateFromUtilDate(dateField.getValue()), 1);
+			rateModel = dao.getItemDailyRate(1, CommonUtil.getSQLDateFromUtilDate(dateField.getValue()), 1);
 
 			if (rateModel != null) {
 
@@ -426,16 +396,12 @@ public class ItemStockResetUI extends SparkLogic {
 				Iterator itr = table.getItemIds().iterator();
 				while (itr.hasNext()) {
 					item = table.getItem(itr.next());
-					field = (STextField) item.getItemProperty(TBL_RATE)
-							.getValue();
+					field = (STextField) item.getItemProperty(TBL_RATE).getValue();
 
 					for (int i = 0; i < detailList.size(); i++) {
-						detailMdl = (ItemDailyRateDetailModel) detailList
-								.get(i);
-						if (toLong(item.getItemProperty(TBL_ITEM_ID).toString()) == detailMdl
-								.getItem()
-								&& toLong(item.getItemProperty(TBL_UNIT_ID)
-										.toString()) == detailMdl.getUnit()) {
+						detailMdl = (ItemDailyRateDetailModel) detailList.get(i);
+						if (toLong(item.getItemProperty(TBL_ITEM_ID).toString()) == detailMdl.getItem()
+								&& toLong(item.getItemProperty(TBL_UNIT_ID).toString()) == detailMdl.getUnit()) {
 							field.setValue(asString(detailMdl.getRate()));
 							break;
 						}
@@ -457,8 +423,7 @@ public class ItemStockResetUI extends SparkLogic {
 			while (tblItr.hasNext()) {
 				tblItem = table.getItem(tblItr.next());
 
-				rate = (STextField) (tblItem.getItemProperty(TBL_RATE)
-						.getValue());
+				rate = (STextField) (tblItem.getItemProperty(TBL_RATE).getValue());
 
 				rate.setValue("0");
 			}

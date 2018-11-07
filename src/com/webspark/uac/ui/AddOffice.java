@@ -85,6 +85,7 @@ public class AddOffice extends SparkLogic {
 	
 	SComboField officeCombo;
 	STextField nameField;
+	STextField vatNumField;
 	SComboField organizationCombo;
 	SComboField adminUserCombo;
 	SComboField currencyCombo;
@@ -187,6 +188,8 @@ public class AddOffice extends SparkLogic {
 			finStartDateField = new SDateField((getPropertyName("start_fin_year")), 100,getDateFormat());
 			finEndDateField = new SDateField((getPropertyName("end_fin_year")), 100,getDateFormat());
 			workingDateField = new SDateField((getPropertyName("working_date")), 100,getDateFormat());
+			vatNumField = new STextField(getPropertyName("vat_num_label"), 300);
+			vatNumField.setRequired(true);
 			addressField = new SAddressField(1);
 			addressField.setCaption(null);
 			
@@ -255,6 +258,7 @@ public class AddOffice extends SparkLogic {
 			contentLayout.addComponent(finStartDateField);
 			contentLayout.addComponent(finEndDateField);
 			contentLayout.addComponent(workingDateField);
+			contentLayout.addComponent(vatNumField);
 			contentLayout.addComponent(copyLedgerCheck);
 			contentLayout.addComponent(copyItemCheck);
 			contentLayout.addComponent(daylayout);
@@ -369,6 +373,8 @@ public class AddOffice extends SparkLogic {
 								objModel.setFin_end_date(CommonUtil.getSQLDateFromUtilDate(finEndDateField.getValue()));
 								objModel.setTimezone(asString(timeZoneCombo.getValue()));
 								objModel.setHolidays(getHolidyas());
+								objModel.setVat_number(vatNumField.getValue());
+								
 								if(headerRemoved)
 									header="header_"+getFileName(getLoginID());
 								if(footerRemoved)
@@ -458,6 +464,7 @@ public class AddOffice extends SparkLogic {
 							finEndDateField.setValue(ofc.getFin_end_date());
 							workingDateField.setValue(ofc.getWorkingDate());
 							addressField.loadAddress(ofc.getAddress().getId());
+							vatNumField.setValue(ofc.getVat_number());
 							String[] holidays=ofc.getHolidays().split(",");
 							
 							if(holidays!=null && holidays.length>0){
@@ -627,6 +634,7 @@ public class AddOffice extends SparkLogic {
 							
 							objModel.setHeader(header);
 							objModel.setFooter(footer);
+							objModel.setVat_number(vatNumField.getValue());
 							
 							dao.update(objModel);
 							session.setAttribute("time_zone",objModel.getTimezone());

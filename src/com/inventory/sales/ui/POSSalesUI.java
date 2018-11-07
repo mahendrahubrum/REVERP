@@ -99,6 +99,7 @@ import com.webspark.Components.SVerticalLayout;
 import com.webspark.Components.SWindow;
 import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.KeyValue;
 import com.webspark.common.util.NumberToWords;
@@ -117,7 +118,6 @@ import com.webspark.uac.model.S_OfficeModel;
  * 
  *         Feb 24, 2014
  */
-
 
 public class POSSalesUI extends SparkLogic {
 
@@ -297,10 +297,10 @@ public class POSSalesUI extends SparkLogic {
 
 	private SButton holdButton;
 	private SButton recallButton;
-	private boolean isHold=false;
+	private boolean isHold = false;
 	SHorizontalLayout popupContainer;
 	LayoutClickListener layoutListener;
-	long holdSalesId=0;
+	long holdSalesId = 0;
 
 	@SuppressWarnings({ "serial", "unchecked" })
 	@Override
@@ -322,7 +322,7 @@ public class POSSalesUI extends SparkLogic {
 		usrDao = new UserManagementDao();
 		taxEnable = isTaxEnable();
 		paymentModeDao = new PaymentModeDao();
-		holdSalesDao=new HoldSalesDao();
+		holdSalesDao = new HoldSalesDao();
 
 		popupWindow = new SWindow();
 
@@ -332,29 +332,23 @@ public class POSSalesUI extends SparkLogic {
 		newSaleButton.setStyleName("createNewBtnStyle");
 		newSaleButton.setDescription("Add new Sale");
 
-		allHeaders = new String[] { TBC_SN, TBC_ITEM_ID, TBC_ITEM_NAME,
-				TBC_QTY, TBC_UNIT_ID, TBC_UNIT, TBC_UNIT_PRICE, TBC_TAX_ID,
-				TBC_TAX_AMT, TBC_TAX_PERC, TBC_DISCOUNT_TYPE,
-				TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT, TBC_NET_PRICE,
-				TBC_PO_ID, TBC_INV_ID, TBC_NET_TOTAL, TBC_NET_FINAL,
-				TBC_QTY_IN_BASIC_UNI, TBC_STOCK_ID, TBC_CONVERTION_QTY,
-				TBC_BILL_TYPE_ID };
+		allHeaders = new String[] { TBC_SN, TBC_ITEM_ID, TBC_ITEM_NAME, TBC_QTY, TBC_UNIT_ID, TBC_UNIT, TBC_UNIT_PRICE,
+				TBC_TAX_ID, TBC_TAX_AMT, TBC_TAX_PERC, TBC_DISCOUNT_TYPE, TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT,
+				TBC_NET_PRICE, TBC_PO_ID, TBC_INV_ID, TBC_NET_TOTAL, TBC_NET_FINAL, TBC_QTY_IN_BASIC_UNI, TBC_STOCK_ID,
+				TBC_CONVERTION_QTY, TBC_BILL_TYPE_ID };
 
 		if (taxEnable) {
 			if (isCessEnable()) {
-				requiredHeaders = new String[] { TBC_SN, TBC_ITEM_NAME,
-						TBC_UNIT, TBC_UNIT_PRICE, TBC_QTY, TBC_NET_PRICE,
-						TBC_TAX_PERC, TBC_TAX_AMT, TBC_NET_TOTAL,
-						TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT, TBC_NET_FINAL };
+				requiredHeaders = new String[] { TBC_SN, TBC_ITEM_NAME, TBC_UNIT, TBC_UNIT_PRICE, TBC_QTY,
+						TBC_NET_PRICE, TBC_TAX_PERC, TBC_TAX_AMT, TBC_NET_TOTAL, TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT,
+						TBC_NET_FINAL };
 			} else {
-				requiredHeaders = new String[] { TBC_SN, TBC_ITEM_NAME,
-						TBC_UNIT, TBC_UNIT_PRICE, TBC_QTY, TBC_NET_PRICE,
-						TBC_TAX_PERC, TBC_TAX_AMT, TBC_NET_TOTAL,
-						TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT, TBC_NET_FINAL };
+				requiredHeaders = new String[] { TBC_SN, TBC_ITEM_NAME, TBC_UNIT, TBC_UNIT_PRICE, TBC_QTY,
+						TBC_NET_PRICE, TBC_TAX_PERC, TBC_TAX_AMT, TBC_NET_TOTAL, TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT,
+						TBC_NET_FINAL };
 			}
 		} else {
-			requiredHeaders = new String[] { TBC_SN, TBC_ITEM_NAME, TBC_UNIT,
-					TBC_UNIT_PRICE, TBC_QTY, TBC_NET_PRICE,
+			requiredHeaders = new String[] { TBC_SN, TBC_ITEM_NAME, TBC_UNIT, TBC_UNIT_PRICE, TBC_QTY, TBC_NET_PRICE,
 					TBC_DISCOUNT_PERCENTAGE, TBC_DISCOUNT, TBC_NET_FINAL };
 		}
 
@@ -384,16 +378,14 @@ public class POSSalesUI extends SparkLogic {
 
 		// isPaymentNow=new SCheckBox("Receiving Cash", true);
 
-		payingAmountTextField = new STextField(getPropertyName("total_amount"),
-				100);
+		payingAmountTextField = new STextField(getPropertyName("total_amount"), 100);
 		payingAmountTextField.setNewValue("0.00");
 		payingAmountTextField.setStyleName("sup_textfield_align_right");
 		payingAmountTextField.setId("Paying Amt");
 		payingAmountTextField.setReadOnly(true);
 		payingAmountTextField.setHeight("30px");
 
-		cashChequeRadio = new SRadioButton(null, 200,
-				SConstants.paymentMode.cashCardList, "key", "value");
+		cashChequeRadio = new SRadioButton(null, 200, SConstants.paymentMode.cashCardList, "key", "value");
 		cashChequeRadio.setHorizontal(true);
 		cashChequeRadio.setValue((long) 1);
 
@@ -407,7 +399,7 @@ public class POSSalesUI extends SparkLogic {
 		// hLayout.setStyleName(Reindeer.LAYOUT_BLUE);
 		vLayout = new SVerticalLayout();
 		form = new SFormLayout();
-		
+
 		addingGrid = new SGridLayout();
 		addingGrid.setSizeFull();
 		addingGrid.setColumns(16);
@@ -442,13 +434,10 @@ public class POSSalesUI extends SparkLogic {
 		form.setSizeFull();
 
 		try {
-			popupContainer=new SHorizontalLayout();
+			popupContainer = new SHorizontalLayout();
 			priceListButton = new SButton();
 
-			employSelect = new SComboField(
-					null,
-					200,
-					usrDao.getUsersWithFullNameAndCodeUnderOffice(getOfficeID()),
+			employSelect = new SComboField(null, 200, usrDao.getUsersWithFullNameAndCodeUnderOffice(getOfficeID()),
 					"id", "first_name");
 
 			employSelect.setValue(getUserID());
@@ -459,22 +448,17 @@ public class POSSalesUI extends SparkLogic {
 			List list = new ArrayList();
 			list.add(new SalesModel(0, "----Create New-----"));
 			list.addAll(daoObj.getAllSalesNumbersAsComment(getOfficeID()));
-			salesNumberList = new SComboField(null, 125, list, "id",
-					"sales_number", false, getPropertyName("create_new"));
+			salesNumberList = new SComboField(null, 125, list, "id", "sales_number", false,
+					getPropertyName("create_new"));
 
 			date = new SDateField(null, 120, getDateFormat(), getWorkingDate());
 
-			customerSelect = new SComboField(
-					null,
-					220,
-					custDao.getAllActiveCustomerNamesWithLedgerID(getOfficeID()),
+			customerSelect = new SComboField(null, 220, custDao.getAllActiveCustomerNamesWithLedgerID(getOfficeID()),
 					"id", "name", true, getPropertyName("select"));
 			customerSelect.setValue(settings.getDEFAULT_CUSTOMER());
 
-			salesTypeSelect = new SNativeSelect(null, 120,
-					new SalesTypeDao()
-							.getAllActiveSalesTypeNames(getOfficeID()), "id",
-					"name");
+			salesTypeSelect = new SNativeSelect(null, 120, new SalesTypeDao().getAllActiveSalesTypeNames(getOfficeID()),
+					"id", "name");
 
 			Iterator itt = salesTypeSelect.getItemIds().iterator();
 			if (itt.hasNext())
@@ -530,28 +514,26 @@ public class POSSalesUI extends SparkLogic {
 			hrl.addComponent(customerSelect);
 			hrl.addComponent(newCustomerButton);
 
-			List<KeyValue> discountMethod = Arrays.asList(new KeyValue(1,
-					getPropertyName("percentage")), new KeyValue(2,
-					getPropertyName("amount")));
+			List<KeyValue> discountMethod = Arrays.asList(new KeyValue(1, getPropertyName("percentage")),
+					new KeyValue(2, getPropertyName("amount")));
 
-			discountRadio = new SRadioButton(getPropertyName("discount_type"),
-					160, discountMethod, "intKey", "value");
+			discountRadio = new SRadioButton(getPropertyName("discount_type"), 160, discountMethod, "intKey", "value");
 			discountRadio.setHorizontal(true);
 			discountRadio.setImmediate(true);
 			discountRadio.setId("discountRadio");
-			
-			discountPercentField = new STextField(
-					getPropertyName("percentage"), 70);
+
+			discountPercentField = new STextField(getPropertyName("percentage"), 70);
 			discountPercentField.setStyleName("textfield_align_right");
 			discountPercentField.setImmediate(true);
 			discountPercentField.setId("discountPercentField");
-			
-			discountAmountField = new STextField(getPropertyName("amount"), 70);			
-			discountAmountField.setStyleName("textfield_align_right");			
+
+			discountAmountField = new STextField(getPropertyName("amount"), 70);
+			discountAmountField.setStyleName("textfield_align_right");
 			discountAmountField.setImmediate(true);
 			discountAmountField.setId("discountAmountField");
 
-			itemDiscountRadio = new SRadioButton(getPropertyName("discount_type"), 160, discountMethod,"intKey", "value");
+			itemDiscountRadio = new SRadioButton(getPropertyName("discount_type"), 160, discountMethod, "intKey",
+					"value");
 			itemDiscountRadio.setHorizontal(true);
 			itemDiscountRadio.setImmediate(true);
 			itemDiscountRadio.setId("itemDiscountRadio");
@@ -561,7 +543,7 @@ public class POSSalesUI extends SparkLogic {
 			itemDiscountPercentField.setImmediate(true);
 			itemDiscountPercentField.setId("itemDiscountPercentField");
 
-			itemDiscountAmountField = new STextField(getPropertyName("amount"),70);
+			itemDiscountAmountField = new STextField(getPropertyName("amount"), 70);
 			itemDiscountAmountField.setStyleName("textfield_align_right");
 			itemDiscountAmountField.setImmediate(true);
 			itemDiscountAmountField.setId("itemDiscountAmountField");
@@ -616,32 +598,26 @@ public class POSSalesUI extends SparkLogic {
 
 			quantityTextField = new STextField(getPropertyName("quantity"), 80);
 			quantityTextField.setId("quantityTextField");
-			quantityTextField
-					.setDescription("Quantity of this Item (In seleceted Unit)");
+			quantityTextField.setDescription("Quantity of this Item (In seleceted Unit)");
 			quantityTextField.setValue("1");
 			quantityTextField.setHeight("30px");
 			quantityTextField.setStyleName("sup_textfield_align_right");
 
-			convertionQtyTextField = new STextField(
-					getPropertyName("convertion_qty"), 40);
+			convertionQtyTextField = new STextField(getPropertyName("convertion_qty"), 40);
 			convertionQtyTextField.setId("Cnv.Qty");
 			convertionQtyTextField.setStyleName("textfield_align_right");
 			convertionQtyTextField
 					.setDescription("Convertion Quantity (Value that convert basic unit to selected Unit)");
 
-			convertedQtyTextField = new STextField(
-					getPropertyName("converted_qty"), 60);
+			convertedQtyTextField = new STextField(getPropertyName("converted_qty"), 60);
 			convertedQtyTextField.setId("Cnvtd.Qty");
 			convertedQtyTextField.setStyleName("textfield_align_right");
-			convertedQtyTextField
-					.setDescription("Converted Quantity in Basic Unit");
+			convertedQtyTextField.setDescription("Converted Quantity in Basic Unit");
 			convertedQtyTextField.setReadOnly(true);
 
-			unitSelect = new SNativeSelect(getPropertyName("unit"), 60, null,
-					"id", "symbol");
+			unitSelect = new SNativeSelect(getPropertyName("unit"), 60, null, "id", "symbol");
 			unitSelect.setReadOnly(true);
-			unitPriceTextField = new STextField(getPropertyName("unit_price"),
-					100);
+			unitPriceTextField = new STextField(getPropertyName("unit_price"), 100);
 			unitPriceTextField.setId(null);
 			unitPriceTextField.setNewValue("0.00");
 			quantityTextField.setHeight("30px");
@@ -650,18 +626,16 @@ public class POSSalesUI extends SparkLogic {
 
 			if (taxEnable) {
 				taxSelect = new SNativeSelect(getPropertyName("tax"), 80,
-						taxDao.getAllActiveTaxesFromType(getOfficeID(),
-								SConstants.tax.SALES_TAX), "id", "name");
+						taxDao.getAllActiveTaxesFromType(getOfficeID(), SConstants.tax.SALES_TAX), "id", "name");
 				taxSelect.setVisible(true);
 			} else {
-				taxSelect = new SNativeSelect(getPropertyName("tax"), 80, null,
-						"id", "name");
+				taxSelect = new SNativeSelect(getPropertyName("tax"), 80, null, "id", "name");
 				taxSelect.setVisible(false);
 			}
 
 			/*
-			 * discountTextField = new STextField(getPropertyName("discount"),
-			 * 80,"0.0"); discountTextField.setId("Discount");
+			 * discountTextField = new STextField(getPropertyName("discount"), 80,"0.0");
+			 * discountTextField.setId("Discount");
 			 * discountTextField.setStyleName("textfield_align_right");
 			 */
 
@@ -671,35 +645,29 @@ public class POSSalesUI extends SparkLogic {
 			netPriceTextField.setStyleName("sup_textfield_align_right");
 			netPriceTextField.setHeight("30px");
 
-			billTypeField = new SRadioButton(null, 100, Arrays.asList(
-					new KeyValue(SConstants.BILL_TYPE_NORMAL,
-							getPropertyName("normal")), new KeyValue(
-							SConstants.BILL_TYPE_EXCHANGE,
-							getPropertyName("exchange"))), "intKey", "value");
+			billTypeField = new SRadioButton(null, 100,
+					Arrays.asList(new KeyValue(SConstants.BILL_TYPE_NORMAL, getPropertyName("normal")),
+							new KeyValue(SConstants.BILL_TYPE_EXCHANGE, getPropertyName("exchange"))),
+					"intKey", "value");
 			billTypeField.setValue(SConstants.BILL_TYPE_NORMAL);
 			billTypeField.setId("billTypeField");
 
-			paymentModeCombo = new SComboField(getPropertyName("payment_mode"),
-					150, getPaymentModeList(), "id", "description");
-			paymentModeCombo.setInputPrompt("--------- "
-					+ getPropertyName("select") + " --------");
+			paymentModeCombo = new SComboField(getPropertyName("payment_mode"), 150, getPaymentModeList(), "id",
+					"description");
+			paymentModeCombo.setInputPrompt("--------- " + getPropertyName("select") + " --------");
 
-			paymentAmountTextField = new SCurrencyField(
-					getPropertyName("payment_amount"), 100, getWorkingDate());
+			paymentAmountTextField = new SCurrencyField(getPropertyName("payment_amount"), 100, getWorkingDate());
 			paymentAmountTextField.setId("payment_mode");
 			paymentAmountTextField.setValue(0.00);
-			paymentAmountTextField.amountField
-					.setStyleName("sup_textfield_align_right");
+			paymentAmountTextField.amountField.setStyleName("sup_textfield_align_right");
 			paymentAmountTextField.setHeight("30px");
 			paymentAmountTextField.setReadOnly(true);
 
 			addPaymentModeButton = new SButton(null, "Add Payment Amount");
-			addPaymentModeButton
-					.setIcon(new ThemeResource("icons/load_all.png"));
+			addPaymentModeButton.setIcon(new ThemeResource("icons/load_all.png"));
 			addPaymentModeButton.setStyleName("deletebtnStyle");
 
-			balanceAmountTextField = new STextField(getPropertyName("balance"),
-					100);
+			balanceAmountTextField = new STextField(getPropertyName("balance"), 100);
 			balanceAmountTextField.setId("payment_mode");
 			balanceAmountTextField.setValue("0.00");
 			balanceAmountTextField.setStyleName("sup_textfield_align_right");
@@ -720,15 +688,13 @@ public class POSSalesUI extends SparkLogic {
 			paymentAmountTable.setMultiSelect(true);
 			// paymentAmountTable.set
 
-			paymentAmountTable.addContainerProperty(TBP_SN, Integer.class,
-					null, "#", null, Align.CENTER);
-			paymentAmountTable.addContainerProperty(TBP_PAYMENT_MODE_ID,
-					Long.class, null, TBP_PAYMENT_MODE_ID, null, Align.LEFT);
-			paymentAmountTable.addContainerProperty(TBP_PAYMENT_MODE,
-					String.class, null, TBP_PAYMENT_MODE, null, Align.LEFT);
-			paymentAmountTable.addContainerProperty(TBP_PAYMENT_AMOUNT_FIELD,
-					STextField.class, null, TBP_PAYMENT_AMOUNT_FIELD, null,
-					Align.RIGHT);
+			paymentAmountTable.addContainerProperty(TBP_SN, Integer.class, null, "#", null, Align.CENTER);
+			paymentAmountTable.addContainerProperty(TBP_PAYMENT_MODE_ID, Long.class, null, TBP_PAYMENT_MODE_ID, null,
+					Align.LEFT);
+			paymentAmountTable.addContainerProperty(TBP_PAYMENT_MODE, String.class, null, TBP_PAYMENT_MODE, null,
+					Align.LEFT);
+			paymentAmountTable.addContainerProperty(TBP_PAYMENT_AMOUNT_FIELD, STextField.class, null,
+					TBP_PAYMENT_AMOUNT_FIELD, null, Align.RIGHT);
 
 			paymentAmountTable.setColumnFooter(TBP_PAYMENT_MODE, "Total");
 
@@ -737,21 +703,17 @@ public class POSSalesUI extends SparkLogic {
 			// paymentAmountPopup.setWidth("300");
 			// paymentAmountPopup.setHeight("0");
 
-			expiry_date = new SDateField(getPropertyName("exp_date"), 100,
-					"dd/MMM/yyyy", new Date());
-			manufaturing_date = new SDateField(getPropertyName("mfg_date"),
-					100, "dd/MMM/yyyy", new Date());
+			expiry_date = new SDateField(getPropertyName("exp_date"), 100, "dd/MMM/yyyy", new Date());
+			manufaturing_date = new SDateField(getPropertyName("mfg_date"), 100, "dd/MMM/yyyy", new Date());
 			itemSelectCombo = new SListSelect(getPropertyName("item"), 250, 400);
 			itemSelectCombo.setNullSelectionAllowed(false);
 			itemSelectCombo.setStyleName("sup_select_list_style");
 			itemSelectCombo.setImmediate(true);
 
-			List catList = new ItemSubGroupDao()
-					.getAllActiveItemSubGroupsNames(getOrganizationID());
+			List catList = new ItemSubGroupDao().getAllActiveItemSubGroupsNames(getOrganizationID());
 			catList.add(0, new ItemSubGroupModel(0, "ALL"));
 
-			categorySelectList = new SListSelect(getPropertyName("category"),
-					250, 400, catList, "id", "name");
+			categorySelectList = new SListSelect(getPropertyName("category"), 250, 400, catList, "id", "name");
 			categorySelectList.setNullSelectionAllowed(false);
 			categorySelectList.setStyleName("sup_select_list_style");
 			categorySelectList.setImmediate(true);
@@ -770,8 +732,7 @@ public class POSSalesUI extends SparkLogic {
 			itemComboField.setInputPrompt(getPropertyName("select"));
 			itemComboField.setId("itemComboField");
 
-			stockSelectList = new SListSelect(getPropertyName("stock"), 300,
-					200);
+			stockSelectList = new SListSelect(getPropertyName("stock"), 300, 200);
 			// stockSelectList.setMultiSelect(true);
 
 			netPriceTextField.setReadOnly(true);
@@ -822,8 +783,7 @@ public class POSSalesUI extends SparkLogic {
 			popupHor = new SHorizontalLayout();
 			popupHor.addComponent(unitPriceTextField);
 			popupHor.addComponent(priceListButton);
-			popupHor.setComponentAlignment(priceListButton,
-					Alignment.BOTTOM_LEFT);
+			popupHor.setComponentAlignment(priceListButton, Alignment.BOTTOM_LEFT);
 
 			SVerticalLayout vert = new SVerticalLayout();
 			vert.addComponent(unitMapButton);
@@ -839,8 +799,7 @@ public class POSSalesUI extends SparkLogic {
 			priceListButton.setStyleName("showHistoryBtnStyle");
 
 			addingGrid.addComponent(selectItemButton);
-			addingGrid.setComponentAlignment(selectItemButton,
-					Alignment.MIDDLE_CENTER);
+			addingGrid.setComponentAlignment(selectItemButton, Alignment.MIDDLE_CENTER);
 
 			SHorizontalLayout radioLayout = new SHorizontalLayout();
 			radioLayout.setSpacing(true);
@@ -852,16 +811,15 @@ public class POSSalesUI extends SparkLogic {
 				discountRadio.setVisible(false);
 				discountPercentField.setVisible(false);
 				discountAmountField.setVisible(false);
-			}else{
-				boolean discountEnable=true;
+			} else {
+				boolean discountEnable = true;
 				try {
-					discountEnable = new PrivilageSetupDao().isFacilityAccessibleToUser(
-							getOfficeID(),
+					discountEnable = new PrivilageSetupDao().isFacilityAccessibleToUser(getOfficeID(),
 							SConstants.privilegeTypes.SALES_DISCOUNT_ENABLED, getLoginID());
 				} catch (Exception e) {
-					discountEnable=false;
+					discountEnable = false;
 				}
-				if(!discountEnable){
+				if (!discountEnable) {
 					discountRadio.setVisible(false);
 					discountPercentField.setVisible(false);
 					discountAmountField.setVisible(false);
@@ -873,11 +831,9 @@ public class POSSalesUI extends SparkLogic {
 				SHorizontalLayout barLay = new SHorizontalLayout();
 				barLay.addComponent(barcodeField);
 				barLay.addComponent(enterBarcodeButton);
-				barLay.setComponentAlignment(enterBarcodeButton,
-						Alignment.MIDDLE_CENTER);
+				barLay.setComponentAlignment(enterBarcodeButton, Alignment.MIDDLE_CENTER);
 				addingGrid.addComponent(barLay);
-				addingGrid.setComponentAlignment(barLay,
-						Alignment.MIDDLE_CENTER);
+				addingGrid.setComponentAlignment(barLay, Alignment.MIDDLE_CENTER);
 			}
 			// addingGrid.addComponent(hrz1);
 
@@ -903,8 +859,7 @@ public class POSSalesUI extends SparkLogic {
 			// addingGrid.addComponent(balanceAmountTextField);
 
 			addingGrid.addComponent(buttonLay);
-			addingGrid
-					.setComponentAlignment(buttonLay, Alignment.MIDDLE_CENTER);
+			addingGrid.setComponentAlignment(buttonLay, Alignment.MIDDLE_CENTER);
 
 			addingGrid.setColumnExpandRatio(0, 0.4f);
 			addingGrid.setColumnExpandRatio(1, 1f);
@@ -933,54 +888,43 @@ public class POSSalesUI extends SparkLogic {
 
 			table.setMultiSelect(true);
 
-			table.addContainerProperty(TBC_SN, Integer.class, null, "#", null,
-					Align.CENTER);
-			table.addContainerProperty(TBC_ITEM_ID, Long.class, null,
-					TBC_ITEM_ID, null, Align.CENTER);
-			table.addContainerProperty(TBC_ITEM_NAME, String.class, null,
-					getPropertyName("item_name"), null, Align.LEFT);
-			table.addContainerProperty(TBC_QTY, Double.class, null,
-					getPropertyName("quantity"), null, Align.CENTER);
-			table.addContainerProperty(TBC_UNIT_ID, Long.class, null,
-					TBC_UNIT_ID, null, Align.CENTER);
-			table.addContainerProperty(TBC_UNIT, String.class, null,
-					getPropertyName("unit"), null, Align.CENTER);
-			table.addContainerProperty(TBC_UNIT_PRICE, Double.class, null,
-					getPropertyName("unit_price"), null, Align.RIGHT);
-			table.addContainerProperty(TBC_TAX_ID, Long.class, null,
-					TBC_TAX_ID, null, Align.CENTER);
-			table.addContainerProperty(TBC_TAX_PERC, Double.class, null,
-					getPropertyName("tax_percentage"), null, Align.RIGHT);
-			table.addContainerProperty(TBC_TAX_AMT, Double.class, null,
-					getPropertyName("tax_amount"), null, Align.RIGHT);
-			table.addContainerProperty(TBC_DISCOUNT_TYPE, Integer.class, null,
-					"Discount Type", null, Align.CENTER);
-			table.addContainerProperty(TBC_DISCOUNT_PERCENTAGE, Double.class,
-					null, getPropertyName("discount") + " %", null,
-					Align.CENTER);
-			table.addContainerProperty(TBC_DISCOUNT, Double.class, null,
-					getPropertyName("discount"), null, Align.CENTER);
-			table.addContainerProperty(TBC_NET_PRICE, Double.class, null,
-					getPropertyName("net_price"), null, Align.RIGHT);
-			table.addContainerProperty(TBC_PO_ID, Long.class, null, TBC_PO_ID,
+			table.addContainerProperty(TBC_SN, Integer.class, null, "#", null, Align.CENTER);
+			table.addContainerProperty(TBC_ITEM_ID, Long.class, null, TBC_ITEM_ID, null, Align.CENTER);
+			table.addContainerProperty(TBC_ITEM_NAME, String.class, null, getPropertyName("item_name"), null,
+					Align.LEFT);
+			table.addContainerProperty(TBC_QTY, Double.class, null, getPropertyName("quantity"), null, Align.CENTER);
+			table.addContainerProperty(TBC_UNIT_ID, Long.class, null, TBC_UNIT_ID, null, Align.CENTER);
+			table.addContainerProperty(TBC_UNIT, String.class, null, getPropertyName("unit"), null, Align.CENTER);
+			table.addContainerProperty(TBC_UNIT_PRICE, Double.class, null, getPropertyName("unit_price"), null,
+					Align.RIGHT);
+			table.addContainerProperty(TBC_TAX_ID, Long.class, null, TBC_TAX_ID, null, Align.CENTER);
+			table.addContainerProperty(TBC_TAX_PERC, Double.class, null, getPropertyName("tax_percentage"), null,
+					Align.RIGHT);
+			table.addContainerProperty(TBC_TAX_AMT, Double.class, null, getPropertyName("tax_amount"), null,
+					Align.RIGHT);
+			table.addContainerProperty(TBC_DISCOUNT_TYPE, Integer.class, null, "Discount Type", null, Align.CENTER);
+			table.addContainerProperty(TBC_DISCOUNT_PERCENTAGE, Double.class, null, getPropertyName("discount") + " %",
 					null, Align.CENTER);
-			table.addContainerProperty(TBC_INV_ID, Long.class, null,
-					TBC_INV_ID, null, Align.CENTER);
-			table.addContainerProperty(TBC_NET_TOTAL, Double.class, null,
-					getPropertyName("net_total"), null, Align.RIGHT);
-			table.addContainerProperty(TBC_NET_FINAL, Double.class, null,
-					getPropertyName("final_amount"), null, Align.RIGHT);
-			table.addContainerProperty(TBC_STOCK_ID, Long.class, null,
-					TBC_STOCK_ID, null, Align.RIGHT);
+			table.addContainerProperty(TBC_DISCOUNT, Double.class, null, getPropertyName("discount"), null,
+					Align.CENTER);
+			table.addContainerProperty(TBC_NET_PRICE, Double.class, null, getPropertyName("net_price"), null,
+					Align.RIGHT);
+			table.addContainerProperty(TBC_PO_ID, Long.class, null, TBC_PO_ID, null, Align.CENTER);
+			table.addContainerProperty(TBC_INV_ID, Long.class, null, TBC_INV_ID, null, Align.CENTER);
+			table.addContainerProperty(TBC_NET_TOTAL, Double.class, null, getPropertyName("net_total"), null,
+					Align.RIGHT);
+			table.addContainerProperty(TBC_NET_FINAL, Double.class, null, getPropertyName("final_amount"), null,
+					Align.RIGHT);
+			table.addContainerProperty(TBC_STOCK_ID, Long.class, null, TBC_STOCK_ID, null, Align.RIGHT);
 
-			table.addContainerProperty(TBC_CONVERTION_QTY, Double.class, null,
-					getPropertyName("convertion_qty"), null, Align.RIGHT);
+			table.addContainerProperty(TBC_CONVERTION_QTY, Double.class, null, getPropertyName("convertion_qty"), null,
+					Align.RIGHT);
 
-			table.addContainerProperty(TBC_QTY_IN_BASIC_UNI, Double.class,
-					null, getPropertyName("qty_basic_unit"), null, Align.RIGHT);
+			table.addContainerProperty(TBC_QTY_IN_BASIC_UNI, Double.class, null, getPropertyName("qty_basic_unit"),
+					null, Align.RIGHT);
 
-			table.addContainerProperty(TBC_BILL_TYPE_ID, Integer.class, null,
-					getPropertyName("bill_type_id"), null, Align.RIGHT);
+			table.addContainerProperty(TBC_BILL_TYPE_ID, Integer.class, null, getPropertyName("bill_type_id"), null,
+					Align.RIGHT);
 
 			// table.addContainerProperty(TBC_PAYMENT_MODE_ID, Long.class,
 			// null, getPropertyName("payment_mode_id"), null, Align.RIGHT);
@@ -1025,7 +969,7 @@ public class POSSalesUI extends SparkLogic {
 			// Adjust the table height a bit
 			table.setPageLength(table.size());
 
-			table.setWidth(getUI().getCurrent().getPage().getBrowserWindowWidth()- 50 + "px");
+			table.setWidth(getUI().getCurrent().getPage().getBrowserWindowWidth() - 50 + "px");
 			table.setHeight("320");
 
 			// table.setSizeFull();
@@ -1058,16 +1002,16 @@ public class POSSalesUI extends SparkLogic {
 				itemDiscountAmountField.setVisible(false);
 			}
 
-			bottomGrid.addComponent(new SLabel(getPropertyName("comment")), 0,1);
+			bottomGrid.addComponent(new SLabel(getPropertyName("comment")), 0, 1);
 			bottomGrid.addComponent(comment, 1, 1);
 
-			bottomGrid.addComponent(new SLabel(getPropertyName("net_amount")),7, 1);
+			bottomGrid.addComponent(new SLabel(getPropertyName("net_amount")), 7, 1);
 			bottomGrid.addComponent(grandTotalAmtTextField, 9, 1);
 
 			// bottomGrid.addComponent(new SLabel("Paying Amt :"), 3, 1);
 			// bottomGrid.addComponent(payingAmountTextField, 5, 1);
 
-			bottomGrid.setComponentAlignment(grandTotalAmtTextField,Alignment.TOP_RIGHT);
+			bottomGrid.setComponentAlignment(grandTotalAmtTextField, Alignment.TOP_RIGHT);
 
 			saveButton = new SButton(getPropertyName("save"), 70);
 			saveButton.setStyleName("savebtnStyle");
@@ -1086,48 +1030,49 @@ public class POSSalesUI extends SparkLogic {
 			cancelButton = new SButton(getPropertyName("cancel"), 78);
 			cancelButton.setIcon(new ThemeResource("icons/deleteSideIcon.png"));
 			cancelButton.setStyleName("deletebtnStyle");
-			
+
 			holdButton = new SButton(getPropertyName("hold"), 70);
 			holdButton.setStyleName("savebtnStyle");
-			//holdButton.setIcon(new ThemeResource("icons/saveSideIcon.png"));
+			// holdButton.setIcon(new ThemeResource("icons/saveSideIcon.png"));
 			holdButton.setId("holdButton");
-			
+
 			recallButton = new SButton(getPropertyName("recall"), 70);
 			recallButton.setStyleName("savebtnStyle");
-			//recallButton.setIcon(new ThemeResource("icons/saveSideIcon.png"));
+			// recallButton.setIcon(new ThemeResource("icons/saveSideIcon.png"));
 			recallButton.setId("recallButton");
-			
 
 			SHorizontalLayout mainButtonLayout = new SHorizontalLayout();
-		//	mainButtonLayout.setSizeFull();
+			// mainButtonLayout.setSizeFull();
 			mainButtonLayout.addComponent(saveButton);
 			mainButtonLayout.addComponent(updateButton);
 			mainButtonLayout.addComponent(holdButton);
 			mainButtonLayout.addComponent(recallButton);
-			if (!settings.isKEEP_DELETED_DATA()){
+			if (!settings.isKEEP_DELETED_DATA()) {
 				mainButtonLayout.addComponent(deleteButton);
-			//	mainButtonLayout.setComponentAlignment(deleteButton, Alignment.BOTTOM_CENTER);
-			}	else {
+				// mainButtonLayout.setComponentAlignment(deleteButton,
+				// Alignment.BOTTOM_CENTER);
+			} else {
 				mainButtonLayout.addComponent(cancelButton);
-			//	mainButtonLayout.setComponentAlignment(cancelButton, Alignment.BOTTOM_CENTER);
+				// mainButtonLayout.setComponentAlignment(cancelButton,
+				// Alignment.BOTTOM_CENTER);
 			}
-				
-			
-		//	mainButtonLayout.setComponentAlignment(saveButton, Alignment.BOTTOM_CENTER);
-		//	mainButtonLayout.setComponentAlignment(updateButton, Alignment.BOTTOM_CENTER);
+
+			// mainButtonLayout.setComponentAlignment(saveButton, Alignment.BOTTOM_CENTER);
+			// mainButtonLayout.setComponentAlignment(updateButton,
+			// Alignment.BOTTOM_CENTER);
 			SVerticalLayout buttonVerticalLayout = new SVerticalLayout();
 			buttonVerticalLayout.setSizeFull();
 			buttonVerticalLayout.addComponent(mainButtonLayout);
-			
+
 			buttonVerticalLayout.setComponentAlignment(mainButtonLayout, Alignment.BOTTOM_CENTER);
-			
+
 			updateButton.setVisible(false);
 			deleteButton.setVisible(false);
 			cancelButton.setVisible(false);
 
 			// buttonsGrid.addComponent(new SLabel("Payment Mode"), 0, 0);
 			// buttonsGrid.addComponent(cashChequeRadio, 1, 0);
-		//	buttonsGrid.addComponent(mainButtonLayout, 3, 0);
+			// buttonsGrid.addComponent(mainButtonLayout, 3, 0);
 			buttonsGrid.addComponent(radioLayout, 4, 0);
 			// buttonsGrid.addComponent(
 			// new SLabel(getPropertyName("total_amount")), 5, 0);
@@ -1161,7 +1106,7 @@ public class POSSalesUI extends SparkLogic {
 			// form.addComponent(bottomGrid);
 			form.addComponent(buttonsGrid);
 			form.addComponent(buttonVerticalLayout);
-			
+
 			form.setComponentAlignment(buttonVerticalLayout, Alignment.BOTTOM_CENTER);
 
 			hLayout.addComponent(popupContainer);
@@ -1171,8 +1116,7 @@ public class POSSalesUI extends SparkLogic {
 			hLayout.setComponentAlignment(popupContainer, Alignment.TOP_CENTER);
 			hLayout.setComponentAlignment(popupLay, Alignment.TOP_CENTER);
 
-			windowNotif.addComponent(hLayout,
-					"left: 0px; right: 0px; z-index:-1;");
+			windowNotif.addComponent(hLayout, "left: 0px; right: 0px; z-index:-1;");
 
 			customerSelect.focus();
 
@@ -1184,37 +1128,33 @@ public class POSSalesUI extends SparkLogic {
 			poWindow.center();
 			poWindow.setResizable(false);
 			poWindow.setModal(true);
-	//		poWindow.setCloseShortcut(KeyCode.ESCAPE);
+			// poWindow.setCloseShortcut(KeyCode.ESCAPE);
 			SFormLayout fr1 = new SFormLayout();
 			poWindow.addComponent(fr1);
 
-			newCustomerWindow = new SDialogBox(getPropertyName("add_customer"),
-					700, 600);
+			newCustomerWindow = new SDialogBox(getPropertyName("add_customer"), 700, 600);
 			newCustomerWindow.center();
 			newCustomerWindow.setResizable(false);
 			newCustomerWindow.setModal(true);
-	//		newCustomerWindow.setCloseShortcut(KeyCode.ESCAPE);
+			// newCustomerWindow.setCloseShortcut(KeyCode.ESCAPE);
 			salesCustomerPanel = new SalesCustomerPanel();
 			newCustomerWindow.addComponent(salesCustomerPanel);
 
-			newItemWindow = new SDialogBox(getPropertyName("add_item"), 500,
-					600);
+			newItemWindow = new SDialogBox(getPropertyName("add_item"), 500, 600);
 			newItemWindow.center();
 			newItemWindow.setResizable(false);
 			newItemWindow.setModal(true);
-	//		newItemWindow.setCloseShortcut(KeyCode.ESCAPE);
+			// newItemWindow.setCloseShortcut(KeyCode.ESCAPE);
 			itemPanel = new ItemPanel();
 			newItemWindow.addComponent(itemPanel);
 
 			stockSelectList.setNullSelectionAllowed(false);
 
 			if (settings.getDEFAULT_CUSTOMER() == 0) {
-				SNotification.show(getPropertyName("default_customer"),
-						Type.ERROR_MESSAGE);
+				SNotification.show(getPropertyName("default_customer"), Type.ERROR_MESSAGE);
 			}
 
-			table.addShortcutListener(new ShortcutListener("Delete Item",
-					ShortcutAction.KeyCode.DELETE,
+			table.addShortcutListener(new ShortcutListener("Delete Item", ShortcutAction.KeyCode.DELETE,
 					new int[] { ShortcutAction.ModifierKey.SHIFT }) {
 				@Override
 				public void handleAction(Object sender, Object target) {
@@ -1223,12 +1163,11 @@ public class POSSalesUI extends SparkLogic {
 			});
 
 			/*
-			 * table.addShortcutListener(new
-			 * ShortcutListener("Add New Purchase", ShortcutAction.KeyCode.N,
-			 * new int[] { ShortcutAction.ModifierKey.ALT }) {
+			 * table.addShortcutListener(new ShortcutListener("Add New Purchase",
+			 * ShortcutAction.KeyCode.N, new int[] { ShortcutAction.ModifierKey.ALT }) {
 			 * 
-			 * @Override public void handleAction(Object sender, Object target)
-			 * { loadSale(0); } });
+			 * @Override public void handleAction(Object sender, Object target) {
+			 * loadSale(0); } });
 			 */
 
 //			table.addShortcutListener(new ShortcutListener(
@@ -1244,16 +1183,14 @@ public class POSSalesUI extends SparkLogic {
 
 			table.addActionHandler(new Action.Handler() {
 				@Override
-				public Action[] getActions(final Object target,
-						final Object sender) {
+				public Action[] getActions(final Object target, final Object sender) {
 					// if(deleteItemButton.isVisible())
 					// deleteItemButton.click();
 					return new Action[] { actionDelete };
 				}
 
 				@Override
-				public void handleAction(final Action action,
-						final Object sender, final Object target) {
+				public void handleAction(final Action action, final Object sender, final Object target) {
 					deleteItem();
 				}
 
@@ -1264,13 +1201,9 @@ public class POSSalesUI extends SparkLogic {
 				public void buttonClick(ClickEvent event) {
 					if (event.getButton().getId().equals("1")) {
 						try {
-							saveReportedIssue(getOptionId(),
-									confirmBox.getComments(),
-									(Long) salesNumberList.getValue(),
-									confirmBox.getUserID());
-							Notification.show("Success",
-									"Session Saved Successfully..!",
-									Type.WARNING_MESSAGE);
+							saveReportedIssue(getOptionId(), confirmBox.getComments(),
+									(Long) salesNumberList.getValue(), confirmBox.getUserID());
+							Notification.show("Success", "Session Saved Successfully..!", Type.WARNING_MESSAGE);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -1285,34 +1218,19 @@ public class POSSalesUI extends SparkLogic {
 			ClickListener clickListnr = new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
-					if (event.getButton().getId()
-							.equals(windowNotif.SAVE_SESSION)) {
-						if (salesNumberList.getValue() != null
-								&& !salesNumberList.getValue().toString()
-										.equals("0")) {
-							saveSessionActivity(
-									getOptionId(),
-									(Long) salesNumberList.getValue(),
-									"Sales : No. "
-											+ salesNumberList
-													.getItemCaption(salesNumberList
-															.getValue()));
-							Notification.show("Success",
-									"Session Saved Successfully..!",
-									Type.WARNING_MESSAGE);
+					if (event.getButton().getId().equals(windowNotif.SAVE_SESSION)) {
+						if (salesNumberList.getValue() != null && !salesNumberList.getValue().toString().equals("0")) {
+							saveSessionActivity(getOptionId(), (Long) salesNumberList.getValue(),
+									"Sales : No. " + salesNumberList.getItemCaption(salesNumberList.getValue()));
+							Notification.show("Success", "Session Saved Successfully..!", Type.WARNING_MESSAGE);
 						} else
-							Notification.show("Select an Invoice..!",
-									"Select an Invoice for save in session",
+							Notification.show("Select an Invoice..!", "Select an Invoice for save in session",
 									Type.HUMANIZED_MESSAGE);
-					} else if (event.getButton().getId()
-							.equals(windowNotif.REPORT_ISSUE)) {
-						if (salesNumberList.getValue() != null
-								&& !salesNumberList.getValue().toString()
-										.equals("0")) {
+					} else if (event.getButton().getId().equals(windowNotif.REPORT_ISSUE)) {
+						if (salesNumberList.getValue() != null && !salesNumberList.getValue().toString().equals("0")) {
 							confirmBox.open();
 						} else
-							Notification.show("Select an Invoice..!",
-									"Select an Invoice for Save in session",
+							Notification.show("Select an Invoice..!", "Select an Invoice for Save in session",
 									Type.HUMANIZED_MESSAGE);
 					} else {
 						try {
@@ -1384,102 +1302,86 @@ public class POSSalesUI extends SparkLogic {
 			});
 			itemDiscountRadio.setValue(1);
 
-			discountPercentField
-					.addValueChangeListener(new ValueChangeListener() {
+			discountPercentField.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
-							double total = roundNumber(toDouble(table
-									.getColumnFooter(TBC_NET_PRICE).trim()));
-							double discountPer = 0, discount = 0;
-							try {
-								discountPer = toDouble(discountPercentField
-										.getValue().toString().trim());
-							} catch (Exception e) {
-								discountPer = 0;
-							}
-							discountPercentField
-									.setNewValue(roundNumber(discountPer) + "");
-							discount = roundNumber((total) * discountPer / 100);
-							discountAmountField
-									.setNewValue(roundNumber(discount) + "");
-							calculateTotals();
-						}
-					});
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					double total = roundNumber(toDouble(table.getColumnFooter(TBC_NET_PRICE).trim()));
+					double discountPer = 0, discount = 0;
+					try {
+						discountPer = toDouble(discountPercentField.getValue().toString().trim());
+					} catch (Exception e) {
+						discountPer = 0;
+					}
+					discountPercentField.setNewValue(roundNumber(discountPer) + "");
+					discount = roundNumber((total) * discountPer / 100);
+					discountAmountField.setNewValue(roundNumber(discount) + "");
+					calculateTotals();
+				}
+			});
 
-			paymentAmountTextField.amountField
-					.addValueChangeListener(new ValueChangeListener() {
+			paymentAmountTextField.amountField.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
-							calculateBalance();
-						}
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					calculateBalance();
+				}
 
-					});
+			});
 
-			discountAmountField
-					.addValueChangeListener(new ValueChangeListener() {
+			discountAmountField.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
-							calculateTotals();
-						}
-					});
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					calculateTotals();
+				}
+			});
 
-			itemDiscountPercentField
-					.addValueChangeListener(new ValueChangeListener() {
+			itemDiscountPercentField.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
-							double qty = 0, price = 0;
-							double discountPer = 0, discount = 0;
-							try {
-								qty = roundNumber(toDouble(quantityTextField
-										.getValue().trim()));
-							} catch (Exception e1) {
-								qty = 0;
-							}
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					double qty = 0, price = 0;
+					double discountPer = 0, discount = 0;
+					try {
+						qty = roundNumber(toDouble(quantityTextField.getValue().trim()));
+					} catch (Exception e1) {
+						qty = 0;
+					}
 
-							try {
-								price = roundNumber(toDouble(unitPriceTextField
-										.getValue().trim()));
-							} catch (Exception e1) {
-								price = 0;
-							}
+					try {
+						price = roundNumber(toDouble(unitPriceTextField.getValue().trim()));
+					} catch (Exception e1) {
+						price = 0;
+					}
 
-							try {
-								discountPer = toDouble(itemDiscountPercentField
-										.getValue().toString().trim());
-							} catch (Exception e) {
-								discountPer = 0;
-							}
-							itemDiscountPercentField
-									.setNewValue(roundNumber(discountPer) + "");
-							discount = roundNumber((qty * price) * discountPer
-									/ 100);
-							itemDiscountAmountField
-									.setNewValue(roundNumber(discount) + "");
-							calculateTotals();
-						}
-					});
+					try {
+						discountPer = toDouble(itemDiscountPercentField.getValue().toString().trim());
+					} catch (Exception e) {
+						discountPer = 0;
+					}
+					itemDiscountPercentField.setNewValue(roundNumber(discountPer) + "");
+					discount = roundNumber((qty * price) * discountPer / 100);
+					itemDiscountAmountField.setNewValue(roundNumber(discount) + "");
+					calculateTotals();
+				}
+			});
 
-			itemDiscountAmountField
-					.addValueChangeListener(new ValueChangeListener() {
+			itemDiscountAmountField.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
-							calculateNetPrice();
-						}
-					});
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					calculateNetPrice();
+				}
+			});
 
-			payingAmountTextField
-					.addValueChangeListener(new ValueChangeListener() {
+			payingAmountTextField.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
-							calculateBalance();
-						}
-					});
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					calculateBalance();
+				}
+			});
 			selectItemButton.addClickListener(new ClickListener() {
 
 				@Override
@@ -1500,70 +1402,56 @@ public class POSSalesUI extends SparkLogic {
 						// if(!((STextField)focusedComponent).getValue().equals("0"))
 						// keyboardTextField.setValue(((STextField)focusedComponent).getValue());
 						keyboardTextField.setValue("");
-						keyboardTextField.setCaption(((STextField) event
-								.getSource()).getId());
+						keyboardTextField.setCaption(((STextField) event.getSource()).getId());
 						keyboardTextField.setComponentError(null);
 						keyboardTextField.selectAll();
 					}
 				}
 			};
 
-			enterBarcodeButton
-					.addValueChangeListener(new ValueChangeListener() {
+			enterBarcodeButton.addValueChangeListener(new ValueChangeListener() {
 
-						@Override
-						public void valueChange(ValueChangeEvent event) {
+				@Override
+				public void valueChange(ValueChangeEvent event) {
 
-							if (enterBarcodeButton.getValue()) {
-								barcodeField.addFocusListener(focusListener);
-							} else {
-								barcodeField.removeFocusListener(focusListener);
-							}
-							barcodeField.focus();
-						}
-					});
+					if (enterBarcodeButton.getValue()) {
+						barcodeField.addFocusListener(focusListener);
+					} else {
+						barcodeField.removeFocusListener(focusListener);
+					}
+					barcodeField.focus();
+				}
+			});
 
 			ClickListener keyBoardListener = new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
 
 					if (event.getComponent().getId().equals("1")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "1");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "1");
 					} else if (event.getComponent().getId().equals("2")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "2");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "2");
 					} else if (event.getComponent().getId().equals("3")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "3");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "3");
 					} else if (event.getComponent().getId().equals("4")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "4");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "4");
 					} else if (event.getComponent().getId().equals("5")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "5");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "5");
 					} else if (event.getComponent().getId().equals("6")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "6");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "6");
 					} else if (event.getComponent().getId().equals("7")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "7");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "7");
 					} else if (event.getComponent().getId().equals("8")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "8");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "8");
 					} else if (event.getComponent().getId().equals("9")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "9");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "9");
 					} else if (event.getComponent().getId().equals("0")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "0");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "0");
 					} else if (event.getComponent().getId().equals("00")) {
-						keyboardTextField.setValue(keyboardTextField.getValue()
-								+ "00");
+						keyboardTextField.setValue(keyboardTextField.getValue() + "00");
 					} else if (event.getComponent().getId().equals(".")) {
 						if (!keyboardTextField.getValue().contains("."))
-							keyboardTextField.setValue(keyboardTextField
-									.getValue() + ".");
+							keyboardTextField.setValue(keyboardTextField.getValue() + ".");
 					} else if (event.getComponent().getId().equals("Clr")) {
 						keyboardTextField.setValue("");
 					} else if (event.getComponent().getId().equals("Close")) {
@@ -1571,18 +1459,14 @@ public class POSSalesUI extends SparkLogic {
 						popKeyboad.setPopupVisible(false);
 					} else if (event.getComponent().getId().equals("Del")) {
 						if (keyboardTextField.getValue().length() > 0) {
-							keyboardTextField.setValue(keyboardTextField
-									.getValue().substring(
-											0,
-											keyboardTextField.getValue()
-													.length() - 1));
+							keyboardTextField.setValue(keyboardTextField.getValue().substring(0,
+									keyboardTextField.getValue().length() - 1));
 						}
 					} else if (event.getComponent().getId().equals("Enter")) {
 
 						if (isAddingValidIncludingZero(keyboardTextField)) {
 
-							((STextField) focusedComponent)
-									.setValue(keyboardTextField.getValue());
+							((STextField) focusedComponent).setValue(keyboardTextField.getValue());
 
 							if (focusType == 1) {
 								addItemButton.click();
@@ -1612,7 +1496,7 @@ public class POSSalesUI extends SparkLogic {
 			changeStkButton.addClickListener(new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
-					if (itemSelectCombo.getValue() != null	&& unitSelect.getValue() != null) {
+					if (itemSelectCombo.getValue() != null && unitSelect.getValue() != null) {
 						try {
 							SFormLayout lay = new SFormLayout();
 							lay.setWidth("400");
@@ -1628,7 +1512,8 @@ public class POSSalesUI extends SparkLogic {
 							e.printStackTrace();
 						}
 					} else {
-						SPopupView pop = new SPopupView("", new SFormLayout(getPropertyName("select_item_unit"), 200, 80));
+						SPopupView pop = new SPopupView("",
+								new SFormLayout(getPropertyName("select_item_unit"), 200, 80));
 						hrz1.addComponent(pop);
 						pop.setPopupVisible(true);
 					}
@@ -1638,18 +1523,20 @@ public class POSSalesUI extends SparkLogic {
 			priceListButton.addClickListener(new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
-					if (itemSelectCombo.getValue() != null	&& unitSelect.getValue() != null) {
+					if (itemSelectCombo.getValue() != null && unitSelect.getValue() != null) {
 						try {
 
 							STable table = new STable(getPropertyName("sales_rate_history"));
 
-							table.addContainerProperty("Date", Date.class,null, getPropertyName("date"), null,Align.CENTER);
-							table.addContainerProperty("Customer Name",String.class, null,getPropertyName("customer_name"), null,Align.LEFT);
-							table.addContainerProperty("Price", Double.class,null, getPropertyName("price"), null,Align.RIGHT);
-							table.setVisibleColumns(new String[] { "Date","Customer Name", "Price" });
+							table.addContainerProperty("Date", Date.class, null, getPropertyName("date"), null,
+									Align.CENTER);
+							table.addContainerProperty("Customer Name", String.class, null,
+									getPropertyName("customer_name"), null, Align.LEFT);
+							table.addContainerProperty("Price", Double.class, null, getPropertyName("price"), null,
+									Align.RIGHT);
+							table.setVisibleColumns(new String[] { "Date", "Customer Name", "Price" });
 
-							List list = daoObj.getSalesRateHistory(
-									(Long) itemSelectCombo.getValue(),
+							List list = daoObj.getSalesRateHistory((Long) itemSelectCombo.getValue(),
 									(Long) unitSelect.getValue(), getOfficeID());
 
 							Iterator it = list.iterator();
@@ -1659,13 +1546,12 @@ public class POSSalesUI extends SparkLogic {
 								objIn = (SalesInventoryDetailsPojo) it.next();
 								i++;
 								table.addItem(
-										new Object[] { objIn.getDate(),
-												objIn.getLedger_name(),
-												objIn.getUnit_price() }, i);
+										new Object[] { objIn.getDate(), objIn.getLedger_name(), objIn.getUnit_price() },
+										i);
 							}
 
 							table.setColumnExpandRatio("Date", (float) 0.5);
-							table.setColumnExpandRatio("Customer Name",(float) 1);
+							table.setColumnExpandRatio("Customer Name", (float) 1);
 							table.setColumnExpandRatio("Price", (float) 0.5);
 
 							table.setWidth("400");
@@ -1674,14 +1560,15 @@ public class POSSalesUI extends SparkLogic {
 
 							STable purchTable = new STable(getPropertyName("purchase_rate_history"));
 
-							purchTable.addContainerProperty("Date", Date.class,null, getPropertyName("date"), null,Align.CENTER);
-							purchTable.addContainerProperty("Supplier Name",String.class, null,getPropertyName("supplier_name"), null,
-									Align.LEFT);
-							purchTable.addContainerProperty("Price",Double.class, null,getPropertyName("price"), null,Align.RIGHT);
-							purchTable.setVisibleColumns(new String[] { "Date","Supplier Name", "Price" });
+							purchTable.addContainerProperty("Date", Date.class, null, getPropertyName("date"), null,
+									Align.CENTER);
+							purchTable.addContainerProperty("Supplier Name", String.class, null,
+									getPropertyName("supplier_name"), null, Align.LEFT);
+							purchTable.addContainerProperty("Price", Double.class, null, getPropertyName("price"), null,
+									Align.RIGHT);
+							purchTable.setVisibleColumns(new String[] { "Date", "Supplier Name", "Price" });
 
-							list = new PurchaseDao().getPurchaseRateHistory(
-									(Long) itemSelectCombo.getValue(),
+							list = new PurchaseDao().getPurchaseRateHistory((Long) itemSelectCombo.getValue(),
 									(Long) unitSelect.getValue(), getOfficeID());
 
 							it = list.iterator();
@@ -1690,10 +1577,8 @@ public class POSSalesUI extends SparkLogic {
 							while (it.hasNext()) {
 								objInvDet = (InventoryDetailsPojo) it.next();
 								i++;
-								purchTable.addItem(
-										new Object[] { objInvDet.getDate(),
-												objInvDet.getLedger_name(),
-												objInvDet.getUnit_price() }, i);
+								purchTable.addItem(new Object[] { objInvDet.getDate(), objInvDet.getLedger_name(),
+										objInvDet.getUnit_price() }, i);
 							}
 
 							purchTable.setColumnExpandRatio("Date", (float) 0.3);
@@ -1701,7 +1586,7 @@ public class POSSalesUI extends SparkLogic {
 							purchTable.setHeight("300");
 							purchTable.setSelectable(true);
 
-							SPopupView pop = new SPopupView("",new SHorizontalLayout(true, table,purchTable));
+							SPopupView pop = new SPopupView("", new SHorizontalLayout(true, table, purchTable));
 
 							popupHor.addComponent(pop);
 							pop.setPopupVisible(true);
@@ -1710,8 +1595,7 @@ public class POSSalesUI extends SparkLogic {
 							e.printStackTrace();
 						}
 					} else {
-						SPopupView pop = new SPopupView("", new SLabel(
-								getPropertyName("select_item_unit")));
+						SPopupView pop = new SPopupView("", new SLabel(getPropertyName("select_item_unit")));
 						popupHor.addComponent(pop);
 						pop.setPopupVisible(true);
 					}
@@ -1752,16 +1636,14 @@ public class POSSalesUI extends SparkLogic {
 					if (itemSelectCombo.getValue() != null) {
 						ItemModel itm = null;
 						try {
-							itm = itmDao.getItem((Long) itemSelectCombo
-									.getValue());
+							itm = itmDao.getItem((Long) itemSelectCombo.getValue());
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 						itemId = itm.getId();
 					}
 
-					popupWindow.setContent(new SetUnitManagementUI(itemId,
-							(Long) salesTypeSelect.getValue(), true));
+					popupWindow.setContent(new SetUnitManagementUI(itemId, (Long) salesTypeSelect.getValue(), true));
 
 					popupWindow.setWidth("910");
 					popupWindow.setHeight("498");
@@ -1821,40 +1703,21 @@ public class POSSalesUI extends SparkLogic {
 					try {
 
 						if (customerSelect.getValue() != null) {
-							CustomerModel cust = custDao
-									.getCustomerFromLedger((Long) customerSelect
-											.getValue());
+							CustomerModel cust = custDao.getCustomerFromLedger((Long) customerSelect.getValue());
 							if (cust != null) {
-								creditPeriodTextField.setValue(asString(cust
-										.getMax_credit_period()));
-								customerSelect
-										.setDescription("<h1><i>Current Balance</i> : "
-												+ cust.getLedger()
-														.getCurrent_balance()
-												+ "</h1>");
+								creditPeriodTextField.setValue(asString(cust.getMax_credit_period()));
+								customerSelect.setDescription("<h1><i>Current Balance</i> : "
+										+ cust.getLedger().getCurrent_balance() + "</h1>");
 
-								if (settings
-										.isDISABLE_SALES_FOR_CUSTOMERS_UNDER_CR_LIMIT()) {
-									customerSelect
-											.setDescription("<h1><i>Current Balance</i> : "
-													+ roundNumber(cust
-															.getLedger()
-															.getCurrent_balance())
-													+ "</h1><br>"
-													+ "<h2><i>Credit Limit</i> : "
-													+ cust.getCredit_limit()
-													+ "</h2>");
-									if ((salesNumberList.getValue() == null
-											|| salesNumberList.getValue()
-													.equals("") || salesNumberList
-											.getValue().toString().equals("0"))
-											&& (cust.getCredit_limit() < cust
-													.getLedger()
-													.getCurrent_balance())) {
+								if (settings.isDISABLE_SALES_FOR_CUSTOMERS_UNDER_CR_LIMIT()) {
+									customerSelect.setDescription("<h1><i>Current Balance</i> : "
+											+ roundNumber(cust.getLedger().getCurrent_balance()) + "</h1><br>"
+											+ "<h2><i>Credit Limit</i> : " + cust.getCredit_limit() + "</h2>");
+									if ((salesNumberList.getValue() == null || salesNumberList.getValue().equals("")
+											|| salesNumberList.getValue().toString().equals("0"))
+											&& (cust.getCredit_limit() < cust.getLedger().getCurrent_balance())) {
 										buttonsGrid.setVisible(false);
-										SNotification
-												.show(getPropertyName("limit_excess"),
-														Type.ERROR_MESSAGE);
+										SNotification.show(getPropertyName("limit_excess"), Type.ERROR_MESSAGE);
 									} else {
 										buttonsGrid.setVisible(true);
 									}
@@ -1862,30 +1725,15 @@ public class POSSalesUI extends SparkLogic {
 								}
 
 								if (settings.isALERT_FOR_UNDER_CREDIT_LIMIT()) {
-									customerSelect
-											.setDescription("<h1><i>Current Balance</i> : "
-													+ roundNumber(cust
-															.getLedger()
-															.getCurrent_balance())
-													+ "</h1><br>"
-													+ "<h2><i>Credit Limit</i> : "
-													+ cust.getCredit_limit()
-													+ "</h2>");
-									if ((salesNumberList.getValue() == null
-											|| salesNumberList.getValue()
-													.equals("") || salesNumberList
-											.getValue().toString().equals("0"))
-											&& (cust.getCredit_limit() < cust
-													.getLedger()
-													.getCurrent_balance())) {
-										SNotification
-												.show(getPropertyName("limit_excess_warning")
-														+ ". Limit "
-														+ cust.getCredit_limit()
-														+ ": Current balance "
-														+ cust.getLedger()
-																.getCurrent_balance(),
-														Type.ERROR_MESSAGE);
+									customerSelect.setDescription("<h1><i>Current Balance</i> : "
+											+ roundNumber(cust.getLedger().getCurrent_balance()) + "</h1><br>"
+											+ "<h2><i>Credit Limit</i> : " + cust.getCredit_limit() + "</h2>");
+									if ((salesNumberList.getValue() == null || salesNumberList.getValue().equals("")
+											|| salesNumberList.getValue().toString().equals("0"))
+											&& (cust.getCredit_limit() < cust.getLedger().getCurrent_balance())) {
+										SNotification.show(getPropertyName("limit_excess_warning") + ". Limit "
+												+ cust.getCredit_limit() + ": Current balance "
+												+ cust.getLedger().getCurrent_balance(), Type.ERROR_MESSAGE);
 									}
 								}
 							}
@@ -1905,20 +1753,19 @@ public class POSSalesUI extends SparkLogic {
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),
-								Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 					barcodeField.focus();
 					barcodeField.setValue("");
 				}
 			});
-			
+
 			holdButton.addClickListener(new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					try {
-						if(isValid()){
-							
+						if (isValid()) {
+
 							List<HoldSalesInventoryDetailsModel> itemsList = new ArrayList<HoldSalesInventoryDetailsModel>();
 
 							HoldSalesInventoryDetailsModel invObj;
@@ -1935,96 +1782,75 @@ public class POSSalesUI extends SparkLogic {
 								invObj.setCurrencyId(getCurrencyID());
 
 								if (isDiscountEnable()) {
-									invObj.setDiscount_type((Integer) item
-											.getItemProperty(TBC_DISCOUNT_TYPE)
-											.getValue());
-									invObj.setDiscountPercentage(roundNumber((Double) item
-											.getItemProperty(
-													TBC_DISCOUNT_PERCENTAGE)
-											.getValue()));
-									invObj.setDiscount(roundNumber((Double) item
-											.getItemProperty(TBC_DISCOUNT)
-											.getValue()));
+									invObj.setDiscount_type(
+											(Integer) item.getItemProperty(TBC_DISCOUNT_TYPE).getValue());
+									invObj.setDiscountPercentage(roundNumber(
+											(Double) item.getItemProperty(TBC_DISCOUNT_PERCENTAGE).getValue()));
+									invObj.setDiscount(
+											roundNumber((Double) item.getItemProperty(TBC_DISCOUNT).getValue()));
 								} else {
 									invObj.setDiscount(0);
 									invObj.setDiscount_type(1);
 									invObj.setDiscountPercentage(0);
 								}
-								
+
 								invObj.setGrade_id(0);
-								invObj.setItem(new ItemModel((Long) item
-										.getItemProperty(TBC_ITEM_ID)
-										.getValue()));
-								invObj.setQuantity_in_basic_unit((Double) item
-										.getItemProperty(TBC_QTY_IN_BASIC_UNI)
-										.getValue());
+								invObj.setItem(new ItemModel((Long) item.getItemProperty(TBC_ITEM_ID).getValue()));
+								invObj.setQuantity_in_basic_unit(
+										(Double) item.getItemProperty(TBC_QTY_IN_BASIC_UNI).getValue());
 								invObj.setQuantity_returned(0);
-								invObj.setQunatity((Double) item
-										.getItemProperty(TBC_QTY).getValue());
-								invObj.setStock_id((Long) item.getItemProperty(
-										TBC_STOCK_ID).getValue());
+								invObj.setQunatity((Double) item.getItemProperty(TBC_QTY).getValue());
+								invObj.setStock_id((Long) item.getItemProperty(TBC_STOCK_ID).getValue());
 								if (taxEnable) {
-									invObj.setTax(new TaxModel((Long) item
-											.getItemProperty(TBC_TAX_ID)
-											.getValue()));
-									invObj.setTaxAmount((Double) item
-											.getItemProperty(TBC_TAX_AMT)
-											.getValue());
-									invObj.setTaxPercentage((Double) item
-											.getItemProperty(TBC_TAX_PERC)
-											.getValue());
+									invObj.setTax(new TaxModel((Long) item.getItemProperty(TBC_TAX_ID).getValue()));
+									invObj.setTaxAmount((Double) item.getItemProperty(TBC_TAX_AMT).getValue());
+									invObj.setTaxPercentage((Double) item.getItemProperty(TBC_TAX_PERC).getValue());
 								} else {
 									invObj.setTax(new TaxModel(1));
 									invObj.setTaxAmount(0);
 									invObj.setTaxPercentage(0);
 								}
-								invObj.setUnit(new UnitModel((Long) item
-										.getItemProperty(TBC_UNIT_ID)
-										.getValue()));
-								invObj.setUnit_price((Double) item
-										.getItemProperty(TBC_UNIT_PRICE)
-										.getValue());
-								invObj.setBillType((Integer) item
-										.getItemProperty(TBC_BILL_TYPE_ID)
-										.getValue());
+								invObj.setUnit(new UnitModel((Long) item.getItemProperty(TBC_UNIT_ID).getValue()));
+								invObj.setUnit_price((Double) item.getItemProperty(TBC_UNIT_PRICE).getValue());
+								invObj.setBillType((Integer) item.getItemProperty(TBC_BILL_TYPE_ID).getValue());
 
 								itemsList.add(invObj);
 							}
-							
+
 							HoldSalesModel salObj = new HoldSalesModel();
 							salObj.setCustomer(new LedgerModel((Long) customerSelect.getValue()));
 							salObj.setDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 							salObj.setOffice(new S_OfficeModel(getOfficeID()));
 							salObj.setInventory_details_list(itemsList);
 							salObj.setResponsible_employee((Long) employSelect.getValue());
-							
-							boolean isHoldExist=holdSalesDao.isExist(date.getValue(), getOfficeID(), holdSalesId);
-							if(isHoldExist){
-								
-								HoldSalesModel holdModel=holdSalesDao.getHoldSalesModel(holdSalesId);
-								
+
+							boolean isHoldExist = holdSalesDao.isExist(date.getValue(), getOfficeID(), holdSalesId);
+							if (isHoldExist) {
+
+								HoldSalesModel holdModel = holdSalesDao.getHoldSalesModel(holdSalesId);
+
 								holdModel.setCustomer(new LedgerModel((Long) customerSelect.getValue()));
 								holdModel.setDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 								holdModel.setOffice(new S_OfficeModel(getOfficeID()));
 								holdModel.setInventory_details_list(itemsList);
 								holdModel.setResponsible_employee((Long) employSelect.getValue());
-								
+
 								holdModel.setHoldSalesNumber(holdModel.getHoldSalesNumber());
 								holdSalesDao.update(holdModel);
-								Notification.show(getPropertyName("update_success"),Type.WARNING_MESSAGE);
+								Notification.show(getPropertyName("update_success"), Type.WARNING_MESSAGE);
 								salesNumberList.setValue((long) 0);
-							
-							}else{
+
+							} else {
 								HoldSalesModel saleObj = new HoldSalesModel();
 								saleObj.setCustomer(new LedgerModel((Long) customerSelect.getValue()));
 								saleObj.setDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 								saleObj.setOffice(new S_OfficeModel(getOfficeID()));
 								saleObj.setInventory_details_list(itemsList);
 								saleObj.setResponsible_employee((Long) employSelect.getValue());
-								
+
 								saleObj.setHoldSalesNumber(getNextSequence("Hold Sales Number", getLoginID()) + "");
-								long holdId=holdSalesDao.save(saleObj);
-								Notification.show("Sales Holded ",Type.WARNING_MESSAGE);
+								long holdId = holdSalesDao.save(saleObj);
+								Notification.show("Sales Holded ", Type.WARNING_MESSAGE);
 								salesNumberList.setValue((long) 0);
 							}
 						}
@@ -2033,59 +1859,62 @@ public class POSSalesUI extends SparkLogic {
 					}
 				}
 			});
-			
+
 			recallButton.addClickListener(new ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					if (date.getValue() == null || date.getValue().equals("")) {
 						setRequiredError(date, getPropertyName("invalid_selection"), true);
-					}else{
-						List holdSalesList=new ArrayList();
+					} else {
+						List holdSalesList = new ArrayList();
 						try {
-							holdSalesList=holdSalesDao.getAllSalesHolded(date.getValue(), getOfficeID());
-							if(holdSalesList.size()>0){
-								Iterator itr=holdSalesList.iterator();
+							holdSalesList = holdSalesDao.getAllSalesHolded(date.getValue(), getOfficeID());
+							if (holdSalesList.size() > 0) {
+								Iterator itr = holdSalesList.iterator();
 								SFormLayout mainForm = new SFormLayout();
 								mainForm.setSpacing(true);
 								mainForm.setHeight("350");
 								mainForm.setWidth("430");
-								
-								while(itr.hasNext()){
-									HoldSalesModel salMdl=(HoldSalesModel) itr.next();
-									
+
+								while (itr.hasNext()) {
+									HoldSalesModel salMdl = (HoldSalesModel) itr.next();
+
 									SFormLayout form = new SFormLayout();
 									form.setStyleName("inner_form_style");
-									
-									form.addComponent(new SLabel(getPropertyName("sales_man"),usrDao.getUser(salMdl.getResponsible_employee()).getFirst_name()));
-									form.addComponent(new SLabel(getPropertyName("date"),CommonUtil.getUtilDateFromSQLDate(salMdl.getDate())));
+
+									form.addComponent(new SLabel(getPropertyName("sales_man"),
+											usrDao.getUser(salMdl.getResponsible_employee()).getFirst_name()));
+									form.addComponent(new SLabel(getPropertyName("date"),
+											CommonUtil.getUtilDateFromSQLDate(salMdl.getDate())));
 									SGridLayout grid = new SGridLayout(getPropertyName("item_details"));
 									grid.setColumns(12);
-									grid.setRows(salMdl
-											.getInventory_details_list().size() + 3);
+									grid.setRows(salMdl.getInventory_details_list().size() + 3);
 									grid.setId(asString(salMdl.getId()));
 									grid.addComponent(new SLabel(null, "#"), 0, 0);
-									grid.addComponent(new SLabel(null, getPropertyName("item")), 1,0);
+									grid.addComponent(new SLabel(null, getPropertyName("item")), 1, 0);
 									grid.addComponent(new SLabel(null, getPropertyName("quantity")), 2, 0);
-									grid.addComponent(new SLabel(null, getPropertyName("unit")), 3,0);
+									grid.addComponent(new SLabel(null, getPropertyName("unit")), 3, 0);
 									grid.addComponent(new SLabel(null, getPropertyName("unit_price")), 4, 0);
-									grid.addComponent(new SLabel(null, getPropertyName("discount")),	5, 0);
-									grid.addComponent(new SLabel(null, getPropertyName("amount")),6, 0);
+									grid.addComponent(new SLabel(null, getPropertyName("discount")), 5, 0);
+									grid.addComponent(new SLabel(null, getPropertyName("amount")), 6, 0);
 									grid.setSpacing(true);
-									
+
 									int i = 1;
 									HoldSalesInventoryDetailsModel invObj;
 									Iterator itr1 = salMdl.getInventory_details_list().iterator();
-									while(itr1.hasNext()){
-										invObj=(HoldSalesInventoryDetailsModel)itr1.next();
-										grid.addComponent(new SLabel(null, i + ""),	0, i);
+									while (itr1.hasNext()) {
+										invObj = (HoldSalesInventoryDetailsModel) itr1.next();
+										grid.addComponent(new SLabel(null, i + ""), 0, i);
 										grid.addComponent(new SLabel(null, invObj.getItem().getName()), 1, i);
 										grid.addComponent(new SLabel(null, invObj.getQunatity() + ""), 2, i);
 										grid.addComponent(new SLabel(null, invObj.getUnit().getSymbol()), 3, i);
-										grid.addComponent(new SLabel(null, invObj.getUnit_price() + ""), 4,	i);
-										grid.addComponent(new SLabel(null, invObj.getDiscount() + ""),5, i);
-										grid.addComponent(new SLabel(null,(invObj.getUnit_price() * invObj.getQunatity()
-																			- invObj.getDiscount() 
-																			+ invObj.getTaxAmount())+ ""), 6, i);
+										grid.addComponent(new SLabel(null, invObj.getUnit_price() + ""), 4, i);
+										grid.addComponent(new SLabel(null, invObj.getDiscount() + ""), 5, i);
+										grid.addComponent(
+												new SLabel(null,
+														(invObj.getUnit_price() * invObj.getQunatity()
+																- invObj.getDiscount() + invObj.getTaxAmount()) + ""),
+												6, i);
 										i++;
 									}
 									grid.addLayoutClickListener(layoutListener);
@@ -2099,9 +1928,9 @@ public class POSSalesUI extends SparkLogic {
 								popupContainer.addComponent(pop);
 								pop.setPopupVisible(true);
 								pop.setHideOnMouseOut(false);
-								
-							}else{
-								Notification.show(getPropertyName(""),Type.WARNING_MESSAGE);
+
+							} else {
+								Notification.show(getPropertyName(""), Type.WARNING_MESSAGE);
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -2109,81 +1938,49 @@ public class POSSalesUI extends SparkLogic {
 					}
 				}
 			});
-			
-			layoutListener=new LayoutClickListener() {
+
+			layoutListener = new LayoutClickListener() {
 				@Override
 				public void layoutClick(LayoutClickEvent event) {
 					try {
-						holdSalesId=0;
+						holdSalesId = 0;
 						deleteButton.setVisible(false);
-						long id=Long.parseLong(event.getComponent().getId());
-						if(id!=0){
-							holdSalesId=id;
-							HoldSalesModel salMdl=holdSalesDao.getHoldSalesModel(id);
+						long id = Long.parseLong(event.getComponent().getId());
+						if (id != 0) {
+							holdSalesId = id;
+							HoldSalesModel salMdl = holdSalesDao.getHoldSalesModel(id);
 							table.setVisibleColumns(allHeaders);
 							table.removeAllItems();
-							
+
 							employSelect.setValue(salMdl.getResponsible_employee());
 							date.setValue(salMdl.getDate());
-							
+
 							HoldSalesInventoryDetailsModel invObj;
 							double netTotal;
 							Iterator it = salMdl.getInventory_details_list().iterator();
 							while (it.hasNext()) {
 								invObj = (HoldSalesInventoryDetailsModel) it.next();
 
-								netTotal = roundNumber((invObj
-										.getUnit_price() * invObj
-										.getQunatity())
-										+ invObj.getTaxAmount()
-										- invObj.getDiscount());
+								netTotal = roundNumber((invObj.getUnit_price() * invObj.getQunatity())
+										+ invObj.getTaxAmount() - invObj.getDiscount());
 
-								table.addItem(
-										new Object[] {
-												table.getItemIds()
-														.size() + 1,
-												invObj.getItem()
-														.getId(),
-												invObj.getItem()
-														.getName()
-														+ " ("
-														+ invObj.getItem()
-																.getItem_code()
-														+ ")",
-												invObj.getQunatity(),
-												invObj.getUnit()
-														.getId(),
-												invObj.getUnit()
-														.getSymbol(),
-												invObj.getUnit_price(),
-												invObj.getTax().getId(),
-												invObj.getTaxAmount(),
-												invObj.getTaxPercentage(),
-												invObj.getDiscount_type(),
-												roundNumber(invObj
-														.getDiscountPercentage()),
-												roundNumber(invObj
-														.getDiscount()),
-												(invObj.getUnit_price() * invObj
-														.getQunatity()),
-												(long)0,
-												invObj.getId(),
-												roundNumber(invObj
-														.getUnit_price()
-														* invObj.getQunatity()
-														+ invObj.getTaxAmount()),
-												netTotal,
-												invObj.getQuantity_in_basic_unit(),
-												invObj.getStock_id(),
-												(invObj.getQuantity_in_basic_unit() / invObj
-														.getQunatity()),
-														invObj.getBillType()},
-										table.getItemIds().size() + 1);
+								table.addItem(new Object[] { table.getItemIds().size() + 1, invObj.getItem().getId(),
+										invObj.getItem().getName() + " (" + invObj.getItem().getItem_code() + ")",
+										invObj.getQunatity(), invObj.getUnit().getId(), invObj.getUnit().getSymbol(),
+										invObj.getUnit_price(), invObj.getTax().getId(), invObj.getTaxAmount(),
+										invObj.getTaxPercentage(), invObj.getDiscount_type(),
+										roundNumber(invObj.getDiscountPercentage()), roundNumber(invObj.getDiscount()),
+										(invObj.getUnit_price() * invObj.getQunatity()), (long) 0, invObj.getId(),
+										roundNumber(
+												invObj.getUnit_price() * invObj.getQunatity() + invObj.getTaxAmount()),
+										netTotal, invObj.getQuantity_in_basic_unit(), invObj.getStock_id(),
+										(invObj.getQuantity_in_basic_unit() / invObj.getQunatity()),
+										invObj.getBillType() }, table.getItemIds().size() + 1);
 							}
 							table.setVisibleColumns(requiredHeaders);
 							deleteButton.setVisible(true);
 						}
-					}catch (Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -2215,84 +2012,58 @@ public class POSSalesUI extends SparkLogic {
 								invObj.setDelivery_id(0);
 
 								if (isDiscountEnable()) {
-									invObj.setDiscount_type((Integer) item
-											.getItemProperty(TBC_DISCOUNT_TYPE)
-											.getValue());
-									invObj.setDiscountPercentage(roundNumber((Double) item
-											.getItemProperty(
-													TBC_DISCOUNT_PERCENTAGE)
-											.getValue()));
-									invObj.setDiscount(roundNumber((Double) item
-											.getItemProperty(TBC_DISCOUNT)
-											.getValue()));
+									invObj.setDiscount_type(
+											(Integer) item.getItemProperty(TBC_DISCOUNT_TYPE).getValue());
+									invObj.setDiscountPercentage(roundNumber(
+											(Double) item.getItemProperty(TBC_DISCOUNT_PERCENTAGE).getValue()));
+									invObj.setDiscount(
+											roundNumber((Double) item.getItemProperty(TBC_DISCOUNT).getValue()));
 								} else {
 									invObj.setDiscount(0);
 									invObj.setDiscount_type(1);
 									invObj.setDiscountPercentage(0);
 								}
 								invObj.setGrade_id(0);
-								invObj.setItem(new ItemModel((Long) item
-										.getItemProperty(TBC_ITEM_ID)
-										.getValue()));
+								invObj.setItem(new ItemModel((Long) item.getItemProperty(TBC_ITEM_ID).getValue()));
 								invObj.setLocation_id(0);
 								invObj.setLock_count(0);
 								invObj.setOrder_child_id(0);
 								invObj.setOrder_id(0);
-								invObj.setQuantity_in_basic_unit((Double) item
-										.getItemProperty(TBC_QTY_IN_BASIC_UNI)
-										.getValue());
+								invObj.setQuantity_in_basic_unit(
+										(Double) item.getItemProperty(TBC_QTY_IN_BASIC_UNI).getValue());
 								invObj.setQuantity_returned(0);
-								invObj.setQunatity((Double) item
-										.getItemProperty(TBC_QTY).getValue());
-								invObj.setStock_id((Long) item.getItemProperty(
-										TBC_STOCK_ID).getValue());
+								invObj.setQunatity((Double) item.getItemProperty(TBC_QTY).getValue());
+								invObj.setStock_id((Long) item.getItemProperty(TBC_STOCK_ID).getValue());
 								invObj.setStock_ids("");
 								if (taxEnable) {
-									invObj.setTax(new TaxModel((Long) item
-											.getItemProperty(TBC_TAX_ID)
-											.getValue()));
-									invObj.setTaxAmount((Double) item
-											.getItemProperty(TBC_TAX_AMT)
-											.getValue());
-									invObj.setTaxPercentage((Double) item
-											.getItemProperty(TBC_TAX_PERC)
-											.getValue());
+									invObj.setTax(new TaxModel((Long) item.getItemProperty(TBC_TAX_ID).getValue()));
+									invObj.setTaxAmount((Double) item.getItemProperty(TBC_TAX_AMT).getValue());
+									invObj.setTaxPercentage((Double) item.getItemProperty(TBC_TAX_PERC).getValue());
 								} else {
 									invObj.setTax(new TaxModel(1));
 									invObj.setTaxAmount(0);
 									invObj.setTaxPercentage(0);
 								}
-								invObj.setUnit(new UnitModel((Long) item
-										.getItemProperty(TBC_UNIT_ID)
-										.getValue()));
-								invObj.setUnit_price((Double) item
-										.getItemProperty(TBC_UNIT_PRICE)
-										.getValue());
+								invObj.setUnit(new UnitModel((Long) item.getItemProperty(TBC_UNIT_ID).getValue()));
+								invObj.setUnit_price((Double) item.getItemProperty(TBC_UNIT_PRICE).getValue());
 
-								invObj.setBillType((Integer) item
-										.getItemProperty(TBC_BILL_TYPE_ID)
-										.getValue());
+								invObj.setBillType((Integer) item.getItemProperty(TBC_BILL_TYPE_ID).getValue());
 
 								itemsList.add(invObj);
 
 							}
 
 							salObj.setActive(true);
-							salObj.setAmount(toDouble(grandTotalAmtTextField
-									.getValue()));
-							salObj.setCash_cheque((Long) cashChequeRadio
-									.getValue());
-							salObj.setChequeDate(CommonUtil
-									.getSQLDateFromUtilDate(date.getValue()));
+							salObj.setAmount(toDouble(grandTotalAmtTextField.getValue()));
+							salObj.setCash_cheque((Long) cashChequeRadio.getValue());
+							salObj.setChequeDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 							salObj.setChequeNo("");
 							salObj.setComments(comment.getValue());
 							salObj.setConversionRate(1);
 							salObj.setCredit_note(0);
 							salObj.setCurrency_id(getCurrencyID());
-							salObj.setCustomer(new LedgerModel(
-									(Long) customerSelect.getValue()));
-							salObj.setDate(CommonUtil
-									.getSQLDateFromUtilDate(date.getValue()));
+							salObj.setCustomer(new LedgerModel((Long) customerSelect.getValue()));
+							salObj.setDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 							salObj.setDebit_note(0);
 							salObj.setDepartment_id(0);
 							salObj.setDivision_id(0);
@@ -2300,12 +2071,10 @@ public class POSSalesUI extends SparkLogic {
 							salObj.setExpenseCreditAmount(0);
 							salObj.setInventory_details_list(itemsList);
 							salObj.setLock_count(0);
-							salObj.setNetCurrencyId(new CurrencyModel(
-									getCurrencyID()));
+							salObj.setNetCurrencyId(new CurrencyModel(getCurrencyID()));
 							salObj.setOffice(new S_OfficeModel(getOfficeID()));
 							salObj.setPaid_by_payment(0);
-							salObj.setPayment_amount(paymentAmountTextField
-									.getValue());
+							salObj.setPayment_amount(paymentAmountTextField.getValue());
 							salObj.setPayment_credit(0);
 							salObj.setPayment_done('Y');
 							salObj.setPaymentConversionRate(1);
@@ -2314,22 +2083,16 @@ public class POSSalesUI extends SparkLogic {
 							salObj.setResponsible_employee((Long) employSelect.getValue());
 							salObj.setSales_account(settings.getSALES_ACCOUNT());
 							salObj.setSales_expense_list(null);
-							salObj.setSales_number(getNextSequence(
-									"Sales Number", getLoginID()) + "");
-							salObj.setSales_type((Long) salesTypeSelect
-									.getValue());
+							salObj.setSales_number(getNextSequence("Sales Number", getLoginID()) + "");
+							salObj.setSales_type((Long) salesTypeSelect.getValue());
 							salObj.setStatus(1);
 
-							salObj.setDiscount_type((Integer) discountRadio
-									.getValue());
-							salObj.setDiscountPercentage(roundNumber(toDouble(discountPercentField
-									.getValue().trim())));
-							salObj.setDiscountAmount(roundNumber(toDouble(discountAmountField
-									.getValue().trim())));
+							salObj.setDiscount_type((Integer) discountRadio.getValue());
+							salObj.setDiscountPercentage(roundNumber(toDouble(discountPercentField.getValue().trim())));
+							salObj.setDiscountAmount(roundNumber(toDouble(discountAmountField.getValue().trim())));
 
 							FinTransaction trans = new FinTransaction();
-							double payingAmount = toDouble(payingAmountTextField
-									.getValue());
+							double payingAmount = toDouble(payingAmountTextField.getValue());
 							double paymentPaidAmount;
 							double transferAmount;
 							if (payingAmount > 0) {
@@ -2339,19 +2102,15 @@ public class POSSalesUI extends SparkLogic {
 								STextField field;
 								while (it.hasNext()) {
 									item = paymentAmountTable.getItem(it.next());
-									field = (STextField) item.getItemProperty(
-											TBP_PAYMENT_AMOUNT_FIELD)
-											.getValue();
-									if (toDouble(field.getValue()) == 0
-											|| payingAmount == 0) {
+									field = (STextField) item.getItemProperty(TBP_PAYMENT_AMOUNT_FIELD).getValue();
+									if (toDouble(field.getValue()) == 0 || payingAmount == 0) {
 										continue;
 									}
 									paymentPaidAmount = toDouble(field.getValue());
 
 									paymentMode = new SalesPaymentModeDetailsModel();
-									paymentMode.setPaymentMode(paymentModeDao.getPaymentModeModel((Long) item
-													.getItemProperty(TBP_PAYMENT_MODE_ID)
-													.getValue()));
+									paymentMode.setPaymentMode(paymentModeDao.getPaymentModeModel(
+											(Long) item.getItemProperty(TBP_PAYMENT_MODE_ID).getValue()));
 									paymentMode.setAmount(paymentPaidAmount);
 
 									paymentModeList.add(paymentMode);
@@ -2365,21 +2124,18 @@ public class POSSalesUI extends SparkLogic {
 									}
 
 									if (paymentMode.getPaymentMode().getTransactionType() == SConstants.INWARD) {
-										trans.addTransaction(SConstants.DR,	(Long) customerSelect.getValue(),
-												paymentMode.getPaymentMode().getLedger().getId(),
-												transferAmount);
+										trans.addTransaction(SConstants.DR, (Long) customerSelect.getValue(),
+												paymentMode.getPaymentMode().getLedger().getId(), transferAmount);
 
-										trans.addTransaction(SConstants.DR,settings.getSALES_ACCOUNT(),
-												(Long) customerSelect.getValue(),
-												transferAmount);
+										trans.addTransaction(SConstants.DR, settings.getSALES_ACCOUNT(),
+												(Long) customerSelect.getValue(), transferAmount);
 									} else {
-										trans.addTransaction(SConstants.CR,paymentMode.getPaymentMode().getLedger().getId(),
-												(Long) customerSelect.getValue(),
-												transferAmount);
+										trans.addTransaction(SConstants.CR,
+												paymentMode.getPaymentMode().getLedger().getId(),
+												(Long) customerSelect.getValue(), transferAmount);
 
-										trans.addTransaction(SConstants.CR,(Long) customerSelect.getValue(), 
-												settings.getSALES_ACCOUNT(),
-												transferAmount);
+										trans.addTransaction(SConstants.CR, (Long) customerSelect.getValue(),
+												settings.getSALES_ACCOUNT(), transferAmount);
 									}
 
 								}
@@ -2396,10 +2152,8 @@ public class POSSalesUI extends SparkLogic {
 							// if (paymentAmountTextField.getValue() > 0) {
 							//
 							// }
-							double taxAmount = toDouble(table
-									.getColumnFooter(TBC_TAX_AMT));
-							double discountAmnt = toDouble(table
-									.getColumnFooter(TBC_DISCOUNT));
+							double taxAmount = toDouble(table.getColumnFooter(TBC_TAX_AMT));
+							double discountAmnt = toDouble(table.getColumnFooter(TBC_DISCOUNT));
 
 							// if (settings.getSALES_TAX_ACCOUNT() != 0) {
 							// amt = toDouble(table
@@ -2426,249 +2180,178 @@ public class POSSalesUI extends SparkLogic {
 							// }
 							// }
 
-							long id = daoObj.save(salObj, trans.getTransaction(
-									SConstants.SALES, CommonUtil.getSQLDateFromUtilDate(date.getValue())), payingAmt,
-									settings.getUPDATE_RATE_AND_CONV_QTY());
+							long id = daoObj.save(salObj,
+									trans.getTransaction(SConstants.SALES,
+											CommonUtil.getSQLDateFromUtilDate(date.getValue())),
+									payingAmt, settings.getUPDATE_RATE_AND_CONV_QTY());
 
-							saveActivity(	getOptionId(),
-									"New Sales Created. Bill No : "
-											+ salObj.getSales_number()
-											+ ", Customer : "
-											+ customerSelect
-													.getItemCaption(customerSelect
-															.getValue())
-											+ ", Amount : "
-											+ salObj.getAmount(), salObj
-											.getId());
-							
-							if(holdSalesId!=0)
+							saveActivity(getOptionId(),
+									"New Sales Created. Bill No : " + salObj.getSales_number() + ", Customer : "
+											+ customerSelect.getItemCaption(customerSelect.getValue()) + ", Amount : "
+											+ salObj.getAmount(),
+									salObj.getId());
+
+							if (holdSalesId != 0)
 								holdSalesDao.delete(holdSalesId);
 
 							loadSale(id);
-							Notification.show(getPropertyName("save_success"),Type.WARNING_MESSAGE);
+							Notification.show(getPropertyName("save_success"), Type.WARNING_MESSAGE);
 							printButton.click();
 							barcodeField.focus();
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 				}
 			});
 
 			salesNumberList.addValueChangeListener(new Property.ValueChangeListener() {
-						public void valueChange(ValueChangeEvent event) {
-							try {
-								removeAllErrors();
-								updateButton.setVisible(true);
-								deleteButton.setVisible(true);
-								cancelButton.setVisible(true);
-								printButton.setVisible(true);
-								saveButton.setVisible(false);
-								holdButton.setVisible(false);
-								recallButton.setVisible(false);
-								discountRadio.setValue(null);
-								discountRadio.setValue(1);
-								if (salesNumberList.getValue() != null
-										&& !salesNumberList.getValue()
-												.toString().equals("0")) {
+				public void valueChange(ValueChangeEvent event) {
+					try {
+						removeAllErrors();
+						updateButton.setVisible(true);
+						deleteButton.setVisible(true);
+						cancelButton.setVisible(true);
+						printButton.setVisible(true);
+						saveButton.setVisible(false);
+						holdButton.setVisible(false);
+						recallButton.setVisible(false);
+						discountRadio.setValue(null);
+						discountRadio.setValue(1);
+						if (salesNumberList.getValue() != null && !salesNumberList.getValue().toString().equals("0")) {
 
-									SalesModel salObj = daoObj
-											.getSale((Long) salesNumberList
-													.getValue());
+							SalesModel salObj = daoObj.getSale((Long) salesNumberList.getValue());
 
-									table.setVisibleColumns(allHeaders);
+							table.setVisibleColumns(allHeaders);
 
-									table.removeAllItems();
+							table.removeAllItems();
 
-									SalesInventoryDetailsModel invObj;
-									double netTotal;
-									Iterator it = salObj
-											.getInventory_details_list()
-											.iterator();
-									while (it.hasNext()) {
-										invObj = (SalesInventoryDetailsModel) it
-												.next();
+							SalesInventoryDetailsModel invObj;
+							double netTotal;
+							Iterator it = salObj.getInventory_details_list().iterator();
+							while (it.hasNext()) {
+								invObj = (SalesInventoryDetailsModel) it.next();
 
-										netTotal = roundNumber((invObj
-												.getUnit_price() * invObj
-												.getQunatity())
-												+ invObj.getTaxAmount()
-												- invObj.getDiscount());
+								netTotal = roundNumber((invObj.getUnit_price() * invObj.getQunatity())
+										+ invObj.getTaxAmount() - invObj.getDiscount());
 
-										table.addItem(
-												new Object[] {
-														table.getItemIds()
-																.size() + 1,
-														invObj.getItem()
-																.getId(),
-														invObj.getItem()
-																.getName()
-																+ " ("
-																+ invObj.getItem()
-																		.getItem_code()
-																+ ")",
-														invObj.getQunatity(),
-														invObj.getUnit()
-																.getId(),
-														invObj.getUnit()
-																.getSymbol(),
-														invObj.getUnit_price(),
-														invObj.getTax().getId(),
-														invObj.getTaxAmount(),
-														invObj.getTaxPercentage(),
-														invObj.getDiscount_type(),
-														roundNumber(invObj
-																.getDiscountPercentage()),
-														roundNumber(invObj
-																.getDiscount()),
-														(invObj.getUnit_price() * invObj
-																.getQunatity()),
-														invObj.getOrder_id(),
-														invObj.getId(),
-														roundNumber(invObj
-																.getUnit_price()
-																* invObj.getQunatity()
-																+ invObj.getTaxAmount()),
-														netTotal,
-														invObj.getQuantity_in_basic_unit(),
-														invObj.getStock_id(),
-														(invObj.getQuantity_in_basic_unit() / invObj
-																.getQunatity()),
-														invObj.getBillType() },
-												table.getItemIds().size() + 1);
-									}
+								table.addItem(new Object[] { table.getItemIds().size() + 1, invObj.getItem().getId(),
+										invObj.getItem().getName() + " (" + invObj.getItem().getItem_code() + ")",
+										invObj.getQunatity(), invObj.getUnit().getId(), invObj.getUnit().getSymbol(),
+										invObj.getUnit_price(), invObj.getTax().getId(), invObj.getTaxAmount(),
+										invObj.getTaxPercentage(), invObj.getDiscount_type(),
+										roundNumber(invObj.getDiscountPercentage()), roundNumber(invObj.getDiscount()),
+										(invObj.getUnit_price() * invObj.getQunatity()), invObj.getOrder_id(),
+										invObj.getId(),
+										roundNumber(
+												invObj.getUnit_price() * invObj.getQunatity() + invObj.getTaxAmount()),
+										netTotal, invObj.getQuantity_in_basic_unit(), invObj.getStock_id(),
+										(invObj.getQuantity_in_basic_unit() / invObj.getQunatity()),
+										invObj.getBillType() }, table.getItemIds().size() + 1);
+							}
 
-									paymentAmountTextField.setNewValue(salObj
-											.getAmount());
-									it = salObj.getSales_payment_mode_list()
-											.iterator();
-									while (it.hasNext()) {
-										SalesPaymentModeDetailsModel model = (SalesPaymentModeDetailsModel) it
-												.next();
-										paymentModeHashMap.get(
-												model.getPaymentMode().getId())
-												.setValue(
-														model.getAmount() + "");
-									}
-									table.setVisibleColumns(requiredHeaders);
+							paymentAmountTextField.setNewValue(salObj.getAmount());
+							it = salObj.getSales_payment_mode_list().iterator();
+							while (it.hasNext()) {
+								SalesPaymentModeDetailsModel model = (SalesPaymentModeDetailsModel) it.next();
+								paymentModeHashMap.get(model.getPaymentMode().getId()).setValue(model.getAmount() + "");
+							}
+							table.setVisibleColumns(requiredHeaders);
 
-									grandTotalAmtTextField
-											.setNewValue(roundNumberToString(salObj
-													.getAmount()));
-									// buildingSelect.setValue(salObj.getBuilding().getId());
-									comment.setValue(salObj.getComments());
-									date.setValue(salObj.getDate());
-									// expected_delivery_date.setValue(salObj.getExpected_delivery_date());
+							grandTotalAmtTextField.setNewValue(roundNumberToString(salObj.getAmount()));
+							// buildingSelect.setValue(salObj.getBuilding().getId());
+							comment.setValue(salObj.getComments());
+							date.setValue(salObj.getDate());
+							// expected_delivery_date.setValue(salObj.getExpected_delivery_date());
 
-									session.setAttribute("SO_Select_Disabled",
-											'Y');
+							session.setAttribute("SO_Select_Disabled", 'Y');
 
-									customerSelect.setValue(salObj
-											.getCustomer().getId());
+							customerSelect.setValue(salObj.getCustomer().getId());
 
-									employSelect.setNewValue(salObj
-											.getResponsible_employee());
+							employSelect.setNewValue(salObj.getResponsible_employee());
 
-									refNoField.setValue(asString(salObj
-											.getRef_no()));
-									payingAmountTextField
-											.setNewValue(roundNumberToString(salObj
-													.getPayment_amount()));
-									if (settings.isSALES_DISCOUNT_ENABLE()) {
-										discountRadio.setValue(salObj
-												.getDiscount_type());
-										discountPercentField.setValue(roundNumber(salObj
-												.getDiscountPercentage()) + "");
-										discountAmountField
-												.setNewValue(roundNumber(salObj
-														.getDiscountAmount())
-														+ "");
-									}
+							refNoField.setValue(asString(salObj.getRef_no()));
+							payingAmountTextField.setNewValue(roundNumberToString(salObj.getPayment_amount()));
+							if (settings.isSALES_DISCOUNT_ENABLE()) {
+								discountRadio.setValue(salObj.getDiscount_type());
+								discountPercentField.setValue(roundNumber(salObj.getDiscountPercentage()) + "");
+								discountAmountField.setNewValue(roundNumber(salObj.getDiscountAmount()) + "");
+							}
 
-									salesTypeSelect.setValue(salObj
-											.getSales_type());
-									cashChequeRadio.setValue(salObj
-											.getCash_cheque());
+							salesTypeSelect.setValue(salObj.getSales_type());
+							cashChequeRadio.setValue(salObj.getCash_cheque());
 
-									updateButton.setVisible(true);
-									printButton.setVisible(true);
-									deleteButton.setVisible(true);
-									cancelButton.setVisible(true);
-									saveButton.setVisible(false);
+							updateButton.setVisible(true);
+							printButton.setVisible(true);
+							deleteButton.setVisible(true);
+							cancelButton.setVisible(true);
+							saveButton.setVisible(false);
 
-									status = salObj.getStatus();
+							status = salObj.getStatus();
 
-								} else {
-									table.removeAllItems();
-									holdSalesId=(long)0;
-									resetPaymentModeTable();
-									paymentAmountTextField.setNewValue(0);
+						} else {
+							table.removeAllItems();
+							holdSalesId = (long) 0;
+							resetPaymentModeTable();
+							paymentAmountTextField.setNewValue(0);
 
-									grandTotalAmtTextField.setNewValue("0.0");
-									payingAmountTextField.setNewValue("0.0");
-									comment.setValue("");
-									date.setValue(new Date(getWorkingDate()
-											.getTime()));
-									customerSelect.setValue(settings
-											.getDEFAULT_CUSTOMER());
-									employSelect.setNewValue(getLoginID());
-									cashChequeRadio.setValue((long) 1);
-									creditPeriodTextField.setValue("0");
-									refNoField.setValue("0");
-									discountRadio.setValue(null);
-									discountRadio.setValue(1);
-									saveButton.setVisible(true);
-									holdButton.setVisible(true);
-									recallButton.setVisible(true);
-									updateButton.setVisible(false);
-									printButton.setVisible(false);
-									deleteButton.setVisible(false);
-									cancelButton.setVisible(false);
-								}
+							grandTotalAmtTextField.setNewValue("0.0");
+							payingAmountTextField.setNewValue("0.0");
+							comment.setValue("");
+							date.setValue(new Date(getWorkingDate().getTime()));
+							customerSelect.setValue(settings.getDEFAULT_CUSTOMER());
+							employSelect.setNewValue(getLoginID());
+							cashChequeRadio.setValue((long) 1);
+							creditPeriodTextField.setValue("0");
+							refNoField.setValue("0");
+							discountRadio.setValue(null);
+							discountRadio.setValue(1);
+							saveButton.setVisible(true);
+							holdButton.setVisible(true);
+							recallButton.setVisible(true);
+							updateButton.setVisible(false);
+							printButton.setVisible(false);
+							deleteButton.setVisible(false);
+							cancelButton.setVisible(false);
+						}
 
-								calculateTotals();
+						calculateTotals();
 
-								categorySelectList.setValue((long) 0);
-								itemSelectCombo.setValue(null);
-								itemSelectCombo.focus();
-								quantityTextField.setValue("1");
-								keyboardTextField.setValue("0.0");
-								unitPriceTextField.setNewValue("0.0");
-								netPriceTextField.setNewValue("0.0");
-								itemDiscountRadio.setValue(null);
-								itemDiscountRadio.setValue(1);
+						categorySelectList.setValue((long) 0);
+						itemSelectCombo.setValue(null);
+						itemSelectCombo.focus();
+						quantityTextField.setValue("1");
+						keyboardTextField.setValue("0.0");
+						unitPriceTextField.setNewValue("0.0");
+						netPriceTextField.setNewValue("0.0");
+						itemDiscountRadio.setValue(null);
+						itemDiscountRadio.setValue(1);
 
-								CustomerModel cust = custDao
-										.getCustomerFromLedger((Long) customerSelect
-												.getValue());
-								if (settings.isBARCODE_ENABLED())
-									barcodeField.focus();
-								else
-									customerSelect.focus();
+						CustomerModel cust = custDao.getCustomerFromLedger((Long) customerSelect.getValue());
+						if (settings.isBARCODE_ENABLED())
+							barcodeField.focus();
+						else
+							customerSelect.focus();
 
-								if (!isFinYearBackEntry()) {
-									saveButton.setVisible(false);
-									updateButton.setVisible(false);
-									deleteButton.setVisible(false);
-									cancelButton.setVisible(false);
-									if (salesNumberList.getValue() == null
-											|| salesNumberList.getValue()
-													.toString().equals("0")) {
-										Notification
-												.show(getPropertyName("warning_transaction"),
-														Type.WARNING_MESSAGE);
-									}
-								}
-
-							} catch (Exception e) {
-								e.printStackTrace();
-								Notification.show(getPropertyName("error"),
-										Type.ERROR_MESSAGE);
+						if (!isFinYearBackEntry()) {
+							saveButton.setVisible(false);
+							updateButton.setVisible(false);
+							deleteButton.setVisible(false);
+							cancelButton.setVisible(false);
+							if (salesNumberList.getValue() == null
+									|| salesNumberList.getValue().toString().equals("0")) {
+								Notification.show(getPropertyName("warning_transaction"), Type.WARNING_MESSAGE);
 							}
 						}
 
-					});
+					} catch (Exception e) {
+						e.printStackTrace();
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
+					}
+				}
+
+			});
 
 			updateButton.addClickListener(new Button.ClickListener() {
 				@Override
@@ -2680,8 +2363,7 @@ public class POSSalesUI extends SparkLogic {
 
 							long customer_id = (Long) customerSelect.getValue();
 
-							SalesModel salObj = daoObj
-									.getSale((Long) salesNumberList.getValue());
+							SalesModel salObj = daoObj.getSale((Long) salesNumberList.getValue());
 
 							List<SalesInventoryDetailsModel> itemsList = new ArrayList<SalesInventoryDetailsModel>();
 
@@ -2706,78 +2388,53 @@ public class POSSalesUI extends SparkLogic {
 								invObj.setDiscountPercentage(0);
 
 								if (isDiscountEnable()) {
-									invObj.setDiscount_type((Integer) item
-											.getItemProperty(TBC_DISCOUNT_TYPE)
-											.getValue());
-									invObj.setDiscountPercentage(roundNumber((Double) item
-											.getItemProperty(
-													TBC_DISCOUNT_PERCENTAGE)
-											.getValue()));
-									invObj.setDiscount(roundNumber((Double) item
-											.getItemProperty(TBC_DISCOUNT)
-											.getValue()));
+									invObj.setDiscount_type(
+											(Integer) item.getItemProperty(TBC_DISCOUNT_TYPE).getValue());
+									invObj.setDiscountPercentage(roundNumber(
+											(Double) item.getItemProperty(TBC_DISCOUNT_PERCENTAGE).getValue()));
+									invObj.setDiscount(
+											roundNumber((Double) item.getItemProperty(TBC_DISCOUNT).getValue()));
 								}
 
 								// invObj.setGrade_id(0);
-								invObj.setItem(new ItemModel((Long) item
-										.getItemProperty(TBC_ITEM_ID)
-										.getValue()));
+								invObj.setItem(new ItemModel((Long) item.getItemProperty(TBC_ITEM_ID).getValue()));
 								// invObj.setLocation_id(0);
 								// invObj.setLock_count(0);
 								invObj.setOrder_child_id(0);
 								invObj.setOrder_id(0);
-								invObj.setQuantity_in_basic_unit((Double) item
-										.getItemProperty(TBC_QTY_IN_BASIC_UNI)
-										.getValue());
+								invObj.setQuantity_in_basic_unit(
+										(Double) item.getItemProperty(TBC_QTY_IN_BASIC_UNI).getValue());
 								invObj.setQuantity_returned(0);
-								invObj.setQunatity((Double) item
-										.getItemProperty(TBC_QTY).getValue());
-								invObj.setStock_id((Long) item.getItemProperty(
-										TBC_STOCK_ID).getValue());
+								invObj.setQunatity((Double) item.getItemProperty(TBC_QTY).getValue());
+								invObj.setStock_id((Long) item.getItemProperty(TBC_STOCK_ID).getValue());
 								invObj.setStock_ids("");
 								if (taxEnable) {
-									invObj.setTax(new TaxModel((Long) item
-											.getItemProperty(TBC_TAX_ID)
-											.getValue()));
-									invObj.setTaxAmount((Double) item
-											.getItemProperty(TBC_TAX_AMT)
-											.getValue());
-									invObj.setTaxPercentage((Double) item
-											.getItemProperty(TBC_TAX_PERC)
-											.getValue());
+									invObj.setTax(new TaxModel((Long) item.getItemProperty(TBC_TAX_ID).getValue()));
+									invObj.setTaxAmount((Double) item.getItemProperty(TBC_TAX_AMT).getValue());
+									invObj.setTaxPercentage((Double) item.getItemProperty(TBC_TAX_PERC).getValue());
 								} else {
 									invObj.setTax(new TaxModel(1));
 									invObj.setTaxAmount(0);
 									invObj.setTaxPercentage(0);
 								}
-								invObj.setUnit(new UnitModel((Long) item
-										.getItemProperty(TBC_UNIT_ID)
-										.getValue()));
-								invObj.setUnit_price((Double) item
-										.getItemProperty(TBC_UNIT_PRICE)
-										.getValue());
-								invObj.setBillType((Integer) item
-										.getItemProperty(TBC_BILL_TYPE_ID)
-										.getValue());
+								invObj.setUnit(new UnitModel((Long) item.getItemProperty(TBC_UNIT_ID).getValue()));
+								invObj.setUnit_price((Double) item.getItemProperty(TBC_UNIT_PRICE).getValue());
+								invObj.setBillType((Integer) item.getItemProperty(TBC_BILL_TYPE_ID).getValue());
 
 								itemsList.add(invObj);
 							}
 
 							salObj.setActive(true);
-							salObj.setAmount(toDouble(grandTotalAmtTextField
-									.getValue()));
-							salObj.setCash_cheque((Long) cashChequeRadio
-									.getValue());
+							salObj.setAmount(toDouble(grandTotalAmtTextField.getValue()));
+							salObj.setCash_cheque((Long) cashChequeRadio.getValue());
 							// salObj.setChequeDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 							// salObj.setChequeNo("");
 							salObj.setComments(comment.getValue());
 							// salObj.setConversionRate(1);
 							// salObj.setCredit_note(0);
 							// salObj.setCurrency_id(getCurrencyID());
-							salObj.setCustomer(new LedgerModel(
-									(Long) customerSelect.getValue()));
-							salObj.setDate(CommonUtil
-									.getSQLDateFromUtilDate(date.getValue()));
+							salObj.setCustomer(new LedgerModel((Long) customerSelect.getValue()));
+							salObj.setDate(CommonUtil.getSQLDateFromUtilDate(date.getValue()));
 							// salObj.setDebit_note(0);
 							// salObj.setDepartment_id(0);
 							// salObj.setDivision_id(0);
@@ -2790,23 +2447,18 @@ public class POSSalesUI extends SparkLogic {
 							// salObj.setOffice(new
 							// S_OfficeModel(getOfficeID()));
 							// salObj.setPaid_by_payment(0);
-							salObj.setPayment_amount(toDouble(payingAmountTextField
-									.getValue()));
+							salObj.setPayment_amount(toDouble(payingAmountTextField.getValue()));
 							// salObj.setPayment_credit(0);
 							salObj.setPayment_done('Y');
 							// salObj.setPaymentConversionRate(1);
 							// salObj.setPayment_credit(1);
 							salObj.setRef_no(refNoField.getValue());
-							salObj.setResponsible_employee((Long) employSelect
-									.getValue());
+							salObj.setResponsible_employee((Long) employSelect.getValue());
 							salObj.setSales_account(settings.getSALES_ACCOUNT());
 							salObj.setSales_expense_list(null);
-							salObj.setDiscount_type((Integer) discountRadio
-									.getValue());
-							salObj.setDiscountPercentage(roundNumber(toDouble(discountPercentField
-									.getValue().trim())));
-							salObj.setDiscountAmount(roundNumber(toDouble(discountAmountField
-									.getValue().trim())));
+							salObj.setDiscount_type((Integer) discountRadio.getValue());
+							salObj.setDiscountPercentage(roundNumber(toDouble(discountPercentField.getValue().trim())));
+							salObj.setDiscountAmount(roundNumber(toDouble(discountAmountField.getValue().trim())));
 							// salObj.setSales_number(getNextSequence("Sales Number",
 							// getLoginID())+"");
 							// salObj.setSales_type((Long)
@@ -2814,14 +2466,12 @@ public class POSSalesUI extends SparkLogic {
 							// salObj.setStatus(1);
 
 							FinTransaction trans = new FinTransaction();
-							double totalAmt = toDouble(grandTotalAmtTextField
-									.getValue());
+							double totalAmt = toDouble(grandTotalAmtTextField.getValue());
 							double netAmt = totalAmt;
 
 							double amt = 0;
 
-							double payingAmt = toDouble(payingAmountTextField
-									.getValue());
+							double payingAmt = toDouble(payingAmountTextField.getValue());
 
 							// if (toDouble(payingAmountTextField.getValue()
 							// .toString()) > 0) {
@@ -2833,8 +2483,7 @@ public class POSSalesUI extends SparkLogic {
 							// .getValue().toString())));
 							// }
 
-							double payingAmount = toDouble(payingAmountTextField
-									.getValue());
+							double payingAmount = toDouble(payingAmountTextField.getValue());
 							double paymentPaidAmount;
 							double transferAmount;
 							if (payingAmount > 0) {
@@ -2844,22 +2493,15 @@ public class POSSalesUI extends SparkLogic {
 								STextField field;
 								while (it.hasNext()) {
 									item = paymentAmountTable.getItem(it.next());
-									field = (STextField) item.getItemProperty(
-											TBP_PAYMENT_AMOUNT_FIELD)
-											.getValue();
-									if (toDouble(field.getValue()) == 0
-											|| payingAmount == 0) {
+									field = (STextField) item.getItemProperty(TBP_PAYMENT_AMOUNT_FIELD).getValue();
+									if (toDouble(field.getValue()) == 0 || payingAmount == 0) {
 										continue;
 									}
-									paymentPaidAmount = toDouble(field
-											.getValue());
+									paymentPaidAmount = toDouble(field.getValue());
 
 									paymentMode = new SalesPaymentModeDetailsModel();
-									paymentMode.setPaymentMode(paymentModeDao
-											.getPaymentModeModel((Long) item
-													.getItemProperty(
-															TBP_PAYMENT_MODE_ID)
-													.getValue()));
+									paymentMode.setPaymentMode(paymentModeDao.getPaymentModeModel(
+											(Long) item.getItemProperty(TBP_PAYMENT_MODE_ID).getValue()));
 									paymentMode.setAmount(paymentPaidAmount);
 
 									paymentModeList.add(paymentMode);
@@ -2872,33 +2514,19 @@ public class POSSalesUI extends SparkLogic {
 										payingAmount -= paymentPaidAmount;
 									}
 
-									if (paymentMode.getPaymentMode()
-											.getTransactionType() == SConstants.INWARD) {
-										trans.addTransaction(SConstants.DR,
-												(Long) customerSelect
-														.getValue(),
-												paymentMode.getPaymentMode()
-														.getLedger().getId(),
-												transferAmount);
+									if (paymentMode.getPaymentMode().getTransactionType() == SConstants.INWARD) {
+										trans.addTransaction(SConstants.DR, (Long) customerSelect.getValue(),
+												paymentMode.getPaymentMode().getLedger().getId(), transferAmount);
 
-										trans.addTransaction(SConstants.DR,
-												settings.getSALES_ACCOUNT(),
-												(Long) customerSelect
-														.getValue(),
-												transferAmount);
+										trans.addTransaction(SConstants.DR, settings.getSALES_ACCOUNT(),
+												(Long) customerSelect.getValue(), transferAmount);
 									} else {
 										trans.addTransaction(SConstants.CR,
-												paymentMode.getPaymentMode()
-														.getLedger().getId(),
-												(Long) customerSelect
-														.getValue(),
-												transferAmount);
+												paymentMode.getPaymentMode().getLedger().getId(),
+												(Long) customerSelect.getValue(), transferAmount);
 
-										trans.addTransaction(SConstants.CR,
-												(Long) customerSelect
-														.getValue(), settings
-														.getSALES_ACCOUNT(),
-												transferAmount);
+										trans.addTransaction(SConstants.CR, (Long) customerSelect.getValue(),
+												settings.getSALES_ACCOUNT(), transferAmount);
 									}
 
 								}
@@ -2993,41 +2621,30 @@ public class POSSalesUI extends SparkLogic {
 							// }
 							// }
 
-							TransactionModel tran = daoObj
-									.getTransaction(salObj.getTransaction_id());
-							tran.setTransaction_details_list(trans
-									.getChildList());
+							TransactionModel tran = daoObj.getTransaction(salObj.getTransaction_id());
+							tran.setTransaction_details_list(trans.getChildList());
 							tran.setDate(salObj.getDate());
 							tran.setLogin_id(getLoginID());
 
 							daoObj.update(salObj, tran, payingAmt);
 
-							saveActivity(
-									getOptionId(),
-									"Sales Updated. Bill No : "
-											+ salObj.getSales_number()
-											+ ", Customer : "
-											+ customerSelect
-													.getItemCaption(customerSelect
-															.getValue())
-											+ ", Amount : "
-											+ salObj.getAmount(), salObj
-											.getId());
+							saveActivity(getOptionId(),
+									"Sales Updated. Bill No : " + salObj.getSales_number() + ", Customer : "
+											+ customerSelect.getItemCaption(customerSelect.getValue()) + ", Amount : "
+											+ salObj.getAmount(),
+									salObj.getId());
 
 							loadSale(salObj.getId());
 
-							Notification.show(
-									getPropertyName("update_success"),
-									Type.WARNING_MESSAGE);
+							Notification.show(getPropertyName("update_success"), Type.WARNING_MESSAGE);
 							printButton.click();
-							
+
 							barcodeField.focus();
 						}
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),
-								Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -3035,104 +2652,86 @@ public class POSSalesUI extends SparkLogic {
 			deleteButton.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
-					if (salesNumberList.getValue() != null	&& !salesNumberList.getValue().toString()
-									.equals("0")) {
-						ConfirmDialog.show(getUI(),	getPropertyName("are_you_sure"),
-								new ConfirmDialog.Listener() {
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											try {
-												daoObj.delete((Long) salesNumberList.getValue());
+					if (salesNumberList.getValue() != null && !salesNumberList.getValue().toString().equals("0")) {
+						ConfirmDialog.show(getUI(), getPropertyName("are_you_sure"), new ConfirmDialog.Listener() {
+							public void onClose(ConfirmDialog dialog) {
+								if (dialog.isConfirmed()) {
+									try {
+										daoObj.delete((Long) salesNumberList.getValue());
 
-												saveActivity(getOptionId(),
-														"Sales Deleted. Bill No : "
-																+ salesNumberList.getItemCaption(salesNumberList.getValue())
-																+ ", Customer : "
-																+ customerSelect.getItemCaption(customerSelect.getValue()),
-																	(Long) salesNumberList.getValue());
+										saveActivity(getOptionId(),
+												"Sales Deleted. Bill No : "
+														+ salesNumberList.getItemCaption(salesNumberList.getValue())
+														+ ", Customer : "
+														+ customerSelect.getItemCaption(customerSelect.getValue()),
+												(Long) salesNumberList.getValue());
 
-												Notification.show(getPropertyName("deleted_success"),Type.WARNING_MESSAGE);
-												loadSale(0);
+										Notification.show(getPropertyName("deleted_success"), Type.WARNING_MESSAGE);
+										loadSale(0);
 
-											} catch (Exception e) {
-												e.printStackTrace();
-												Notification.show(getPropertyName("error"),	Type.ERROR_MESSAGE);
-											}
-										}
+									} catch (Exception e) {
+										e.printStackTrace();
+										Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 									}
-								});
-					}else{
-						boolean isHoldExist=false;
+								}
+							}
+						});
+					} else {
+						boolean isHoldExist = false;
 						try {
 							isHoldExist = holdSalesDao.isExist(date.getValue(), getOfficeID(), holdSalesId);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-						if(isHoldExist){
-							ConfirmDialog.show(getUI(),	getPropertyName("are_you_sure"),
-									new ConfirmDialog.Listener() {
-										public void onClose(ConfirmDialog dialog) {
-											if (dialog.isConfirmed()) {
-												try {
-													holdSalesDao.delete(holdSalesId);
-													Notification.show(getPropertyName("deleted_success"),Type.WARNING_MESSAGE);
-													loadSale(0);
-												} catch (Exception e) {
-													e.printStackTrace();
-													Notification.show(getPropertyName("error"),	Type.ERROR_MESSAGE);
-												}
-											}
+						if (isHoldExist) {
+							ConfirmDialog.show(getUI(), getPropertyName("are_you_sure"), new ConfirmDialog.Listener() {
+								public void onClose(ConfirmDialog dialog) {
+									if (dialog.isConfirmed()) {
+										try {
+											holdSalesDao.delete(holdSalesId);
+											Notification.show(getPropertyName("deleted_success"), Type.WARNING_MESSAGE);
+											loadSale(0);
+										} catch (Exception e) {
+											e.printStackTrace();
+											Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 										}
-									});
+									}
 								}
-							}
+							});
 						}
-					});
+					}
+				}
+			});
 
 			cancelButton.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(ClickEvent event) {
 
-					if (salesNumberList.getValue() != null
-							&& !salesNumberList.getValue().toString()
-									.equals("0")) {
+					if (salesNumberList.getValue() != null && !salesNumberList.getValue().toString().equals("0")) {
 
-						ConfirmDialog.show(getUI(),
-								getPropertyName("are_you_sure"),
-								new ConfirmDialog.Listener() {
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											try {
-												daoObj.cancelSale((Long) salesNumberList
-														.getValue());
+						ConfirmDialog.show(getUI(), getPropertyName("are_you_sure"), new ConfirmDialog.Listener() {
+							public void onClose(ConfirmDialog dialog) {
+								if (dialog.isConfirmed()) {
+									try {
+										daoObj.cancelSale((Long) salesNumberList.getValue());
 
-												saveActivity(
-														getOptionId(),
-														"Sales Deleted. Bill No : "
-																+ salesNumberList
-																		.getItemCaption(salesNumberList
-																				.getValue())
-																+ ", Customer : "
-																+ customerSelect
-																		.getItemCaption(customerSelect
-																				.getValue()),
-														(Long) salesNumberList
-																.getValue());
+										saveActivity(getOptionId(),
+												"Sales Deleted. Bill No : "
+														+ salesNumberList.getItemCaption(salesNumberList.getValue())
+														+ ", Customer : "
+														+ customerSelect.getItemCaption(customerSelect.getValue()),
+												(Long) salesNumberList.getValue());
 
-												Notification
-														.show(getPropertyName("deleted_success"),
-																Type.WARNING_MESSAGE);
-												loadSale(0);
+										Notification.show(getPropertyName("deleted_success"), Type.WARNING_MESSAGE);
+										loadSale(0);
 
-											} catch (Exception e) {
-												e.printStackTrace();
-												Notification
-														.show(getPropertyName("error"),
-																Type.ERROR_MESSAGE);
-											}
-										}
+									} catch (Exception e) {
+										e.printStackTrace();
+										Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 									}
-								});
+								}
+							}
+						});
 					}
 
 				}
@@ -3156,41 +2755,27 @@ public class POSSalesUI extends SparkLogic {
 					itemDiscountRadio.setValue(1);
 					if (selectedItems != null && selectedItems.size() == 1) {
 
-						Item item = table.getItem(selectedItems.iterator()
-								.next());
+						Item item = table.getItem(selectedItems.iterator().next());
 
 						// item.getItemProperty(
 						// TBC_ITEM_NAME).setValue("JPTTTTTT");
 						categorySelectList.setValue((long) 0);
 
-						itemSelectCombo.setValue(item.getItemProperty(
-								TBC_ITEM_ID).getValue());
-						itemComboField.setValue(item.getItemProperty(
-								TBC_ITEM_ID).getValue());
+						itemSelectCombo.setValue(item.getItemProperty(TBC_ITEM_ID).getValue());
+						itemComboField.setValue(item.getItemProperty(TBC_ITEM_ID).getValue());
 
 						if (((Integer) item.getItemProperty(TBC_BILL_TYPE_ID)
 								.getValue()) == SConstants.BILL_TYPE_NORMAL) {
-							netPriceTextField.setNewValue(""
-									+ item.getItemProperty(TBC_NET_PRICE)
-											.getValue());
-							quantityTextField.setValue(""
-									+ item.getItemProperty(TBC_QTY).getValue());
-							unitPriceTextField.setNewValue(""
-									+ item.getItemProperty(TBC_UNIT_PRICE)
-											.getValue());
+							netPriceTextField.setNewValue("" + item.getItemProperty(TBC_NET_PRICE).getValue());
+							quantityTextField.setValue("" + item.getItemProperty(TBC_QTY).getValue());
+							unitPriceTextField.setNewValue("" + item.getItemProperty(TBC_UNIT_PRICE).getValue());
 						} else {
-							netPriceTextField.setNewValue(""
-									+ (-1)
-									* (Double) item.getItemProperty(
-											TBC_NET_PRICE).getValue());
-							quantityTextField.setValue(""
-									+ (-1)
-									* (Double) item.getItemProperty(TBC_QTY)
-											.getValue());
+							netPriceTextField
+									.setNewValue("" + (-1) * (Double) item.getItemProperty(TBC_NET_PRICE).getValue());
+							quantityTextField.setValue("" + (-1) * (Double) item.getItemProperty(TBC_QTY).getValue());
 
-							unitPriceTextField.setNewValue(""
-									+ (Double) item.getItemProperty(
-											TBC_UNIT_PRICE).getValue());
+							unitPriceTextField
+									.setNewValue("" + (Double) item.getItemProperty(TBC_UNIT_PRICE).getValue());
 						}
 
 						visibleAddupdateSalesButton(false, true);
@@ -3203,34 +2788,22 @@ public class POSSalesUI extends SparkLogic {
 							quantityTextField.focus();
 						}
 
-						unitSelect.setNewValue(item
-								.getItemProperty(TBC_UNIT_ID).getValue());
+						unitSelect.setNewValue(item.getItemProperty(TBC_UNIT_ID).getValue());
 
 						if (taxEnable) {
-							taxSelect.setValue(item.getItemProperty(TBC_TAX_ID)
-									.getValue());
+							taxSelect.setValue(item.getItemProperty(TBC_TAX_ID).getValue());
 						}
 						if (isDiscountEnable()) {
-							itemDiscountRadio.setValue((Integer) item
-									.getItemProperty(TBC_DISCOUNT_TYPE)
-									.getValue());
-							itemDiscountPercentField.setValue((Double) item
-									.getItemProperty(TBC_DISCOUNT_PERCENTAGE)
-									.getValue()
-									+ "");
-							itemDiscountAmountField.setNewValue(Math
-									.abs((Double) item.getItemProperty(
-											TBC_DISCOUNT).getValue())
-									+ "");
+							itemDiscountRadio.setValue((Integer) item.getItemProperty(TBC_DISCOUNT_TYPE).getValue());
+							itemDiscountPercentField
+									.setValue((Double) item.getItemProperty(TBC_DISCOUNT_PERCENTAGE).getValue() + "");
+							itemDiscountAmountField
+									.setNewValue(Math.abs((Double) item.getItemProperty(TBC_DISCOUNT).getValue()) + "");
 						}
-						stockSelectList.setValue(item.getItemProperty(
-								TBC_STOCK_ID).getValue());
-						convertionQtyTextField.setNewValue(""
-								+ item.getItemProperty(TBC_CONVERTION_QTY)
-										.getValue());
+						stockSelectList.setValue(item.getItemProperty(TBC_STOCK_ID).getValue());
+						convertionQtyTextField.setNewValue("" + item.getItemProperty(TBC_CONVERTION_QTY).getValue());
 
-						billTypeField.setValue(item.getItemProperty(
-								TBC_BILL_TYPE_ID).getValue());
+						billTypeField.setValue(item.getItemProperty(TBC_BILL_TYPE_ID).getValue());
 						// paymentModeCombo.setValue(item.getItemProperty(TBC_PAYMENT_MODE_ID).getValue());
 						// paymentAmountTextField.setValue((Double)item.getItemProperty(TBC_PAYMENT_AMOUNT).getValue());
 
@@ -3281,8 +2854,7 @@ public class POSSalesUI extends SparkLogic {
 
 						if (isAddingValid()) {
 
-							ItemModel itm = itmDao
-									.getItem((Long) itemComboField.getValue());
+							ItemModel itm = itmDao.getItem((Long) itemComboField.getValue());
 							Item item;
 							List delList = new ArrayList();
 							double qty, price, discount, tax_amt, tax_perc, total, conv_rat, discPer = 0;
@@ -3293,30 +2865,24 @@ public class POSSalesUI extends SparkLogic {
 
 							price = toDouble(unitPriceTextField.getValue());
 							qty = toDouble(quantityTextField.getValue());
-							discPer = toDouble(itemDiscountPercentField
-									.getValue());
-							discount_amt = toDouble(itemDiscountAmountField
-									.getValue().trim());
-							netPriceTextField
-									.setNewValue(roundNumberToString(price * qty));
+							discPer = toDouble(itemDiscountPercentField.getValue());
+							discount_amt = toDouble(itemDiscountAmountField.getValue().trim());
+							netPriceTextField.setNewValue(roundNumberToString(price * qty));
 
 							table.setVisibleColumns(allHeaders);
 
-							UnitModel objUnit = new UnitDao()
-									.getUnit((Long) unitSelect.getValue());
+							UnitModel objUnit = new UnitDao().getUnit((Long) unitSelect.getValue());
 
 							tax_amt = 0;
 							tax_perc = 0;
 
 							TaxModel objTax = null;
 							if (taxEnable) {
-								objTax = taxDao.getTax((Long) taxSelect
-										.getValue());
+								objTax = taxDao.getTax((Long) taxSelect.getValue());
 
 								if (objTax.getValue_type() == 1) {
 									tax_perc = objTax.getValue();
-									tax_amt = roundNumber(price * qty
-											* objTax.getValue() / 100);
+									tax_amt = roundNumber(price * qty * objTax.getValue() / 100);
 								} else {
 									tax_perc = 0;
 									tax_amt = roundNumber(objTax.getValue());
@@ -3335,156 +2901,82 @@ public class POSSalesUI extends SparkLogic {
 							// toInt(salesTypeSelect.getValue()
 							// .toString()));
 
-							conv_rat = toDouble(convertionQtyTextField
-									.getValue());
-							int tableValue = isAlreadyDataExist(itm.getId(), toInt(billTypeField.getValue().toString()));
-							if(tableValue == 0){
+							conv_rat = toDouble(convertionQtyTextField.getValue());
+							int tableValue = isAlreadyDataExist(itm.getId(),
+									toInt(billTypeField.getValue().toString()));
+							if (tableValue == 0) {
 								if (toInt(billTypeField.getValue().toString()) == SConstants.BILL_TYPE_NORMAL) {
-									table.addItem(
-											new Object[] {
-													table.getItemIds().size() + 1,
-													itm.getId(),
-													itm.getName() + " ("
-															+ itm.getItem_code()
-															+ ")",
-													qty,
-													objUnit.getId(),
-													objUnit.getSymbol(),
-													toDouble(unitPriceTextField
-															.getValue()),
-													objTax.getId(),
-													tax_amt,
-													tax_perc,
-													(Integer) itemDiscountRadio
-															.getValue(),
-													roundNumber(discPer),
-													roundNumber(discount_amt),
-													total,
-													(long) 0,
-													(long) 0,
-													roundNumber(total + tax_amt),
-													roundNumber(total + tax_amt
-															- discount_amt),
-													conv_rat * qty,
-													(Long) stockSelectList
-															.getValue(),
-													conv_rat,
-													(Integer) billTypeField
-															.getValue() }, table
-													.getItemIds().size() + 1);
+									table.addItem(new Object[] { table.getItemIds().size() + 1, itm.getId(),
+											itm.getName() + " (" + itm.getItem_code() + ")", qty, objUnit.getId(),
+											objUnit.getSymbol(), toDouble(unitPriceTextField.getValue()),
+											objTax.getId(), tax_amt, tax_perc, (Integer) itemDiscountRadio.getValue(),
+											roundNumber(discPer), roundNumber(discount_amt), total, (long) 0, (long) 0,
+											roundNumber(total + tax_amt), roundNumber(total + tax_amt - discount_amt),
+											conv_rat * qty, (Long) stockSelectList.getValue(), conv_rat,
+											(Integer) billTypeField.getValue() }, table.getItemIds().size() + 1);
 								} else {
-									table.addItem(
-											new Object[] {
-													table.getItemIds().size() + 1,
-													itm.getId(),
-													itm.getName() + " ("
-															+ itm.getItem_code()
-															+ ")",
-													-qty,
-													objUnit.getId(),
-													objUnit.getSymbol(),
-													toDouble(unitPriceTextField
-															.getValue()),
-													objTax.getId(),
-													-tax_amt,
-													tax_perc,
-													(Integer) itemDiscountRadio
-															.getValue(),
-													roundNumber(discPer),
-													-roundNumber(discount_amt),
-													-total,
-													(long) 0,
-													(long) 0,
-													-roundNumber(total + tax_amt),
-													-roundNumber(total + tax_amt
-															- discount_amt),
-													-conv_rat * qty,
-													(Long) stockSelectList
-															.getValue(),
-													-conv_rat,
-													(Integer) billTypeField
-															.getValue() }, table
-													.getItemIds().size() + 1);
+									table.addItem(new Object[] { table.getItemIds().size() + 1, itm.getId(),
+											itm.getName() + " (" + itm.getItem_code() + ")", -qty, objUnit.getId(),
+											objUnit.getSymbol(), toDouble(unitPriceTextField.getValue()),
+											objTax.getId(), -tax_amt, tax_perc, (Integer) itemDiscountRadio.getValue(),
+											roundNumber(discPer), -roundNumber(discount_amt), -total, (long) 0,
+											(long) 0, -roundNumber(total + tax_amt),
+											-roundNumber(total + tax_amt - discount_amt), -conv_rat * qty,
+											(Long) stockSelectList.getValue(), -conv_rat,
+											(Integer) billTypeField.getValue() }, table.getItemIds().size() + 1);
 								}
 							} else {
-								
+
 								item = table.getItem(tableValue);
-								qty += Math.abs((Double)item.getItemProperty(TBC_QTY).getValue());
-								tax_amt += Math.abs((Double)item.getItemProperty(TBC_TAX_AMT).getValue());
-								total += Math.abs((Double)item.getItemProperty(TBC_NET_PRICE).getValue());
-								discount_amt += Math.abs((Double)item.getItemProperty(TBC_DISCOUNT).getValue());
-								
+								qty += Math.abs((Double) item.getItemProperty(TBC_QTY).getValue());
+								tax_amt += Math.abs((Double) item.getItemProperty(TBC_TAX_AMT).getValue());
+								total += Math.abs((Double) item.getItemProperty(TBC_NET_PRICE).getValue());
+								discount_amt += Math.abs((Double) item.getItemProperty(TBC_DISCOUNT).getValue());
+
 								if ((Integer) billTypeField.getValue() == SConstants.BILL_TYPE_NORMAL) {
 //									qty += (Double)item.getItemProperty(TBC_QTY).getValue();
 //									tax_amt += (Double)item.getItemProperty(TBC_TAX_AMT).getValue();
 //									total += (Double)item.getItemProperty(TBC_NET_PRICE).getValue();
 //									discount_amt += (Double)item.getItemProperty(TBC_DISCOUNT).getValue();
-							//		total += (Double)item.getItemProperty(TBC_NET_TOTAL).getValue();
-								//	total += (Double)item.getItemProperty(TBC_NET_FINAL).getValue();
-									
-									
+									// total += (Double)item.getItemProperty(TBC_NET_TOTAL).getValue();
+									// total += (Double)item.getItemProperty(TBC_NET_FINAL).getValue();
+
 									item.getItemProperty(TBC_QTY).setValue(qty);
-									item.getItemProperty(TBC_TAX_AMT).setValue(
-											tax_amt);
-									item.getItemProperty(TBC_NET_PRICE).setValue(
-											total);
-									item.getItemProperty(TBC_DISCOUNT).setValue(
-											roundNumber(discount_amt));
-									item.getItemProperty(TBC_NET_TOTAL)
-											.setValue(
-													roundNumber(total + tax_amt));
-									item.getItemProperty(TBC_NET_FINAL).setValue(
-											roundNumber(total + tax_amt  - discount_amt));
-								} else {											
+									item.getItemProperty(TBC_TAX_AMT).setValue(tax_amt);
+									item.getItemProperty(TBC_NET_PRICE).setValue(total);
+									item.getItemProperty(TBC_DISCOUNT).setValue(roundNumber(discount_amt));
+									item.getItemProperty(TBC_NET_TOTAL).setValue(roundNumber(total + tax_amt));
+									item.getItemProperty(TBC_NET_FINAL)
+											.setValue(roundNumber(total + tax_amt - discount_amt));
+								} else {
 									item.getItemProperty(TBC_QTY).setValue(-qty);
-									item.getItemProperty(TBC_TAX_AMT).setValue(
-											-tax_amt);
-									item.getItemProperty(TBC_NET_PRICE).setValue(
-											-total);
-									item.getItemProperty(TBC_DISCOUNT).setValue(
-											-roundNumber(discount_amt));
-									item.getItemProperty(TBC_NET_TOTAL)
-											.setValue(
-													-roundNumber(total + tax_amt
-															));
-									item.getItemProperty(TBC_NET_FINAL).setValue(
-											-roundNumber(total + tax_amt 
-													- discount_amt));
+									item.getItemProperty(TBC_TAX_AMT).setValue(-tax_amt);
+									item.getItemProperty(TBC_NET_PRICE).setValue(-total);
+									item.getItemProperty(TBC_DISCOUNT).setValue(-roundNumber(discount_amt));
+									item.getItemProperty(TBC_NET_TOTAL).setValue(-roundNumber(total + tax_amt));
+									item.getItemProperty(TBC_NET_FINAL)
+											.setValue(-roundNumber(total + tax_amt - discount_amt));
 								}
 
-								item.getItemProperty(TBC_UNIT_ID).setValue(
-										objUnit.getId());
-								item.getItemProperty(TBC_UNIT).setValue(
-										objUnit.getSymbol());
-								item.getItemProperty(TBC_UNIT_PRICE).setValue(
-										toDouble(unitPriceTextField.getValue()));
-								item.getItemProperty(TBC_TAX_ID).setValue(
-										objTax.getId());
+								item.getItemProperty(TBC_UNIT_ID).setValue(objUnit.getId());
+								item.getItemProperty(TBC_UNIT).setValue(objUnit.getSymbol());
+								item.getItemProperty(TBC_UNIT_PRICE).setValue(toDouble(unitPriceTextField.getValue()));
+								item.getItemProperty(TBC_TAX_ID).setValue(objTax.getId());
 
-								item.getItemProperty(TBC_TAX_PERC).setValue(
-										tax_perc);
+								item.getItemProperty(TBC_TAX_PERC).setValue(tax_perc);
 
-								item.getItemProperty(TBC_DISCOUNT_TYPE).setValue(
-										(Integer) itemDiscountRadio.getValue());
-								item.getItemProperty(TBC_DISCOUNT_PERCENTAGE)
-										.setValue(roundNumber(discPer));
-
-							
+								item.getItemProperty(TBC_DISCOUNT_TYPE)
+										.setValue((Integer) itemDiscountRadio.getValue());
+								item.getItemProperty(TBC_DISCOUNT_PERCENTAGE).setValue(roundNumber(discPer));
 
 								item.getItemProperty(TBC_CONVERTION_QTY)
-										.setValue((Double)item.getItemProperty(TBC_CONVERTION_QTY).getValue() +
-												toDouble(convertionQtyTextField
-														.getValue()));
-							
+										.setValue((Double) item.getItemProperty(TBC_CONVERTION_QTY).getValue()
+												+ toDouble(convertionQtyTextField.getValue()));
 
-								conv_rat = toDouble(convertionQtyTextField
-										.getValue());
+								conv_rat = toDouble(convertionQtyTextField.getValue());
 
-								item.getItemProperty(TBC_QTY_IN_BASIC_UNI)
-										.setValue(conv_rat * qty);
+								item.getItemProperty(TBC_QTY_IN_BASIC_UNI).setValue(conv_rat * qty);
 							}
-
-							
 
 							table.setVisibleColumns(requiredHeaders);
 
@@ -3502,18 +2994,13 @@ public class POSSalesUI extends SparkLogic {
 
 							focusType = 1;
 						} else {
-							System.out
-									.println("===============IS NOT VALID ==============================");
+							System.out.println("===============IS NOT VALID ==============================");
 						}
 						/*
-						 * else { itemSelectCombo.setValue(null);
-						 * itemComboField.setValue(null);
-						 * quantityTextField.setValue("1");
-						 * keyboardTextField.setValue("0.0");
-						 * unitPriceTextField.setNewValue("0.0");
-						 * netPriceTextField.setNewValue("0.0");
-						 * itemDiscountRadio.setValue(null);
-						 * itemDiscountRadio.setValue(1); }
+						 * else { itemSelectCombo.setValue(null); itemComboField.setValue(null);
+						 * quantityTextField.setValue("1"); keyboardTextField.setValue("0.0");
+						 * unitPriceTextField.setNewValue("0.0"); netPriceTextField.setNewValue("0.0");
+						 * itemDiscountRadio.setValue(null); itemDiscountRadio.setValue(1); }
 						 */
 						calculateTotals();
 
@@ -3524,8 +3011,7 @@ public class POSSalesUI extends SparkLogic {
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),
-								Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 					if (settings.isBARCODE_ENABLED()) {
 						barcodeField.focus();
@@ -3542,14 +3028,11 @@ public class POSSalesUI extends SparkLogic {
 
 						if (isUpdatingValid()) {
 
-							ItemModel itm = itmDao
-									.getItem((Long) itemComboField.getValue());
+							ItemModel itm = itmDao.getItem((Long) itemComboField.getValue());
 
-							Collection selectedItems = (Collection) table
-									.getValue();
+							Collection selectedItems = (Collection) table.getValue();
 
-							Item item = table.getItem(selectedItems.iterator()
-									.next());
+							Item item = table.getItem(selectedItems.iterator().next());
 
 							double price = 0, qty = 0, total = 0, discount_amt = 0, discPer = 0;
 
@@ -3558,8 +3041,7 @@ public class POSSalesUI extends SparkLogic {
 							discount_amt = toDouble(itemDiscountAmountField.getValue());
 							discPer = toDouble(itemDiscountPercentField.getValue());
 
-							netPriceTextField.setNewValue(roundNumberToString(roundNumber(price
-											* qty - discount_amt)));
+							netPriceTextField.setNewValue(roundNumberToString(roundNumber(price * qty - discount_amt)));
 
 							// table.setVisibleColumns(new String[] {TBC_SN,
 							// TBC_ITEM_ID,TBC_ITEM_CODE, TBC_ITEM_NAME,TBC_QTY,
@@ -3567,20 +3049,17 @@ public class POSSalesUI extends SparkLogic {
 							// TBC_UNIT_PRICE,TBC_TAX_ID, TBC_TAX_AMT,
 							// TBC_TAX_PERC , TBC_NET_PRICE});
 
-							UnitModel objUnit = new UnitDao()
-									.getUnit((Long) unitSelect.getValue());
+							UnitModel objUnit = new UnitDao().getUnit((Long) unitSelect.getValue());
 
 							double tax_amt = 0, tax_perc = 0;
 
 							TaxModel objTax = null;
 							if (taxEnable) {
-								objTax = taxDao.getTax((Long) taxSelect
-										.getValue());
+								objTax = taxDao.getTax((Long) taxSelect.getValue());
 
 								if (objTax.getValue_type() == 1) {
 									tax_perc = objTax.getValue();
-									tax_amt = roundNumber(price * qty
-											* objTax.getValue() / 100);
+									tax_amt = roundNumber(price * qty * objTax.getValue() / 100);
 								} else {
 									tax_perc = 0;
 									tax_amt = objTax.getValue();
@@ -3593,10 +3072,8 @@ public class POSSalesUI extends SparkLogic {
 
 							double cess_amt = 0;
 							if (isCessEnableOnItem(itm.getId())) {
-								double cess_perc = roundNumber((Double) session
-										.getAttribute("cess_percentage"));
-								cess_amt = roundNumber(tax_amt
-										* getCessPercentage() / 100);
+								double cess_perc = roundNumber((Double) session.getAttribute("cess_percentage"));
+								cess_amt = roundNumber(tax_amt * getCessPercentage() / 100);
 							}
 							// int id=(Integer) table.getValue();
 							// table.removeItem(table.getValue());
@@ -3607,89 +3084,56 @@ public class POSSalesUI extends SparkLogic {
 							// toDouble(unitPriceTextField.getValue()),
 							// objTax.getId(), tax_amt, tax_perc, totalAmt},
 							// id);
-							
 
-							item.getItemProperty(TBC_ITEM_ID).setValue(
-									itm.getId());
-							item.getItemProperty(TBC_ITEM_NAME).setValue(
-									itm.getName() + " (" + itm.getItem_code()
-											+ ")");
+							item.getItemProperty(TBC_ITEM_ID).setValue(itm.getId());
+							item.getItemProperty(TBC_ITEM_NAME)
+									.setValue(itm.getName() + " (" + itm.getItem_code() + ")");
 							if ((Integer) billTypeField.getValue() == SConstants.BILL_TYPE_NORMAL) {
 								item.getItemProperty(TBC_QTY).setValue(qty);
-								item.getItemProperty(TBC_TAX_AMT).setValue(
-										tax_amt);
-								item.getItemProperty(TBC_NET_PRICE).setValue(
-										total);
-								item.getItemProperty(TBC_DISCOUNT).setValue(
-										roundNumber(discount_amt));
-								item.getItemProperty(TBC_NET_TOTAL)
-										.setValue(
-												roundNumber(total + tax_amt
-														+ cess_amt));
-								item.getItemProperty(TBC_NET_FINAL).setValue(
-										roundNumber(total + tax_amt + cess_amt
-												- discount_amt));
+								item.getItemProperty(TBC_TAX_AMT).setValue(tax_amt);
+								item.getItemProperty(TBC_NET_PRICE).setValue(total);
+								item.getItemProperty(TBC_DISCOUNT).setValue(roundNumber(discount_amt));
+								item.getItemProperty(TBC_NET_TOTAL).setValue(roundNumber(total + tax_amt + cess_amt));
+								item.getItemProperty(TBC_NET_FINAL)
+										.setValue(roundNumber(total + tax_amt + cess_amt - discount_amt));
 							} else {
 								item.getItemProperty(TBC_QTY).setValue(-qty);
-								item.getItemProperty(TBC_TAX_AMT).setValue(
-										-tax_amt);
-								item.getItemProperty(TBC_NET_PRICE).setValue(
-										-total);
-								item.getItemProperty(TBC_DISCOUNT).setValue(
-										-roundNumber(discount_amt));
-								item.getItemProperty(TBC_NET_TOTAL)
-										.setValue(
-												-roundNumber(total + tax_amt
-														+ cess_amt));
-								item.getItemProperty(TBC_NET_FINAL).setValue(
-										-roundNumber(total + tax_amt + cess_amt
-												- discount_amt));
+								item.getItemProperty(TBC_TAX_AMT).setValue(-tax_amt);
+								item.getItemProperty(TBC_NET_PRICE).setValue(-total);
+								item.getItemProperty(TBC_DISCOUNT).setValue(-roundNumber(discount_amt));
+								item.getItemProperty(TBC_NET_TOTAL).setValue(-roundNumber(total + tax_amt + cess_amt));
+								item.getItemProperty(TBC_NET_FINAL)
+										.setValue(-roundNumber(total + tax_amt + cess_amt - discount_amt));
 							}
 
-							item.getItemProperty(TBC_UNIT_ID).setValue(
-									objUnit.getId());
-							item.getItemProperty(TBC_UNIT).setValue(
-									objUnit.getSymbol());
-							item.getItemProperty(TBC_UNIT_PRICE).setValue(
-									toDouble(unitPriceTextField.getValue()));
-							item.getItemProperty(TBC_TAX_ID).setValue(
-									objTax.getId());
+							item.getItemProperty(TBC_UNIT_ID).setValue(objUnit.getId());
+							item.getItemProperty(TBC_UNIT).setValue(objUnit.getSymbol());
+							item.getItemProperty(TBC_UNIT_PRICE).setValue(toDouble(unitPriceTextField.getValue()));
+							item.getItemProperty(TBC_TAX_ID).setValue(objTax.getId());
 
-							item.getItemProperty(TBC_TAX_PERC).setValue(
-									tax_perc);
+							item.getItemProperty(TBC_TAX_PERC).setValue(tax_perc);
 
-							item.getItemProperty(TBC_DISCOUNT_TYPE).setValue(
-									(Integer) itemDiscountRadio.getValue());
-							item.getItemProperty(TBC_DISCOUNT_PERCENTAGE)
-									.setValue(roundNumber(discPer));
+							item.getItemProperty(TBC_DISCOUNT_TYPE).setValue((Integer) itemDiscountRadio.getValue());
+							item.getItemProperty(TBC_DISCOUNT_PERCENTAGE).setValue(roundNumber(discPer));
 
-							item.getItemProperty(TBC_BILL_TYPE_ID).setValue(
-									(Integer) billTypeField.getValue());
-						
+							item.getItemProperty(TBC_BILL_TYPE_ID).setValue((Integer) billTypeField.getValue());
 
 							if (stockSelectList.getValue() != null)
-								item.getItemProperty(TBC_STOCK_ID).setValue(
-										(Long) stockSelectList.getValue());
+								item.getItemProperty(TBC_STOCK_ID).setValue((Long) stockSelectList.getValue());
 
 							item.getItemProperty(TBC_CONVERTION_QTY)
-									.setValue(
-											toDouble(convertionQtyTextField
-													.getValue()));
+									.setValue(toDouble(convertionQtyTextField.getValue()));
 
 							/*
 							 * item.getItemProperty(TBC_MANUFACT_DATE).setValue(
-							 * stk.getManufacturing_date());
-							 * item.getItemProperty(TBC_EXPIRE_DATE).setValue(
-							 * stk.getExpiry_date());
-							 * item.getItemProperty(TBC_STOCK_ID).setValue(
+							 * stk.getManufacturing_date()); item.getItemProperty(TBC_EXPIRE_DATE).setValue(
+							 * stk.getExpiry_date()); item.getItemProperty(TBC_STOCK_ID).setValue(
 							 * stk.getId());
 							 */
 
-							double conv_rat = toDouble(convertionQtyTextField
-									.getValue());
+							double conv_rat = toDouble(convertionQtyTextField.getValue());
 
-							item.getItemProperty(TBC_QTY_IN_BASIC_UNI)
-									.setValue(conv_rat * qty);
+							item.getItemProperty(TBC_QTY_IN_BASIC_UNI).setValue(conv_rat * qty);
 
 							table.setVisibleColumns(requiredHeaders);
 
@@ -3717,8 +3161,7 @@ public class POSSalesUI extends SparkLogic {
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),
-								Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 					if (settings.isBARCODE_ENABLED()) {
 						barcodeField.focus();
@@ -3761,29 +3204,24 @@ public class POSSalesUI extends SparkLogic {
 				}
 			});
 
-			categorySelectList
-					.addValueChangeListener(new ValueChangeListener() {
-						public void valueChange(ValueChangeEvent event) {
-							SCollectionContainer bic = null;
-							try {
-								if (categorySelectList.getValue() != null)
-									bic = SCollectionContainer.setList(
-											itmDao.getAllActiveItemsWithAppendingItemCode(
-													getOfficeID(),
-													(Long) categorySelectList
-															.getValue(), 0),
-											"id");
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							itemSelectCombo.setContainerDataSource(bic);
-							itemSelectCombo.setItemCaptionPropertyId("name");
-							if (settings.isBARCODE_ENABLED()) {
-								barcodeField.focus();
-								barcodeField.setValue("");
-							}
-						}
-					});
+			categorySelectList.addValueChangeListener(new ValueChangeListener() {
+				public void valueChange(ValueChangeEvent event) {
+					SCollectionContainer bic = null;
+					try {
+						if (categorySelectList.getValue() != null)
+							bic = SCollectionContainer.setList(itmDao.getAllActiveItemsWithAppendingItemCode(
+									getOfficeID(), (Long) categorySelectList.getValue(), 0), "id");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					itemSelectCombo.setContainerDataSource(bic);
+					itemSelectCombo.setItemCaptionPropertyId("name");
+					if (settings.isBARCODE_ENABLED()) {
+						barcodeField.focus();
+						barcodeField.setValue("");
+					}
+				}
+			});
 			categorySelectList.setValue((long) 0);
 
 			itemSelectCombo.addValueChangeListener(new ValueChangeListener() {
@@ -3806,13 +3244,10 @@ public class POSSalesUI extends SparkLogic {
 							// unitPriceTextField.removeFocusListener(focusListener);
 							// convertionQtyTextField.removeFocusListener(focusListener);
 
-							ItemModel itm = itmDao
-									.getItem((Long) itemComboField.getValue());
+							ItemModel itm = itmDao.getItem((Long) itemComboField.getValue());
 
-							SCollectionContainer bic = SCollectionContainer.setList(
-									new UnitDao()
-											.getAllActiveUnits(getOrganizationID()),
-									"id");
+							SCollectionContainer bic = SCollectionContainer
+									.setList(new UnitDao().getAllActiveUnits(getOrganizationID()), "id");
 							unitSelect.setReadOnly(false);
 							unitSelect.setContainerDataSource(bic);
 							unitSelect.setItemCaptionPropertyId("symbol");
@@ -3824,25 +3259,19 @@ public class POSSalesUI extends SparkLogic {
 							unitSelect.setNewValue(itm.getUnit().getId());
 							unitSelect.setReadOnly(true);
 
-							List lst = comDao.getStocks(
-									(Long) itemComboField.getValue(),
+							List lst = comDao.getStocks((Long) itemComboField.getValue(),
 									settings.isUSE_SALES_RATE_FROM_STOCK());
 
-							SCollectionContainer bic1 = SCollectionContainer
-									.setList(lst, "id");
+							SCollectionContainer bic1 = SCollectionContainer.setList(lst, "id");
 							stockSelectList.setContainerDataSource(bic1);
-							stockSelectList
-									.setItemCaptionPropertyId("stock_details");
+							stockSelectList.setItemCaptionPropertyId("stock_details");
 
-							long stk_id = comDao
-									.getDefaultStockToSelect((Long) itemComboField
-											.getValue());
+							long stk_id = comDao.getDefaultStockToSelect((Long) itemComboField.getValue());
 
 							if (stk_id != 0)
 								stockSelectList.setValue(stk_id);
 							else {
-								Iterator it = stockSelectList.getItemIds()
-										.iterator();
+								Iterator it = stockSelectList.getItemIds().iterator();
 								if (it.hasNext())
 									stockSelectList.setValue(it.next());
 							}
@@ -3855,104 +3284,72 @@ public class POSSalesUI extends SparkLogic {
 				}
 			});
 
-			unitSelect
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						public void valueChange(ValueChangeEvent event) {
-							try {
-								if (unitSelect.getValue() != null) {
-									if (itemComboField.getValue() != null) {
+			unitSelect.addValueChangeListener(new Property.ValueChangeListener() {
+				public void valueChange(ValueChangeEvent event) {
+					try {
+						if (unitSelect.getValue() != null) {
+							if (itemComboField.getValue() != null) {
 
-										ItemModel itm = itmDao
-												.getItem((Long) itemComboField
-														.getValue());
+								ItemModel itm = itmDao.getItem((Long) itemComboField.getValue());
 
-										if (((Long) unitSelect.getValue()) == itm
-												.getUnit().getId()) {
-											convertionQtyTextField
-													.setValue("1");
-											convertionQtyTextField
-													.setVisible(false);
-											convertedQtyTextField
-													.setVisible(false);
-										} else {
-											convertionQtyTextField
-													.setVisible(true);
-											convertedQtyTextField
-													.setVisible(true);
-
-											convertionQtyTextField
-													.setCaption("Conv. Qty");
-											convertedQtyTextField
-													.setCaption("Qty - "
-															+ itm.getUnit()
-																	.getSymbol());
-
-											double cnvr_qty = comDao.getConvertionRate(
-													itm.getId(),
-													(Long) unitSelect
-															.getValue(),
-													toInt(salesTypeSelect
-															.getValue()
-															.toString()));
-
-											convertionQtyTextField
-													.setValue(asString(cnvr_qty));
-
-										}
-
-										unitPriceTextField.setNewValue(roundNumberToString(comDao
-												.getItemPrice(itm.getId(),
-														(Long) unitSelect
-																.getValue(),
-														toInt(salesTypeSelect
-																.getValue()
-																.toString()))));
-
-										if (quantityTextField.getValue() != null
-												&& !quantityTextField
-														.getValue().equals("")) {
-
-											convertedQtyTextField.setNewValue(asString(Double
-													.parseDouble(quantityTextField
-															.getValue())
-													* Double.parseDouble(convertionQtyTextField
-															.getValue())));
-
-											netPriceTextField.setNewValue(roundNumberToString(Double
-													.parseDouble(unitPriceTextField
-															.getValue())
-													* Double.parseDouble(quantityTextField
-															.getValue())));
-											// paymentAmountTextField.setValue(toDouble(netPriceTextField.getValue()));
-										}
-
-									}
-								} else {
+								if (((Long) unitSelect.getValue()) == itm.getUnit().getId()) {
 									convertionQtyTextField.setValue("1");
 									convertionQtyTextField.setVisible(false);
 									convertedQtyTextField.setVisible(false);
+								} else {
+									convertionQtyTextField.setVisible(true);
+									convertedQtyTextField.setVisible(true);
+
+									convertionQtyTextField.setCaption("Conv. Qty");
+									convertedQtyTextField.setCaption("Qty - " + itm.getUnit().getSymbol());
+
+									double cnvr_qty = comDao.getConvertionRate(itm.getId(),
+											(Long) unitSelect.getValue(), toInt(salesTypeSelect.getValue().toString()));
+
+									convertionQtyTextField.setValue(asString(cnvr_qty));
+
 								}
-							} catch (Exception e) {
-								e.printStackTrace();
-								Notification.show(getPropertyName("error"),
-										Type.ERROR_MESSAGE);
+
+								unitPriceTextField.setNewValue(roundNumberToString(comDao.getItemPrice(itm.getId(),
+										(Long) unitSelect.getValue(), toInt(salesTypeSelect.getValue().toString()))));
+
+								if (quantityTextField.getValue() != null && !quantityTextField.getValue().equals("")) {
+
+									convertedQtyTextField
+											.setNewValue(asString(Double.parseDouble(quantityTextField.getValue())
+													* Double.parseDouble(convertionQtyTextField.getValue())));
+
+									netPriceTextField.setNewValue(
+											roundNumberToString(Double.parseDouble(unitPriceTextField.getValue())
+													* Double.parseDouble(quantityTextField.getValue())));
+									// paymentAmountTextField.setValue(toDouble(netPriceTextField.getValue()));
+								}
+
 							}
-
+						} else {
+							convertionQtyTextField.setValue("1");
+							convertionQtyTextField.setVisible(false);
+							convertedQtyTextField.setVisible(false);
 						}
-					});
+					} catch (Exception e) {
+						e.printStackTrace();
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
+					}
 
-			salesTypeSelect
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						public void valueChange(ValueChangeEvent event) {
+				}
+			});
 
-							Object obj = unitSelect.getValue();
-							unitSelect.setNewValue(null);
-							unitSelect.setNewValue(obj);
+			salesTypeSelect.addValueChangeListener(new Property.ValueChangeListener() {
+				public void valueChange(ValueChangeEvent event) {
 
-							barcodeField.focus();
-							barcodeField.setValue("");
-						}
-					});
+					Object obj = unitSelect.getValue();
+					unitSelect.setNewValue(null);
+					unitSelect.setNewValue(obj);
+
+					barcodeField.focus();
+					barcodeField.setValue("");
+				}
+			});
 
 			// Added by Anil
 
@@ -3967,46 +3364,31 @@ public class POSSalesUI extends SparkLogic {
 					double total = 0;
 					try {
 
-						SalesModel salObj = daoObj
-								.getSale((Long) salesNumberList.getValue());
+						SalesModel salObj = daoObj.getSale((Long) salesNumberList.getValue());
 
-						CustomerModel customerModel = custDao
-								.getCustomerFromLedger(salObj.getCustomer()
-										.getId());
+						CustomerModel customerModel = custDao.getCustomerFromLedger(salObj.getCustomer().getId());
 						String address = "";
 						if (customerModel != null) {
-							address = new AddressDao()
-									.getAddressString(customerModel
-											.getAddress().getId());
+							address = new AddressBusiness().getAddressString(customerModel.getAddress().getId());
 						}
-						map.put("SALES_BILL_NO", toLong(salesNumberList
-								.getItemCaption(salesNumberList.getValue())));
-						map.put("SALES_MAN", usrDao
-								.getUserNameFromLoginID(salObj
-										.getResponsible_employee()));
-						map.put("BILL_DATE", CommonUtil
-								.formatDateToDDMMMYYYY(salObj.getDate()));
-						map.put("roundOffDisc",
-								toDouble(discountAmountField.getValue()));
+						map.put("SALES_BILL_NO", toLong(salesNumberList.getItemCaption(salesNumberList.getValue())));
+						map.put("SALES_MAN", usrDao.getUserNameFromLoginID(salObj.getResponsible_employee()));
+						map.put("BILL_DATE", CommonUtil.formatDateToDDMMMYYYY(salObj.getDate()));
+						map.put("roundOffDisc", toDouble(discountAmountField.getValue()));
 						map.put("paidAmount", paymentAmountTextField.getValue());
-						map.put("CURRENCY", salObj.getOffice().getCurrency()
-								.getCode());
-						map.put("balanceAmount",
-								toDouble(balanceAmountTextField.getValue()));
+						map.put("CURRENCY", salObj.getOffice().getCurrency().getCode());
+						map.put("balanceAmount", toDouble(balanceAmountTextField.getValue()));
 
-						String basePath = VaadinServlet.getCurrent()
-								.getServletContext().getRealPath("/")
+						String basePath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")
 								+ "VAADIN/themes/testappstheme/OrganizationLogos/";
 						File file = new File(basePath + salObj.getOffice().getOrganization().getLogoName());
 						if (file == null || !file.exists())
 							map.put("HEADER_DIR", basePath + "BaseLogo.png");
 						else
-							map.put("HEADER_DIR", basePath
-									+ salObj.getOffice().getOrganization().getLogoName() );
+							map.put("HEADER_DIR", basePath + salObj.getOffice().getOrganization().getLogoName());
 
 						SalesInventoryDetailsModel invObj;
-						Iterator<SalesInventoryDetailsModel> itr1 = salObj
-								.getInventory_details_list().iterator();
+						Iterator<SalesInventoryDetailsModel> itr1 = salObj.getInventory_details_list().iterator();
 						while (itr1.hasNext()) {
 							invObj = itr1.next();
 
@@ -4015,8 +3397,7 @@ public class POSSalesUI extends SparkLogic {
 							bean.setRate(invObj.getUnit_price());
 							bean.setQuantity(invObj.getQunatity());
 							bean.setDiscount(invObj.getDiscount());
-							bean.setTotal((invObj.getQunatity() * invObj
-									.getUnit_price()) - invObj.getDiscount());
+							bean.setTotal((invObj.getQunatity() * invObj.getUnit_price()) - invObj.getDiscount());
 
 							total += bean.getTotal();
 
@@ -4024,20 +3405,16 @@ public class POSSalesUI extends SparkLogic {
 						}
 
 						SalesPaymentModeDetailsModel detModel;
-						Iterator<SalesPaymentModeDetailsModel> itr = salObj
-								.getSales_payment_mode_list().iterator();
+						Iterator<SalesPaymentModeDetailsModel> itr = salObj.getSales_payment_mode_list().iterator();
 						StringBuffer paymentModeDetails = new StringBuffer();
 						// paymentModeDetails.append("<table>");
 						while (itr.hasNext()) {
 							detModel = itr.next();
-							paymentModeDetails.append(detModel.getPaymentMode()
-									.getDescription()
-									+ " : "
-									+ detModel.getAmount() + "<br>");
+							paymentModeDetails.append(
+									detModel.getPaymentMode().getDescription() + " : " + detModel.getAmount() + "<br>");
 						}
 						// paymentModeDetails.append("</table>");
-						map.put("paymentModeDetails",
-								paymentModeDetails.toString());
+						map.put("paymentModeDetails", paymentModeDetails.toString());
 						// ===================================================
 
 						// map.put("CUSTOMER_NAME", customerModel.getName());
@@ -4083,10 +3460,10 @@ public class POSSalesUI extends SparkLogic {
 							type = "Credit Sale";
 						}
 						map.put("SALES_TYPE", type);
-						map.put("OFFICE_NAME", customerModel.getLedger()
-								.getOffice().getName());
-						
-						map.put("ARABIC_FOOTER", "شكراً لتسوقكم معنا مدة التبديل والإسترجاع 15 يوم على أن يكون المنتج غير مستخدم و مرفق بالفاتورة الأصلية" );
+						map.put("OFFICE_NAME", customerModel.getLedger().getOffice().getName());
+
+						map.put("ARABIC_FOOTER",
+								"Ø´ÙƒØ±Ø§Ù‹ Ù„ØªØ³ÙˆÙ‚ÙƒÙ… Ù…Ø¹Ù†Ø§ Ù…Ø¯Ø© Ø§Ù„ØªØ¨Ø¯ÙŠÙ„ ÙˆØ§Ù„Ø¥Ø³ØªØ±Ø¬Ø§Ø¹ 15 ÙŠÙˆÙ… Ø¹Ù„Ù‰ Ø£Ù† ÙŠÙƒÙˆÙ† Ø§Ù„Ù…Ù†ØªØ¬ ØºÙŠØ± Ù…Ø³ØªØ®Ø¯Ù… Ùˆ Ù…Ø±Ù�Ù‚ Ø¨Ø§Ù„Ù�Ø§ØªÙˆØ±Ø© Ø§Ù„Ø£ØµÙ„ÙŠØ©");
 
 						// /* S_OfficeModel officeModel = new OfficeDao()
 						// .getOffice(getOfficeID());
@@ -4110,7 +3487,7 @@ public class POSSalesUI extends SparkLogic {
 						// .getPhone().length() > 0)
 						// adr2 += "Tel : "
 						// + salObj.getOffice().getAddress()
-						// .getPhone() + "   ";
+						// .getPhone() + " ";
 						//
 						// }
 						// map.put("ADDRESS1", adr1);
@@ -4129,7 +3506,7 @@ public class POSSalesUI extends SparkLogic {
 
 						report.print();
 						report.printReport();
-						
+
 						newSaleButton.click();
 
 					} catch (Exception e) {
@@ -4143,8 +3520,7 @@ public class POSSalesUI extends SparkLogic {
 				updateButton.setVisible(false);
 				deleteButton.setVisible(false);
 				cancelButton.setVisible(false);
-				Notification.show(getPropertyName("warning_transaction"),
-						Type.WARNING_MESSAGE);
+				Notification.show(getPropertyName("warning_transaction"), Type.WARNING_MESSAGE);
 			}
 
 			unitPriceTextField.setImmediate(true);
@@ -4171,39 +3547,34 @@ public class POSSalesUI extends SparkLogic {
 						calculateNetPrice();
 					} catch (Exception e) {
 						e.printStackTrace();
-						Notification.show(getPropertyName("error"),
-								Type.ERROR_MESSAGE);
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
 					}
 
 				}
 			});
 
-			convertionQtyTextField
-					.addValueChangeListener(new ValueChangeListener() {
-						public void valueChange(ValueChangeEvent event) {
-							try {
-								try {
-									if (convertionQtyTextField.getValue()
-											.equals("")
-											|| toDouble(convertionQtyTextField
-													.getValue()) <= 0) {
-										convertionQtyTextField.setValue("1");
-									}
-								} catch (Exception e) {
-									convertionQtyTextField.setValue("1");
-									// TODO: handle exception
-								}
-
-								calculateNetPrice();
-
-							} catch (Exception e) {
-								e.printStackTrace();
-								Notification.show(getPropertyName("error"),
-										Type.ERROR_MESSAGE);
+			convertionQtyTextField.addValueChangeListener(new ValueChangeListener() {
+				public void valueChange(ValueChangeEvent event) {
+					try {
+						try {
+							if (convertionQtyTextField.getValue().equals("")
+									|| toDouble(convertionQtyTextField.getValue()) <= 0) {
+								convertionQtyTextField.setValue("1");
 							}
-
+						} catch (Exception e) {
+							convertionQtyTextField.setValue("1");
+							// TODO: handle exception
 						}
-					});
+
+						calculateNetPrice();
+
+					} catch (Exception e) {
+						e.printStackTrace();
+						Notification.show(getPropertyName("error"), Type.ERROR_MESSAGE);
+					}
+
+				}
+			});
 
 			if (isSaleEditable()) {
 				updateButton.setEnabled(true);
@@ -4220,28 +3591,26 @@ public class POSSalesUI extends SparkLogic {
 						if (barcode.trim().length() > 0) {
 							ItemStockModel mdl = null;
 							ItemModel itemModel = null;
-							if(settings.getBARCODE_TYPE()==SConstants.barcode_types.CUSTOMER_SPECIFIC){
-								if(employSelect.getValue()!=null)
-									mdl = daoObj.getNewItemStock(barcode,(Long)employSelect.getValue());
-							}else if(settings.getBARCODE_TYPE()==SConstants.barcode_types.STOCK_SPECIFIC){
+							if (settings.getBARCODE_TYPE() == SConstants.barcode_types.CUSTOMER_SPECIFIC) {
+								if (employSelect.getValue() != null)
+									mdl = daoObj.getNewItemStock(barcode, (Long) employSelect.getValue());
+							} else if (settings.getBARCODE_TYPE() == SConstants.barcode_types.STOCK_SPECIFIC) {
 								mdl = daoObj.getItemFromBarcode(barcode);
-							}else if(settings.getBARCODE_TYPE()==SConstants.barcode_types.ITEM_SPECIFIC){
+							} else if (settings.getBARCODE_TYPE() == SConstants.barcode_types.ITEM_SPECIFIC) {
 								itemModel = daoObj.getItemUsingItemSpecific(barcode, getOfficeID());
 							}
-								
 
-							 
 							if (mdl != null) {
 								categorySelectList.setValue((long) 0);
 								itemSelectCombo.setValue(mdl.getItem().getId());
 								itemComboField.setValue(mdl.getItem().getId());
 								stockSelectList.setValue(mdl.getId());
 								barcodeField.setValue("");
-							} else if(itemModel != null){
+							} else if (itemModel != null) {
 								categorySelectList.setValue((long) 0);
 								itemSelectCombo.setValue(itemModel.getId());
 								itemComboField.setValue(itemModel.getId());
-							//	stockSelectList.setValue((long)0);
+								// stockSelectList.setValue((long)0);
 								barcodeField.setValue("");
 							} else {
 								categorySelectList.setValue((long) 0);
@@ -4299,15 +3668,13 @@ public class POSSalesUI extends SparkLogic {
 				while (itr.hasNext()) {
 					Integer value = (Integer) itr.next();
 					Item item = paymentAmountTable.getItem(value);
-					STextField field = (STextField) item.getItemProperty(
-							TBP_PAYMENT_AMOUNT_FIELD).getValue();
+					STextField field = (STextField) item.getItemProperty(TBP_PAYMENT_AMOUNT_FIELD).getValue();
 					if (field != null && field.getValue().trim().length() > 0) {
 						total += toDouble(field.getValue());
 					}
 				}
 
-				paymentAmountTable.setColumnFooter(TBP_PAYMENT_AMOUNT_FIELD,
-						roundNumber(total) + "");
+				paymentAmountTable.setColumnFooter(TBP_PAYMENT_AMOUNT_FIELD, roundNumber(total) + "");
 				paymentAmountTextField.setNewValue(roundNumber(total));
 
 			}
@@ -4322,37 +3689,31 @@ public class POSSalesUI extends SparkLogic {
 				paymentAmountPopup.setPopupVisible(true);
 				if (paymentAmountTable.getItemIds().size() > 0) {
 					STextField field = ((STextField) paymentAmountTable
-							.getItem(
-									paymentAmountTable.getItemIds().iterator()
-											.next())
-							.getItemProperty(TBP_PAYMENT_AMOUNT_FIELD)
-							.getValue());
+							.getItem(paymentAmountTable.getItemIds().iterator().next())
+							.getItemProperty(TBP_PAYMENT_AMOUNT_FIELD).getValue());
 					field.focus();
 					field.selectAll();
 				}
 			}
 		});
-		hLayout.addShortcutListener(new ShortcutListener("Submit Item",
-				ShortcutAction.KeyCode.SPACEBAR, null) {
-			
+		hLayout.addShortcutListener(new ShortcutListener("Submit Item", ShortcutAction.KeyCode.SPACEBAR, null) {
+
 			@Override
 			public void handleAction(Object sender, Object target) {
-				
-					
-				if(target instanceof STextField){
-					STextField field = (STextField)target;
-					if(field.getId() == null){
+
+				if (target instanceof STextField) {
+					STextField field = (STextField) target;
+					if (field.getId() == null) {
 						return;
 					}
-					if(field.getId().equals("barcodeField")){
+					if (field.getId().equals("barcodeField")) {
 						discountRadio.focus();
 					}
 				}
-				
+
 			}
 		});
-		addingGrid.addShortcutListener(new ShortcutListener("Submit Item",
-				ShortcutAction.KeyCode.ENTER, null) {
+		addingGrid.addShortcutListener(new ShortcutListener("Submit Item", ShortcutAction.KeyCode.ENTER, null) {
 			@Override
 			public void handleAction(Object sender, Object target) {
 				if (addItemButton.isVisible()) {
@@ -4365,7 +3726,7 @@ public class POSSalesUI extends SparkLogic {
 //					if(field.getId() == null){
 //						return;
 //					}
-					
+
 //					if (field.getId().equals("addItemButton")
 //							|| field.getId().equals("updateItemButton")) {
 //						if (addItemButton.isVisible()) {
@@ -4374,7 +3735,7 @@ public class POSSalesUI extends SparkLogic {
 //							updateItemButton.click();
 //						}
 //					}
-						//else if(field.getId().equals("saveButton") || 
+				// else if(field.getId().equals("saveButton") ||
 //							field.getId().equals("updateButton")){
 //						printButton.focus();
 //					//	newSaleButton.click();
@@ -4456,13 +3817,10 @@ public class POSSalesUI extends SparkLogic {
 //						}
 //					}
 //				}
-				
+
 			}
-		
-			
+
 		});
-		
-		
 
 		return pannel;
 	}
@@ -4470,11 +3828,11 @@ public class POSSalesUI extends SparkLogic {
 	protected int isAlreadyDataExist(long itemId, int billType) {
 		Iterator itr = table.getItemIds().iterator();
 		int value;
-		while(itr.hasNext()){
-			value = (Integer)itr.next();
+		while (itr.hasNext()) {
+			value = (Integer) itr.next();
 			Item item = table.getItem(value);
-			if((Long)item.getItemProperty(TBC_ITEM_ID).getValue() == itemId && 
-					(Integer)item.getItemProperty(TBC_BILL_TYPE_ID).getValue() == billType){
+			if ((Long) item.getItemProperty(TBC_ITEM_ID).getValue() == itemId
+					&& (Integer) item.getItemProperty(TBC_BILL_TYPE_ID).getValue() == billType) {
 				return value;
 			}
 		}
@@ -4485,8 +3843,7 @@ public class POSSalesUI extends SparkLogic {
 		Iterator itr = paymentAmountTable.getItemIds().iterator();
 		while (itr.hasNext()) {
 			Item item = paymentAmountTable.getItem(itr.next());
-			STextField field = (STextField) item.getItemProperty(
-					TBP_PAYMENT_AMOUNT_FIELD).getValue();
+			STextField field = (STextField) item.getItemProperty(TBP_PAYMENT_AMOUNT_FIELD).getValue();
 			field.setValue("0.00");
 		}
 
@@ -4498,9 +3855,8 @@ public class POSSalesUI extends SparkLogic {
 		List list = getPaymentModeList();
 		Iterator itr = list.iterator();
 		int slNo = 1;
-		paymentAmountTable
-				.setVisibleColumns(new Object[] { TBP_SN, TBP_PAYMENT_MODE_ID,
-						TBP_PAYMENT_MODE, TBP_PAYMENT_AMOUNT_FIELD });
+		paymentAmountTable.setVisibleColumns(
+				new Object[] { TBP_SN, TBP_PAYMENT_MODE_ID, TBP_PAYMENT_MODE, TBP_PAYMENT_AMOUNT_FIELD });
 		List<PaymentModeModel> cashModeIds = new ArrayList<PaymentModeModel>();
 		while (itr.hasNext()) {
 			PaymentModeModel model = (PaymentModeModel) itr.next();
@@ -4509,15 +3865,15 @@ public class POSSalesUI extends SparkLogic {
 			amountField.setStyleName("sup_textfield_align_right");
 			amountField.setHeight("30px");
 			amountField.addValueChangeListener(paymentAmountValueChangeListner);
-			amountField.setId(model.getId()+"");
+			amountField.setId(model.getId() + "");
 
 			paymentModeHashMap.put(model.getId(), amountField);
 
 			if (settings.getCASH_ACCOUNT() == model.getLedger().getId()) {
 				cashModeIds.add(model);
 			} else {
-				paymentAmountTable.addItem(new Object[] { slNo, model.getId(),
-						model.getDescription(), amountField }, slNo);
+				paymentAmountTable.addItem(new Object[] { slNo, model.getId(), model.getDescription(), amountField },
+						slNo);
 				paymentModePrintOrderArrayList.add(model.getId());
 			}
 			slNo++;
@@ -4527,16 +3883,14 @@ public class POSSalesUI extends SparkLogic {
 		while (itr.hasNext()) {
 			PaymentModeModel model = (PaymentModeModel) itr.next();
 			paymentAmountTable.addItem(
-					new Object[] { slNo, model.getId(), model.getDescription(),
-							paymentModeHashMap.get(model.getId()) },
+					new Object[] { slNo, model.getId(), model.getDescription(), paymentModeHashMap.get(model.getId()) },
 
 					slNo);
 			paymentModePrintOrderArrayList.add(model.getId());
 			slNo++;
 		}
 
-		paymentAmountTable.setVisibleColumns(new Object[] { TBP_SN,
-				TBP_PAYMENT_MODE, TBP_PAYMENT_AMOUNT_FIELD });
+		paymentAmountTable.setVisibleColumns(new Object[] { TBP_SN, TBP_PAYMENT_MODE, TBP_PAYMENT_AMOUNT_FIELD });
 
 	}
 
@@ -4545,8 +3899,7 @@ public class POSSalesUI extends SparkLogic {
 
 		List list = new ArrayList();
 		try {
-			list.addAll(paymentModeDao.getPaymentModeDetailsListByStatus(
-					getOfficeID(), ACTIVE));
+			list.addAll(paymentModeDao.getPaymentModeDetailsListByStatus(getOfficeID(), ACTIVE));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4563,8 +3916,7 @@ public class POSSalesUI extends SparkLogic {
 			itemSelectCombo.setItemCaptionPropertyId("name");
 
 			if (getHttpSession().getAttribute("saved_id") != null) {
-				itemSelectCombo.setValue((Long) getHttpSession().getAttribute(
-						"saved_id"));
+				itemSelectCombo.setValue((Long) getHttpSession().getAttribute("saved_id"));
 				getHttpSession().removeAttribute("saved_id");
 			}
 
@@ -4582,24 +3934,20 @@ public class POSSalesUI extends SparkLogic {
 		boolean ret = true;
 		try {
 
-			if (valueField.getValue() == null
-					|| valueField.getValue().equals("")) {
-				setRequiredError(valueField, getPropertyName("invalid_data"),
-						true);
+			if (valueField.getValue() == null || valueField.getValue().equals("")) {
+				setRequiredError(valueField, getPropertyName("invalid_data"), true);
 				valueField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(valueField.getValue()) < 0) {
-						setRequiredError(valueField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(valueField, getPropertyName("invalid_data"), true);
 						valueField.focus();
 						ret = false;
 					} else
 						setRequiredError(valueField, null, false);
 				} catch (Exception e) {
-					setRequiredError(valueField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(valueField, getPropertyName("invalid_data"), true);
 					valueField.focus();
 					ret = false;
 					// TODO: handle exception
@@ -4619,13 +3967,11 @@ public class POSSalesUI extends SparkLogic {
 			Object temp = unitSelect.getValue();
 			unitSelect.setReadOnly(false);
 			if (itemComboField.getValue() != null) {
-				ItemModel itm = itmDao
-						.getItem((Long) itemComboField.getValue());
+				ItemModel itm = itmDao.getItem((Long) itemComboField.getValue());
 
 				List lst = new ArrayList();
 				lst.addAll(new UnitDao().getAllActiveUnits(getOrganizationID()));
-				SCollectionContainer bic = SCollectionContainer.setList(lst,
-						"id");
+				SCollectionContainer bic = SCollectionContainer.setList(lst, "id");
 
 				unitSelect.setContainerDataSource(bic);
 				unitSelect.setItemCaptionPropertyId("symbol");
@@ -4637,8 +3983,7 @@ public class POSSalesUI extends SparkLogic {
 
 				List lst = new ArrayList();
 				lst.addAll(new UnitDao().getAllActiveUnits(getOrganizationID()));
-				SCollectionContainer bic = SCollectionContainer.setList(lst,
-						"id");
+				SCollectionContainer bic = SCollectionContainer.setList(lst, "id");
 				unitSelect.setContainerDataSource(bic);
 				unitSelect.setItemCaptionPropertyId("symbol");
 
@@ -4668,49 +4013,42 @@ public class POSSalesUI extends SparkLogic {
 			if ((Integer) itemDiscountRadio.getValue() == 1) {
 				double discPer = 0;
 				try {
-					discPer = Double.parseDouble(itemDiscountPercentField
-							.getValue());
+					discPer = Double.parseDouble(itemDiscountPercentField.getValue());
 				} catch (Exception e) {
 					discPer = 0;
 				}
 				disc = roundNumber((unitPrc * qty) * discPer / 100);
 			} else {
 				try {
-					disc = Double.parseDouble(itemDiscountAmountField
-							.getValue());
+					disc = Double.parseDouble(itemDiscountAmountField.getValue());
 				} catch (Exception e) {
 					disc = 0;
 				}
 			}
-			convertedQtyTextField.setNewValue(asString(qty
-					* Double.parseDouble(convertionQtyTextField.getValue())));
+			convertedQtyTextField.setNewValue(asString(qty * Double.parseDouble(convertionQtyTextField.getValue())));
 		} catch (Exception e) {
 
 		}
-		netPriceTextField.setNewValue(roundNumberToString((unitPrc * qty)- disc));
+		netPriceTextField.setNewValue(roundNumberToString((unitPrc * qty) - disc));
 	}
 
 	public boolean isEnterValid() {
 		boolean ret = true;
 		try {
-			if (quantityTextField.getValue() == null
-					|| quantityTextField.getValue().equals("")) {
-				setRequiredError(quantityTextField,
-						getPropertyName("invalid_data"), true);
+			if (quantityTextField.getValue() == null || quantityTextField.getValue().equals("")) {
+				setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 				quantityTextField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(quantityTextField.getValue()) <= 0) {
-						setRequiredError(quantityTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 						quantityTextField.focus();
 						ret = false;
 					} else
 						setRequiredError(quantityTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(quantityTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 					quantityTextField.focus();
 					ret = false;
 				}
@@ -4737,22 +4075,19 @@ public class POSSalesUI extends SparkLogic {
 		}
 
 		if (paymentAmountTextField == null) {
-			setRequiredError(paymentAmountTextField,
-					getPropertyName("invalid_data"), true);
+			setRequiredError(paymentAmountTextField, getPropertyName("invalid_data"), true);
 			// paymentAmountTextField.focus();
 			ret = false;
 		} else {
 			try {
 				if (paymentAmountTextField.getValue() <= 0) {
-					setRequiredError(paymentAmountTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(paymentAmountTextField, getPropertyName("invalid_data"), true);
 					paymentAmountTextField.amountField.focus();
 					ret = false;
 				} else
 					setRequiredError(paymentAmountTextField, null, false);
 			} catch (Exception e) {
-				setRequiredError(paymentAmountTextField,
-						getPropertyName("invalid_data"), true);
+				setRequiredError(paymentAmountTextField, getPropertyName("invalid_data"), true);
 				// paymentAmountTextField.focus();
 				ret = false;
 			}
@@ -4764,8 +4099,7 @@ public class POSSalesUI extends SparkLogic {
 
 	protected void reloadCustomers() {
 		try {
-			List list = custDao
-					.getAllActiveCustomerNamesWithLedgerID(getOfficeID());
+			List list = custDao.getAllActiveCustomerNamesWithLedgerID(getOfficeID());
 			CollectionContainer bic = CollectionContainer.fromBeans(list, "id");
 			customerSelect.setContainerDataSource(bic);
 			customerSelect.setItemCaptionPropertyId("name");
@@ -4783,7 +4117,8 @@ public class POSSalesUI extends SparkLogic {
 	public void calculateTotals() {
 		try {
 
-			double qty_ttl = 0, tax_ttl = 0, net_ttl = 0, disc_ttl = 0, ttl_bfr_tax = 0, ttl_bfr_disc = 0, cess_ttl = 0, discount = 0, totalPaymentAmount = 0;
+			double qty_ttl = 0, tax_ttl = 0, net_ttl = 0, disc_ttl = 0, ttl_bfr_tax = 0, ttl_bfr_disc = 0, cess_ttl = 0,
+					discount = 0, totalPaymentAmount = 0;
 
 			Item item;
 			Iterator it = table.getItemIds().iterator();
@@ -4796,19 +4131,14 @@ public class POSSalesUI extends SparkLogic {
 				// item.getItemProperty(TBC_PAYMENT_AMOUNT).getValue();
 
 				if (taxEnable) {
-					tax_ttl += (Double) item.getItemProperty(TBC_TAX_AMT)
-							.getValue();
+					tax_ttl += (Double) item.getItemProperty(TBC_TAX_AMT).getValue();
 				}
 
-				net_ttl += (Double) item.getItemProperty(TBC_NET_FINAL)
-						.getValue();
-				disc_ttl += (Double) item.getItemProperty(TBC_DISCOUNT)
-						.getValue();
+				net_ttl += (Double) item.getItemProperty(TBC_NET_FINAL).getValue();
+				disc_ttl += (Double) item.getItemProperty(TBC_DISCOUNT).getValue();
 
-				ttl_bfr_tax += (Double) item.getItemProperty(TBC_NET_TOTAL)
-						.getValue();
-				ttl_bfr_disc += (Double) item.getItemProperty(TBC_NET_FINAL)
-						.getValue();
+				ttl_bfr_tax += (Double) item.getItemProperty(TBC_NET_TOTAL).getValue();
+				ttl_bfr_disc += (Double) item.getItemProperty(TBC_NET_FINAL).getValue();
 			}
 
 			table.setColumnFooter(TBC_QTY, asString(roundNumber(qty_ttl)));
@@ -4817,34 +4147,28 @@ public class POSSalesUI extends SparkLogic {
 			table.setColumnFooter(TBC_DISCOUNT, roundNumberToString(disc_ttl));
 			// table.setColumnFooter(TBC_PAYMENT_AMOUNT,
 			// asString(roundNumber(totalPaymentAmount)));
-			table.setColumnFooter(TBC_NET_TOTAL,
-					roundNumberToString(ttl_bfr_tax));
-			table.setColumnFooter(TBC_NET_FINAL,
-					roundNumberToString(ttl_bfr_disc));
+			table.setColumnFooter(TBC_NET_TOTAL, roundNumberToString(ttl_bfr_tax));
+			table.setColumnFooter(TBC_NET_FINAL, roundNumberToString(ttl_bfr_disc));
 
 			if (discountRadio.getValue() != null) {
 				if ((Integer) discountRadio.getValue() == 1) {
 					double discPer = 0;
 					try {
-						discPer = toDouble(discountPercentField.getValue()
-								.trim());
+						discPer = toDouble(discountPercentField.getValue().trim());
 					} catch (Exception e1) {
 						discPer = 0;
 					}
 					discount = roundNumber((net_ttl) * discPer / 100);
 				} else {
 					try {
-						discount = toDouble(discountAmountField.getValue()
-								.trim());
+						discount = toDouble(discountAmountField.getValue().trim());
 					} catch (Exception e1) {
 						discount = 0;
 					}
 				}
 			}
-			grandTotalAmtTextField.setNewValue(roundNumberToString(Math
-					.abs(roundNumber(net_ttl - discount))));
-			payingAmountTextField
-					.setNewValue(grandTotalAmtTextField.getValue());
+			grandTotalAmtTextField.setNewValue(roundNumberToString(Math.abs(roundNumber(net_ttl - discount))));
+			payingAmountTextField.setNewValue(grandTotalAmtTextField.getValue());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4855,10 +4179,8 @@ public class POSSalesUI extends SparkLogic {
 		boolean ret = true;
 		try {
 
-			if (itemComboField.getValue() == null
-					|| itemComboField.getValue().equals("")) {
-				setRequiredError(itemComboField,
-						getPropertyName("invalid_selection"), true);
+			if (itemComboField.getValue() == null || itemComboField.getValue().equals("")) {
+				setRequiredError(itemComboField, getPropertyName("invalid_selection"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
@@ -4872,8 +4194,7 @@ public class POSSalesUI extends SparkLogic {
 						itemDiscountAmountField.setValue("0");
 					}
 
-					disc = toDouble(itemDiscountAmountField.getValue()
-							.toString().trim());
+					disc = toDouble(itemDiscountAmountField.getValue().toString().trim());
 
 				} catch (Exception e1) {
 					itemDiscountAmountField.setValue("0");
@@ -4892,12 +4213,10 @@ public class POSSalesUI extends SparkLogic {
 			}
 
 			if (itemComboField.getValue() != null) {
-				ItemModel mdl = new ItemDao().getItem((Long) itemComboField
-						.getValue());
+				ItemModel mdl = new ItemDao().getItem((Long) itemComboField.getValue());
 				if (mdl.getMax_discount() != 0) {
 					if (disc > mdl.getMax_discount()) {
-						setRequiredError(itemDiscountAmountField,
-								getPropertyName("invalid_selection"), true);
+						setRequiredError(itemDiscountAmountField, getPropertyName("invalid_selection"), true);
 						ret = false;
 					} else
 						setRequiredError(itemDiscountAmountField, null, false);
@@ -4907,100 +4226,83 @@ public class POSSalesUI extends SparkLogic {
 			}
 
 			if (taxEnable) {
-				if (taxSelect.getValue() == null
-						|| taxSelect.getValue().equals("")) {
-					setRequiredError(taxSelect,
-							getPropertyName("invalid_selection"), true);
+				if (taxSelect.getValue() == null || taxSelect.getValue().equals("")) {
+					setRequiredError(taxSelect, getPropertyName("invalid_selection"), true);
 					taxSelect.focus();
 					ret = false;
 				} else
 					setRequiredError(taxSelect, null, false);
 			}
 
-			if (unitPriceTextField.getValue() == null
-					|| unitPriceTextField.getValue().equals("")) {
-				setRequiredError(unitPriceTextField,
-						getPropertyName("invalid_data"), true);
+			if (unitPriceTextField.getValue() == null || unitPriceTextField.getValue().equals("")) {
+				setRequiredError(unitPriceTextField, getPropertyName("invalid_data"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(unitPriceTextField.getValue()) <= 0) {
-						setRequiredError(unitPriceTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(unitPriceTextField, getPropertyName("invalid_data"), true);
 						barcodeField.setValue("");
 						barcodeField.focus();
 						ret = false;
 					} else
 						setRequiredError(unitPriceTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(unitPriceTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(unitPriceTextField, getPropertyName("invalid_data"), true);
 					barcodeField.setValue("");
 					barcodeField.focus();
 					ret = false;
 				}
 			}
 
-			if (convertionQtyTextField.getValue() == null
-					|| convertionQtyTextField.getValue().equals("")) {
-				setRequiredError(convertionQtyTextField,
-						getPropertyName("invalid_data"), true);
+			if (convertionQtyTextField.getValue() == null || convertionQtyTextField.getValue().equals("")) {
+				setRequiredError(convertionQtyTextField, getPropertyName("invalid_data"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(convertionQtyTextField.getValue()) <= 0) {
-						setRequiredError(convertionQtyTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(convertionQtyTextField, getPropertyName("invalid_data"), true);
 						barcodeField.setValue("");
 						barcodeField.focus();
 						ret = false;
 					} else
 						setRequiredError(convertionQtyTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(convertionQtyTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(convertionQtyTextField, getPropertyName("invalid_data"), true);
 					barcodeField.setValue("");
 					barcodeField.focus();
 					ret = false;
 				}
 			}
 
-			if (quantityTextField.getValue() == null
-					|| quantityTextField.getValue().equals("")) {
-				setRequiredError(quantityTextField,
-						getPropertyName("invalid_data"), true);
+			if (quantityTextField.getValue() == null || quantityTextField.getValue().equals("")) {
+				setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(quantityTextField.getValue()) <= 0) {
-						setRequiredError(quantityTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 						barcodeField.setValue("");
 						barcodeField.focus();
 						ret = false;
 					} else
 						setRequiredError(quantityTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(quantityTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 					barcodeField.setValue("");
 					barcodeField.focus();
 					ret = false;
 				}
 			}
 
-			if (stockSelectList.getValue() == null
-					|| stockSelectList.getValue().equals("")) {
-				setRequiredError(stockSelectList,
-						getPropertyName("invalid_selection"), true);
-				setRequiredError(changeStkButton,
-						getPropertyName("invalid_selection"), true);
+			if (stockSelectList.getValue() == null || stockSelectList.getValue().equals("")) {
+				setRequiredError(stockSelectList, getPropertyName("invalid_selection"), true);
+				setRequiredError(changeStkButton, getPropertyName("invalid_selection"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
@@ -5009,10 +4311,8 @@ public class POSSalesUI extends SparkLogic {
 				setRequiredError(changeStkButton, null, false);
 			}
 
-			if (unitSelect.getValue() == null
-					|| unitSelect.getValue().equals("")) {
-				setRequiredError(unitSelect,
-						getPropertyName("invalid_selection"), true);
+			if (unitSelect.getValue() == null || unitSelect.getValue().equals("")) {
+				setRequiredError(unitSelect, getPropertyName("invalid_selection"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
@@ -5076,18 +4376,15 @@ public class POSSalesUI extends SparkLogic {
 
 			double disc = 0;
 			try {
-				disc = toDouble(itemDiscountAmountField.getValue().toString()
-						.trim());
+				disc = toDouble(itemDiscountAmountField.getValue().toString().trim());
 			} catch (Exception e1) {
 				disc = 0;
 			}
 			if (itemComboField.getValue() != null) {
-				ItemModel mdl = new ItemDao().getItem((Long) itemComboField
-						.getValue());
+				ItemModel mdl = new ItemDao().getItem((Long) itemComboField.getValue());
 				if (mdl.getMax_discount() != 0) {
 					if (disc > mdl.getMax_discount()) {
-						setRequiredError(itemDiscountAmountField,
-								getPropertyName("invalid_selection"), true);
+						setRequiredError(itemDiscountAmountField, getPropertyName("invalid_selection"), true);
 						ret = false;
 					} else
 						setRequiredError(itemDiscountAmountField, null, false);
@@ -5096,28 +4393,23 @@ public class POSSalesUI extends SparkLogic {
 			}
 
 			if (taxEnable) {
-				if (taxSelect.getValue() == null
-						|| taxSelect.getValue().equals("")) {
-					setRequiredError(taxSelect,
-							getPropertyName("invalid_selection"), true);
+				if (taxSelect.getValue() == null || taxSelect.getValue().equals("")) {
+					setRequiredError(taxSelect, getPropertyName("invalid_selection"), true);
 					taxSelect.focus();
 					ret = false;
 				} else
 					setRequiredError(taxSelect, null, false);
 			}
 
-			if (unitPriceTextField.getValue() == null
-					|| unitPriceTextField.getValue().equals("")) {
-				setRequiredError(unitPriceTextField,
-						getPropertyName("invalid_data"), true);
+			if (unitPriceTextField.getValue() == null || unitPriceTextField.getValue().equals("")) {
+				setRequiredError(unitPriceTextField, getPropertyName("invalid_data"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(unitPriceTextField.getValue()) <= 0) {
-						setRequiredError(unitPriceTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(unitPriceTextField, getPropertyName("invalid_data"), true);
 						barcodeField.setValue("");
 						barcodeField.focus();
 						;
@@ -5125,8 +4417,7 @@ public class POSSalesUI extends SparkLogic {
 					} else
 						setRequiredError(unitPriceTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(unitPriceTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(unitPriceTextField, getPropertyName("invalid_data"), true);
 					barcodeField.setValue("");
 					barcodeField.focus();
 					ret = false;
@@ -5134,50 +4425,43 @@ public class POSSalesUI extends SparkLogic {
 			}
 
 			if (convertionQtyTextField.getValue() == null || convertionQtyTextField.getValue().equals("")) {
-				setRequiredError(convertionQtyTextField,
-						getPropertyName("invalid_data"), true);
+				setRequiredError(convertionQtyTextField, getPropertyName("invalid_data"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(convertionQtyTextField.getValue()) <= 0) {
-						setRequiredError(convertionQtyTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(convertionQtyTextField, getPropertyName("invalid_data"), true);
 						barcodeField.setValue("");
 						barcodeField.focus();
 						ret = false;
 					} else
 						setRequiredError(convertionQtyTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(convertionQtyTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(convertionQtyTextField, getPropertyName("invalid_data"), true);
 					barcodeField.setValue("");
 					barcodeField.focus();
 					ret = false;
 				}
 			}
 
-			if (quantityTextField.getValue() == null
-					|| quantityTextField.getValue().equals("")) {
-				setRequiredError(quantityTextField,
-						getPropertyName("invalid_data"), true);
+			if (quantityTextField.getValue() == null || quantityTextField.getValue().equals("")) {
+				setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else {
 				try {
 					if (toDouble(quantityTextField.getValue()) <= 0) {
-						setRequiredError(quantityTextField,
-								getPropertyName("invalid_data"), true);
+						setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 						barcodeField.setValue("");
 						barcodeField.focus();
 						ret = false;
 					} else
 						setRequiredError(quantityTextField, null, false);
 				} catch (Exception e) {
-					setRequiredError(quantityTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(quantityTextField, getPropertyName("invalid_data"), true);
 					barcodeField.setValue("");
 					barcodeField.focus();
 					ret = false;
@@ -5190,17 +4474,11 @@ public class POSSalesUI extends SparkLogic {
 				Collection selectedItems = (Collection) table.getValue();
 				Item item = table.getItem(selectedItems.iterator().next());
 
-				if (!itemComboField
-						.getValue()
-						.toString()
-						.equals(item.getItemProperty(TBC_ITEM_ID).getValue()
-								.toString())) {
-					if (stockSelectList.getValue() == null
-							|| stockSelectList.getValue().equals("")) {
-						setRequiredError(stockSelectList,
-								getPropertyName("invalid_selection"), true);
-						setRequiredError(changeStkButton,
-								getPropertyName("invalid_selection"), true);
+				if (!itemComboField.getValue().toString()
+						.equals(item.getItemProperty(TBC_ITEM_ID).getValue().toString())) {
+					if (stockSelectList.getValue() == null || stockSelectList.getValue().equals("")) {
+						setRequiredError(stockSelectList, getPropertyName("invalid_selection"), true);
+						setRequiredError(changeStkButton, getPropertyName("invalid_selection"), true);
 						changeStkButton.click();
 						barcodeField.setValue("");
 						barcodeField.focus();
@@ -5223,20 +4501,16 @@ public class POSSalesUI extends SparkLogic {
 			// setRequiredError(changeStkButton, null, false);
 			// }
 
-			if (itemComboField.getValue() == null
-					|| itemComboField.getValue().equals("")) {
-				setRequiredError(itemComboField,
-						getPropertyName("invalid_selection"), true);
+			if (itemComboField.getValue() == null || itemComboField.getValue().equals("")) {
+				setRequiredError(itemComboField, getPropertyName("invalid_selection"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
 			} else
 				setRequiredError(itemComboField, null, false);
 
-			if (unitSelect.getValue() == null
-					|| unitSelect.getValue().equals("")) {
-				setRequiredError(unitSelect,
-						getPropertyName("invalid_selection"), true);
+			if (unitSelect.getValue() == null || unitSelect.getValue().equals("")) {
+				setRequiredError(unitSelect, getPropertyName("invalid_selection"), true);
 				barcodeField.setValue("");
 				barcodeField.focus();
 				ret = false;
@@ -5252,8 +4526,7 @@ public class POSSalesUI extends SparkLogic {
 
 	}
 
-	public void visibleAddupdateSalesButton(boolean AddVisible,
-			boolean UpdateVisible) {
+	public void visibleAddupdateSalesButton(boolean AddVisible, boolean UpdateVisible) {
 		addItemButton.setVisible(AddVisible);
 		updateItemButton.setVisible(UpdateVisible);
 		deleteItemButton.setVisible(UpdateVisible);
@@ -5321,19 +4594,18 @@ public class POSSalesUI extends SparkLogic {
 
 		boolean ret = true;
 
-		if (payingAmountTextField.getValue() == null
-				|| payingAmountTextField.getValue().equals("")) {
+		if (payingAmountTextField.getValue() == null || payingAmountTextField.getValue().equals("")) {
 			payingAmountTextField.setNewValue("0.0");
 		} else {
 			try {
 				if (toDouble(payingAmountTextField.getValue()) < 0) {
-					setRequiredError(payingAmountTextField,getPropertyName("invalid_data"), true);
+					setRequiredError(payingAmountTextField, getPropertyName("invalid_data"), true);
 					payingAmountTextField.focus();
 					ret = false;
 				} else
 					setRequiredError(payingAmountTextField, null, false);
 			} catch (Exception e) {
-				setRequiredError(payingAmountTextField,getPropertyName("invalid_data"), true);
+				setRequiredError(payingAmountTextField, getPropertyName("invalid_data"), true);
 				payingAmountTextField.focus();
 				ret = false;
 			}
@@ -5386,14 +4658,13 @@ public class POSSalesUI extends SparkLogic {
 		} else {
 			try {
 				if (toInt(creditPeriodTextField.getValue()) < 0) {
-					setRequiredError(creditPeriodTextField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(creditPeriodTextField, getPropertyName("invalid_data"), true);
 					creditPeriodTextField.focus();
 					ret = false;
 				} else
 					setRequiredError(creditPeriodTextField, null, false);
 			} catch (Exception e) {
-				setRequiredError(creditPeriodTextField,getPropertyName("invalid_data"), true);
+				setRequiredError(creditPeriodTextField, getPropertyName("invalid_data"), true);
 				creditPeriodTextField.focus();
 				ret = false;
 				// TODO: handle exception
@@ -5407,33 +4678,27 @@ public class POSSalesUI extends SparkLogic {
 		} else {
 			try {
 				if (toInt(refNoField.getValue()) < 0) {
-					setRequiredError(refNoField,
-							getPropertyName("invalid_data"), true);
+					setRequiredError(refNoField, getPropertyName("invalid_data"), true);
 					refNoField.focus();
 					ret = false;
 				} else
 					setRequiredError(refNoField, null, false);
 			} catch (Exception e) {
-				setRequiredError(refNoField, getPropertyName("invalid_data"),
-						true);
+				setRequiredError(refNoField, getPropertyName("invalid_data"), true);
 				refNoField.focus();
 				ret = false;
 			}
 		}
 
-		if (employSelect.getValue() == null
-				|| employSelect.getValue().equals("")) {
-			setRequiredError(employSelect,
-					getPropertyName("invalid_selection"), true);
+		if (employSelect.getValue() == null || employSelect.getValue().equals("")) {
+			setRequiredError(employSelect, getPropertyName("invalid_selection"), true);
 			employSelect.focus();
 			ret = false;
 		} else
 			setRequiredError(employSelect, null, false);
 
-		if (customerSelect.getValue() == null
-				|| customerSelect.getValue().equals("")) {
-			setRequiredError(customerSelect,
-					getPropertyName("invalid_selection"), true);
+		if (customerSelect.getValue() == null || customerSelect.getValue().equals("")) {
+			setRequiredError(customerSelect, getPropertyName("invalid_selection"), true);
 			customerSelect.focus();
 			ret = false;
 		} else

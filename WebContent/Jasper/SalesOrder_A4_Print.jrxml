@@ -28,8 +28,6 @@
 	<field name="rate" class="java.lang.Double"/>
 	<field name="quantity" class="java.lang.Double"/>
 	<field name="item" class="java.lang.String"/>
-	<field name="itemCode" class="java.lang.String"/>
-	<field name="weight" class="java.lang.Double"/>
 	<variable name="totalAmount" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}.doubleValue()]]></variableExpression>
 	</variable>
@@ -251,7 +249,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Dialog" size="11" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{itemCode}]]></textFieldExpression>
+				
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="75" y="0" width="205" height="26" uuid="c340d576-9890-438c-b36c-e67c4b775c29">

@@ -106,6 +106,7 @@ public class AddSupplier extends SparkLogic {
 
 	private SCheckBox enableLogin,subscription;
 	private STextField userNameField;
+	private STextField vatNumberField;
 	private SPasswordField passwordField;
 	private SPasswordField confirmPasswordField;
 	private SCheckBox sendMailBox;
@@ -182,7 +183,7 @@ public class AddSupplier extends SparkLogic {
 			credit_limitTextField = new STextField(getPropertyName("credit_limit"), 150);
 			credit_periodTextField = new STextField(getPropertyName("credit_period"), 150);
 			description = new STextArea(getPropertyName("description"), 250,50);
-			
+			vatNumberField = new STextField(getPropertyName("vat_num_label"), 150);
 			
 			responsibleEmployeeCombo = new SComboField(getPropertyName("sales_man"), 250,
 					new UserManagementDao().getUsersWithFullNameAndCodeUnderOffice(getOfficeID()), "id", "first_name");
@@ -267,6 +268,7 @@ public class AddSupplier extends SparkLogic {
 			accountLayout.addComponent(currency);
 //			accountLayout.addComponent(tax_group);
 			accountLayout.addComponent(statusCombo);
+			accountLayout.addComponent(vatNumberField);
 //			accountLayout.addComponent(subscription);
 			accountLayout.addComponent(enableLogin);
 			accountLayout.addComponent(userNameField);
@@ -452,6 +454,7 @@ public class AddSupplier extends SparkLogic {
 									supplier.setLedger(objModel);
 									supplier.setLoginEnabled(enableLogin.getValue());
 									supplier.setAddress(mdl);
+									supplier.setVatNumber(vatNumberField.getValue());
 									
 									S_LoginModel loginModel = null;
 									if (enableLogin.getValue()) {
@@ -527,6 +530,7 @@ public class AddSupplier extends SparkLogic {
 							address1Field.loadAddress(supplier.getAddress().getId());
 							enableLogin.setValue(supplier.isLoginEnabled());
 							sendMailBox.setValue(false);
+							vatNumberField.setValue(supplier.getVatNumber());
 							if(supplier.getLogin()!=null){
 								userNameField.setValue(supplier.getLogin().getLogin_name());
 								session.setAttribute("userName", supplier.getLogin().getLogin_name());
@@ -656,6 +660,7 @@ public class AddSupplier extends SparkLogic {
 									supplier.setStatus((Long) statusCombo.getValue());
 									supplier.setLedger(objModel);
 									supplier.setLoginEnabled(enableLogin.getValue());
+									supplier.setVatNumber(vatNumberField.getValue());
 									
 									S_LoginModel loginModel=null;
 									if(supplier.getLogin()!=null){

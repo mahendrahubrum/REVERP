@@ -43,6 +43,7 @@ import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.webspark.Components.SNotification;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.SessionUtil;
 import com.webspark.dao.AddressDao;
@@ -99,47 +100,42 @@ public class Report {
 		setExportReport(true);
 		setReportType(1);
 		setLoginId(loginId);
-		
+
 		session = new SessionUtil().getHttpSession();
-		if (session.getAttribute("settings") != null) 
+		if (session.getAttribute("settings") != null)
 			settings = (SettingsValuePojo) session.getAttribute("settings");
-	
-		organizationId = Long.parseLong(session.getAttribute(
-				"organization_id").toString());
+
+		organizationId = Long.parseLong(session.getAttribute("organization_id").toString());
 		try {
-			ofcModel=new OfficeDao().getOffice(Long.parseLong(session.getAttribute("office_id").toString()));
+			ofcModel = new OfficeDao().getOffice(Long.parseLong(session.getAttribute("office_id").toString()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Report(String jrxmlFileName, String reportFileName, int reportType,
-			boolean includeDate, long loginId) {
+	public Report(String jrxmlFileName, String reportFileName, int reportType, boolean includeDate, long loginId) {
 		detectOS();
 		setReportFileName(reportFileName);
 		setJrxmlFileName(jrxmlFileName);
 		setIncludeDateInName(includeDate);
 		setReportType(reportType);
 		setLoginId(loginId);
-		
+
 		session = new SessionUtil().getHttpSession();
-		if (session.getAttribute("settings") != null) 
+		if (session.getAttribute("settings") != null)
 			settings = (SettingsValuePojo) session.getAttribute("settings");
-	
-		organizationId = Long.parseLong(session.getAttribute(
-				"organization_id").toString());
+
+		organizationId = Long.parseLong(session.getAttribute("organization_id").toString());
 		try {
-			ofcModel=new OfficeDao().getOffice(Long.parseLong(session.getAttribute("office_id").toString()));
+			ofcModel = new OfficeDao().getOffice(Long.parseLong(session.getAttribute("office_id").toString()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void createReport(List<Object> reportList,
-			Map<String, Object> parameters) {
+	public void createReport(List<Object> reportList, Map<String, Object> parameters) {
 
 		try {
-			
 
 			String reportPath = "";
 			String headerFile = "";
@@ -149,8 +145,7 @@ public class Report {
 			String headerImage = "";
 			String footerImage = "";
 
-			String rootPath = VaadinServlet.getCurrent().getServletContext()
-					.getRealPath("/");
+			String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/");
 
 			formatReportFileName();
 
@@ -161,19 +156,18 @@ public class Report {
 				footerFile = rootPath + "Jasper\\Footer.jasper";
 				jasperPath = rootPath + "Jasper\\";
 				reportPath = rootPath + "Reports\\" + reportFileName;
-				logoPath = rootPath
-						+ "VAADIN\\themes\\testappstheme\\OrganizationLogos\\";
-				
-				headerImage=rootPath + "images/"+ofcModel.getHeader();
-				footerImage=rootPath + "images/"+ofcModel.getFooter();
-				
-				File file=new File(headerImage);
-				if(file==null||!file.exists()){
-					headerImage=rootPath + "images/blank.png";
+				logoPath = rootPath + "VAADIN\\themes\\testappstheme\\OrganizationLogos\\";
+
+				headerImage = rootPath + "images/" + ofcModel.getHeader();
+				footerImage = rootPath + "images/" + ofcModel.getFooter();
+
+				File file = new File(headerImage);
+				if (file == null || !file.exists()) {
+					headerImage = rootPath + "images/blank.png";
 				}
-				file=new File(footerImage);
-				if(file==null||!file.exists()){
-					footerImage=rootPath + "images/blank.png";
+				file = new File(footerImage);
+				if (file == null || !file.exists()) {
+					footerImage = rootPath + "images/blank.png";
 				}
 
 			} else {
@@ -181,19 +175,18 @@ public class Report {
 				footerFile = rootPath + "Jasper/Footer.jasper";
 				jasperPath = rootPath + "Jasper/";
 				reportPath = rootPath + "Reports/" + reportFileName;
-				logoPath = rootPath
-						+ "VAADIN/themes/testappstheme/OrganizationLogos/";
-				
-				headerImage=rootPath + "images/"+ofcModel.getHeader();
-				footerImage=rootPath + "images/"+ofcModel.getFooter();
-				
-				File file=new File(headerImage);
-				if(file==null||!file.exists()){
-					headerImage=rootPath + "images/blank.png";
+				logoPath = rootPath + "VAADIN/themes/testappstheme/OrganizationLogos/";
+
+				headerImage = rootPath + "images/" + ofcModel.getHeader();
+				footerImage = rootPath + "images/" + ofcModel.getFooter();
+
+				File file = new File(headerImage);
+				if (file == null || !file.exists()) {
+					headerImage = rootPath + "images/blank.png";
 				}
-				file=new File(footerImage);
-				if(file==null||!file.exists()){
-					footerImage=rootPath + "images/blank.png";
+				file = new File(footerImage);
+				if (file == null || !file.exists()) {
+					footerImage = rootPath + "images/blank.png";
 				}
 			}
 
@@ -219,7 +212,6 @@ public class Report {
 
 			parameters.put("REPORT_TITLE", reportTitle);
 			parameters.put("REPORT_SUB_TITLE", reportSubTitle);
-			
 
 			if (includeHeader) {
 				parameters.put("HEADER_DIR", headerFile);
@@ -232,21 +224,18 @@ public class Report {
 				// parameters.put("FOOTER_DIR", footerFile);
 				// populateFooterReport(jasperPath);
 			}
-			
+
 			jasperPrint = compileReportFile(reportList, parameters, jrxmlFile);
-			reportFile=reportPath;
-			if(isExportReport())
+			reportFile = reportPath;
+			if (isExportReport())
 				exoprtReport(jasperPrint, reportPath);
 
-			System.out
-					.println("Filee EXPORTED--------------------------------> ");
+			System.out.println("Filee EXPORTED--------------------------------> ");
 		} catch (JRException e) {
-			Notification.show("Report generation failed. Please try again..!",
-					Type.ERROR_MESSAGE);
+			Notification.show("Report generation failed. Please try again..!", Type.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (Exception e) {
-			Notification.show("Report generation failed. Please try again..!",
-					Type.ERROR_MESSAGE);
+			Notification.show("Report generation failed. Please try again..!", Type.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 
@@ -255,33 +244,29 @@ public class Report {
 		System.gc();
 	}
 
-	private JasperPrint compileReportFile(List<Object> reportList,
-			Map<String, Object> parameters, String jrxmlfile)
+	private JasperPrint compileReportFile(List<Object> reportList, Map<String, Object> parameters, String jrxmlfile)
 			throws JRException {
 
 		String jasperFile = jrxmlfile.replaceAll(".jrxml", ".jasper");
 		JasperPrint print;
 
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(
-				reportList, true);
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportList, true);
 
 		JasperDesign jasperDesign = JRXmlLoader.load(jrxmlfile);
 
 		JasperCompileManager.compileReportToFile(jasperDesign, jasperFile);
 
-		JasperReport jasperReport = JasperCompileManager
-				.compileReport(jasperDesign);
+		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-		print = JasperFillManager.fillReport(jasperReport, parameters,
-				dataSource);
+		print = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
 		return print;
 	}
 
-	private void populateHeaderReport(String path,
-			Map<String, Object> parameters) {
+	private void populateHeaderReport(String path, Map<String, Object> parameters) {
 
 		AddressModel addressModel;
+		AddressBusiness addrBusiness = new AddressBusiness();
 		String orgName = "";
 		String address = "";
 		String date = "";
@@ -298,29 +283,26 @@ public class Report {
 			if (getOfficeName() == null || getOfficeName().trim().length() <= 0) {
 				officeName = session.getAttribute("office_name").toString();
 			}
-			
+
 			date = CommonUtil.getCurrentSQLDate().toString();
-			
-			if(userModel!=null){
+
+			if (userModel != null) {
 				addressModel = userModel.getLoginId().getOffice().getOrganization().getAddress();
-				login = userModel.getFirst_name() + " "
-					+ userModel.getMiddle_name() + " "
-					+ userModel.getLast_name();
-			}else{
+				login = userModel.getFirst_name() + " " + userModel.getMiddle_name() + " " + userModel.getLast_name();
+			} else {
 				addressModel = loginMdl.getOffice().getOrganization().getAddress();
 				login = loginMdl.getLogin_name();
 			}
 			if (settings.isHIDE_ORGANIZATION_DETAILS()) {
-				orgName=officeName;
-				officeName="";
-				if(userModel!=null)
+				orgName = officeName;
+				officeName = "";
+				if (userModel != null)
 					addressModel = userModel.getLoginId().getOffice().getOrganization().getAddress();
 				else
 					addressModel = loginMdl.getOffice().getOrganization().getAddress();
 			}
 			if (addressModel != null) {
-				address = new AddressDao().getAddressString(addressModel
-						.getId());
+				address = addrBusiness.getAddressString(addressModel.getId());
 			}
 
 			parameters.put("DATE", date);
@@ -350,9 +332,8 @@ public class Report {
 	// }
 	// }
 
-	private void exoprtReport(JasperPrint jasperPrint, String report)
-			throws JRException {
-		
+	private void exoprtReport(JasperPrint jasperPrint, String report) throws JRException {
+
 //		VaadinSession.getCurrent().addRequestHandler(new RequestHandler() {
 //			
 //			@Override
@@ -413,39 +394,27 @@ public class Report {
 
 		switch (reportType) {
 		case PDF:
-			
+
 			JasperExportManager.exportReportToPdfFile(jasperPrint, report);
-			
+
 			break;
 
 		case EXCEL:
 			JRXlsExporter exporterXLS = new JRXlsExporter();
-			exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT,
-					jasperPrint);
-			exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME,
-					report);
-			exporterXLS
-					.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-							Boolean.FALSE);
-			exporterXLS.setParameter(
-					JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-			exporterXLS.setParameter(
-					JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-					Boolean.FALSE);
-			exporterXLS.setParameter(
-					JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-					Boolean.FALSE);
+			exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+			exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, report);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.FALSE);
 			exporterXLS.exportReport();
 			break;
 
 		case HTML:
 			JRHtmlExporter exporter = new JRHtmlExporter();
-			exporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT,
-					jasperPrint);
-			exporter.setParameter(
-					JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, false);
-			exporter.setParameter(JRHtmlExporterParameter.OUTPUT_FILE_NAME,
-					report);
+			exporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, false);
+			exporter.setParameter(JRHtmlExporterParameter.OUTPUT_FILE_NAME, report);
 			exporter.exportReport();
 			// JasperExportManager.exportReportToHtmlFile(jasperPrint, report);
 			break;
@@ -458,20 +427,16 @@ public class Report {
 
 		FileResource resource = new FileResource(file);
 
-		if (file != null&&file.exists()) {
+		if (file != null && file.exists()) {
 
 			Page.getCurrent().open(resource, reportFileName, true);
-			
+
 			file.deleteOnExit();
 
 		} else {
-			SNotification.show("Report generation failed. Please try again..!",
-					Type.ERROR_MESSAGE);
+			SNotification.show("Report generation failed. Please try again..!", Type.ERROR_MESSAGE);
 		}
-		
-		
-		
-		
+
 	}
 
 	public void print() {
@@ -507,60 +472,55 @@ public class Report {
 //			SNotification.show("No active printers found",
 //					Type.TRAY_NOTIFICATION);
 //		}
-		
+
 	}
-	
+
 	public void printReport() {
 		try {
-			
+
 			switch (reportType) {
 			case PDF:
-				JRPdfExporter pdfexporter = new  JRPdfExporter();
+				JRPdfExporter pdfexporter = new JRPdfExporter();
 				pdfexporter.setParameter(JRPdfExporterParameter.JASPER_PRINT, jasperPrint);
 				pdfexporter.setParameter(JRPdfExporterParameter.OUTPUT_FILE_NAME, reportFile);
 				pdfexporter.setParameter(JRPdfExporterParameter.PDF_JAVASCRIPT, "this.print();");
 				pdfexporter.exportReport();
-			break;
-			
+				break;
+
 			case HTML:
-				JRHtmlExporter exporter = new  JRHtmlExporter();
+				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, true);
 				exporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRHtmlExporterParameter.OUTPUT_FILE_NAME, reportFile);
-				exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, 
-					    "<html>"+
-					    "<head>"+
-					    "  <title></title>"+ "  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>"+
-					    "  <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jasper.css\" />"+
-					    "  <style type='text/css'>"+
-					    "    a {text-decoration: none}"+
-					    "  </style>"+
-					    "</head>"+
-					    "<body text='#000000' link='#000000' alink='#000000' vlink='#000000'>"+
-					    "<table width='100%' cellpadding='0' cellspacing='0' border='0'>"+
-					    "<tr><td width='50%'>&nbsp;</td><td align='center'>");
-					exporter.exportReport();
-				
+				exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER,
+						"<html>" + "<head>" + "  <title></title>"
+								+ "  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>"
+								+ "  <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jasper.css\" />"
+								+ "  <style type='text/css'>" + "    a {text-decoration: none}" + "  </style>"
+								+ "</head>" + "<body text='#000000' link='#000000' alink='#000000' vlink='#000000'>"
+								+ "<table width='100%' cellpadding='0' cellspacing='0' border='0'>"
+								+ "<tr><td width='50%'>&nbsp;</td><td align='center'>");
+				exporter.exportReport();
+
 //				StringBuffer sbuf = new StringBuffer();
 //				sbuf.append("<script type=\"text/javascript\">window.alert('hello');</script>");
 //				pdfexporter.setParameter(JRHtmlExporterParameter.OUTPUT_STRING_BUFFER, sbuf);
 
 				exporter.exportReport();
-			break;
-			
+				break;
+
 			default:
-			break;
+				break;
 			}
-			
-			} catch (JRException e) {
-				e.printStackTrace();
-			}
+
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	private void formatReportFileName() {
 
-		String time = new Date().toString().replace('.', ' ').replace(',', ' ')
-				.replace(':', ' ').replaceAll(" ", "");
+		String time = new Date().toString().replace('.', ' ').replace(',', ' ').replace(':', ' ').replaceAll(" ", "");
 
 		reportFileName = loginId + "" + reportFileName;
 		if (isIncludeDateInName()) {
@@ -695,5 +655,5 @@ public class Report {
 	public void setExportReport(boolean exportReport) {
 		this.exportReport = exportReport;
 	}
-	
+
 }

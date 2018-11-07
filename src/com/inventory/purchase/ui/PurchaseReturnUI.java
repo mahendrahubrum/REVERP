@@ -98,6 +98,7 @@ import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
 import com.webspark.bean.ExpenseBean;
 import com.webspark.bean.ExpenseTransactionBean;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.KeyValue;
 import com.webspark.common.util.SConstants;
@@ -3400,7 +3401,7 @@ public class PurchaseReturnUI extends SparkLogic {
 							SupplierModel ledger = supDao.getSupplierFromLedger(toLong(supplierCombo.getValue().toString()));
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							
@@ -3499,7 +3500,7 @@ public class PurchaseReturnUI extends SparkLogic {
 							SupplierModel ledger = supDao.getSupplierFromLedger(toLong(supplierCombo.getValue().toString()));
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							

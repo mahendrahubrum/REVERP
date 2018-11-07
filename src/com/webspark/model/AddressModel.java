@@ -51,6 +51,17 @@ public class AddressModel implements Serializable {
 
 	@Column(name = "address_area", length = 5000, columnDefinition="varchar(5000) default '' ")
 	private String address_area;
+	
+	@Column(name = "vat_number", length = 500)
+	private String vatNumber;
+
+	public String getVatNumber() {
+		return vatNumber;
+	}
+
+	public void setVatNumber(String vatNumber) {
+		this.vatNumber = vatNumber;
+	}
 
 	public long getId() {
 		return id;

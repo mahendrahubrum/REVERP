@@ -34,14 +34,14 @@ import com.webspark.model.S_LoginModel;
 public class SupplierModel implements Serializable {
 
 	public SupplierModel() {
-		
+
 	}
 
 	public SupplierModel(long id) {
 		super();
 		this.id = id;
 	}
-	
+
 	public SupplierModel(long id, String name) {
 		super();
 		this.id = id;
@@ -61,42 +61,42 @@ public class SupplierModel implements Serializable {
 
 	@Column(name = "bank_name", length = 80)
 	private String bank_name;
-	
+
 	@Column(name = "website", length = 50)
 	private String website;
-	
+
 	@Column(name = "responsible_person")
 	private long responsible_person;
-	
+
 	@Column(name = "contact_person", length = 100)
 	private String contact_person;
-	
+
 	@Column(name = "contact_person_fax", length = 100)
 	private String contact_person_fax;
 
 	@Column(name = "contact_person_email", length = 100)
 	private String contact_person_email;
-	
+
 	@Column(name = "description", length = 500)
 	private String description;
-	
+
 	@Column(name = "credit_limit")
 	private double credit_limit;
 
 	@Column(name = "credit_period")
 	private int credit_period;
-	
+
 	@OneToOne
 	@JoinColumn(name = "payment_terms")
 	private PaymentTermsModel payment_terms;
-	
+
 	@OneToOne
 	@JoinColumn(name = "supplier_currency")
 	private CurrencyModel supplier_currency;
-	
+
 	@Column(name = "status")
 	private long status;
-	
+
 	@OneToOne
 	@JoinColumn(name = "ledger_id")
 	private LedgerModel ledger;
@@ -105,15 +105,26 @@ public class SupplierModel implements Serializable {
 	@JoinColumn(name = "login_id")
 	private S_LoginModel login;
 
-	@Column(name="subscription", columnDefinition = "bigint default 0", nullable = false)
+	@Column(name = "subscription", columnDefinition = "bigint default 0", nullable = false)
 	private long subscription;
-	
+
 	@OneToOne
 	@JoinColumn(name = "address")
 	private AddressModel address;
-	
-	@Column(name = "loginEnabled",columnDefinition="boolean default false", nullable=false)
+
+	@Column(name = "loginEnabled", columnDefinition = "boolean default false", nullable = false)
 	private boolean loginEnabled;
+
+	@Column(name = "vat_number", length = 500)
+	private String vatNumber;
+
+	public String getVatNumber() {
+		return vatNumber;
+	}
+
+	public void setVatNumber(String vatNumber) {
+		this.vatNumber = vatNumber;
+	}
 
 	public long getId() {
 		return id;
@@ -274,6 +285,5 @@ public class SupplierModel implements Serializable {
 	public void setLoginEnabled(boolean loginEnabled) {
 		this.loginEnabled = loginEnabled;
 	}
-
 
 }

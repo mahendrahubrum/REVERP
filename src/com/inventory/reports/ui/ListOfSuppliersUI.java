@@ -17,6 +17,7 @@ import com.webspark.Components.SOfficeComboField;
 import com.webspark.Components.SPanel;
 import com.webspark.Components.SReportChoiceField;
 import com.webspark.Components.SparkLogic;
+import com.webspark.business.AddressBusiness;
 import com.webspark.core.Report;
 import com.webspark.dao.AddressDao;
 
@@ -80,7 +81,7 @@ public class ListOfSuppliersUI extends SparkLogic {
 
 								beans = new ListOfSupplierBeans(supplierModel
 										.getName(), supplierModel
-										.getSupplier_code(), addressDao
+										.getSupplier_code(), new AddressBusiness()
 										.getAddressString(supplierModel.getAddress()
 												.getId()), supplierModel
 										.getSupplier_currency().getName());

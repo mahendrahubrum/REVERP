@@ -106,6 +106,7 @@ import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
 import com.webspark.bean.ExpenseBean;
 import com.webspark.bean.ExpenseTransactionBean;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.KeyValue;
 import com.webspark.common.util.SConstants;
@@ -3921,7 +3922,7 @@ public class SalesUI extends SparkLogic {
 							CustomerModel ledger =  new CustomerDao().getCustomerFromLedger(mdl.getCustomer().getId());
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							map.put("ADDRESS_LABEL", getPropertyName("address"));
 							map.put("ADDRESS", address);
@@ -4094,7 +4095,7 @@ public class SalesUI extends SparkLogic {
 							CustomerModel ledger =  new CustomerDao().getCustomerFromLedger(mdl.getCustomer().getId());
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							map.put("ADDRESS_LABEL", getPropertyName("address"));
 							map.put("ADDRESS", address);

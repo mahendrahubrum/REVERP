@@ -19,6 +19,7 @@ import com.webspark.Components.SOfficeComboField;
 import com.webspark.Components.SPanel;
 import com.webspark.Components.SReportChoiceField;
 import com.webspark.Components.SparkLogic;
+import com.webspark.business.AddressBusiness;
 import com.webspark.core.Report;
 import com.webspark.dao.AddressDao;
 
@@ -69,7 +70,6 @@ public class ListOfCustomersUI extends SparkLogic {
 					List reportList = new ArrayList();
 					ListOfCustomerBeans beans = null;
 					CustomerModel model = null;
-					AddressDao addressDao = new AddressDao();
 
 					try {
 
@@ -82,7 +82,7 @@ public class ListOfCustomersUI extends SparkLogic {
 
 								beans = new ListOfCustomerBeans(
 										model.getName(), model
-												.getCustomer_code(), addressDao
+												.getCustomer_code(), new AddressBusiness()
 												.getAddressString(model
 														.getAddress().getId()),
 										model.getCustomer_currency().getName());

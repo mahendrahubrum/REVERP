@@ -75,6 +75,7 @@ import com.webspark.Components.SVerticalLayout;
 import com.webspark.Components.SWindow;
 import com.webspark.Components.SparkLogic;
 import com.webspark.Components.WindowNotifications;
+import com.webspark.business.AddressBusiness;
 import com.webspark.common.util.CommonUtil;
 import com.webspark.common.util.SConstants;
 import com.webspark.common.util.SMail;
@@ -1632,7 +1633,7 @@ public class PurchaseQuotationUI extends SparkLogic {
 							SupplierModel ledger = supDao.getSupplierFromLedger(toLong(supplierCombo.getValue().toString()));
 							String address = "";
 							if (ledger != null) {
-								address = new AddressDao().getAddressString(ledger.getAddress().getId());
+								address =new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							
@@ -1726,7 +1727,7 @@ public class PurchaseQuotationUI extends SparkLogic {
 							SupplierModel ledger = supDao.getSupplierFromLedger(toLong(supplierCombo.getValue().toString()));
 							String addr = "";
 							if (ledger != null) {
-								addr = new AddressDao().getAddressString(ledger.getAddress().getId());
+								addr = new AddressBusiness().getAddressString(ledger.getAddress().getId());
 							}
 							String rootPath = VaadinServlet.getCurrent().getServletContext().getRealPath("/")+"images/";
 							
