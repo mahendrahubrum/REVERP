@@ -72,7 +72,7 @@ public class PurchaseOrderModel implements Serializable {
 	@Column(name = "responsible_employee")
 	private long responsible_employee;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "office_id")
 	private S_OfficeModel office;
 

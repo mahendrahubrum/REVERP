@@ -88,6 +88,8 @@ public class AddOrganization extends SparkLogic {
 
 	private SCheckBox trialBox;
 	private SDateField expDateField;
+	
+	STextField vatNumberField;
 
 	private SAddressField address1Field;
 
@@ -165,6 +167,7 @@ public class AddOrganization extends SparkLogic {
 		projectTypeSelect = new SComboField(getPropertyName("project_type"),
 				300, new OptionProjectMapDao().getAllProjectTypes(), "id",
 				"name");
+		vatNumberField = new STextField(getPropertyName("vat_num_label"), 300);
 
 		trialBox = new SCheckBox(getPropertyName("trial_version"));
 		expDateField = new SDateField(getPropertyName("expiry_date"), 150, "dd/MM/yyyy", getWorkingDate());
@@ -185,6 +188,7 @@ public class AddOrganization extends SparkLogic {
 		content.addComponent(organizationName);
 		content.addComponent(adminUserSelect);
 		content.addComponent(projectTypeSelect);
+		content.addComponent(vatNumberField);
 		content.addComponent(trialBox);
 		content.addComponent(expDateField);
 		

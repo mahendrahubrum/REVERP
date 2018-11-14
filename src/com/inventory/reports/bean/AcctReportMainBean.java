@@ -17,6 +17,7 @@ public class AcctReportMainBean {
 			balance, returned, period_balance, expence, gross_sale, waste,
 			stock_qty,good, rate, price;
 
+
 	private List subList;
 	private char type;
 	
@@ -25,6 +26,8 @@ public class AcctReportMainBean {
 	private double opening_debit, opening_credit, balance_debit,
 			balance_credit;
 	private double purchase_qty, current_qty;
+	
+	private double vat;
 	
 	public AcctReportMainBean() {
 		super();
@@ -972,4 +975,11 @@ public class AcctReportMainBean {
 		this.orderNo = orderNo;
 	}
 	
+	public double getVat() {
+		return vat;
+	}
+
+	public void setVat(double vat) {
+		this.vat = vat;
+	}
 }

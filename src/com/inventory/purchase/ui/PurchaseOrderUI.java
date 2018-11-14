@@ -26,6 +26,7 @@ import com.inventory.config.stock.dao.ItemDao;
 import com.inventory.config.stock.model.ItemModel;
 import com.inventory.config.stock.ui.ItemPanel;
 import com.inventory.config.tax.dao.TaxDao;
+import com.inventory.config.tax.model.TaxModel;
 import com.inventory.config.unit.dao.UnitDao;
 import com.inventory.config.unit.model.UnitModel;
 import com.inventory.config.unit.ui.AddNewUnitUI;
@@ -122,6 +123,9 @@ public class PurchaseOrderUI extends SparkLogic {
 	static String TBC_NET_PRICE = "Net Price";
 	static String TBC_QUOTATION_ID = "Quotation Id";
 	static String TBC_QUOTATION_CHILD_ID = "Quotation Child Id";
+	static String TBC_TAX_ID = "Tax Id";
+	static String TBC_TAX_PERCENTAGE = "Tax Percentage";
+	static String TBC_TAX_AMOUNT = "Tax Amount";
 
 	PurchaseOrderDao dao;
 	SComboField purchaseOrderCombo;
@@ -210,6 +214,8 @@ public class PurchaseOrderUI extends SparkLogic {
 	SHorizontalLayout popupLay;
 	SHelpPopupView helpPopup;
 
+	SNativeSelect taxSelect;
+
 	@SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 	@Override
 	public SPanel getGUI() {
@@ -238,15 +244,19 @@ public class PurchaseOrderUI extends SparkLogic {
 		createNewButton.setDescription("Add New Purchase Inquiry");
 
 		allHeaders = new String[] { TBC_SN, TBC_ID, TBC_EDITABLE, TBC_ITEM_ID, TBC_ITEM_CODE, TBC_ITEM_NAME, TBC_QTY,
-				TBC_CONVERTION_QTY, TBC_QTY_IN_BASIC_UNIT, TBC_UNIT_ID, TBC_UNIT, TBC_UNIT_PRICE, TBC_CID, TBC_CURRENCY,
-				TBC_CONV_RATE, TBC_NET_PRICE, TBC_QUOTATION_ID, TBC_QUOTATION_CHILD_ID };
+				TBC_CONVERTION_QTY, TBC_QTY_IN_BASIC_UNIT, TBC_UNIT_ID, TBC_UNIT, TBC_UNIT_PRICE, TBC_TAX_ID,
+				TBC_TAX_PERCENTAGE, TBC_TAX_AMOUNT, TBC_CID, TBC_CURRENCY, TBC_CONV_RATE, TBC_NET_PRICE,
+				TBC_QUOTATION_ID, TBC_QUOTATION_CHILD_ID };
 
 		requiredHeaders = new String[] { TBC_SN, TBC_ITEM_CODE, TBC_ITEM_NAME, TBC_QTY, TBC_UNIT, TBC_UNIT_PRICE,
-				TBC_CURRENCY, TBC_NET_PRICE };
+				TBC_TAX_AMOUNT, TBC_CURRENCY, TBC_NET_PRICE };
 
 		List<Object> tempList = new ArrayList<Object>();
 		Collections.addAll(tempList, requiredHeaders);
 
+		if (!settings.isTAX_ENABLED()) {
+			tempList.remove(TBC_TAX_AMOUNT);
+		}
 		requiredHeaders = tempList.toArray(new String[tempList.size()]);
 
 		setSize(1200, 625);
@@ -396,6 +406,9 @@ public class PurchaseOrderUI extends SparkLogic {
 			convertedQuantityField.setReadOnly(true);
 
 			unitSelect = new SNativeSelect(getPropertyName("unit"), 60);
+			taxSelect = new SNativeSelect(getPropertyName("tax"), 75,
+					taxDao.getAllActiveTaxesFromType(getOfficeID(), SConstants.tax.SALES_TAX), "id", "name");
+			taxSelect.setValue(SConstants.tax.SALES_TAX);
 			newUnitButton = new SButton();
 			newUnitButton.setStyleName("smallAddNewBtnStyle");
 			newUnitButton.setDescription(getPropertyName("add_new_unit"));
@@ -435,6 +448,7 @@ public class PurchaseOrderUI extends SparkLogic {
 			itemLayout.addComponent(convertionQuantityField);
 			itemLayout.addComponent(convertedQuantityField);
 			itemLayout.addComponent(unitPriceField);
+			itemLayout.addComponent(taxSelect);
 			itemLayout.addComponent(netPriceField);
 			itemLayout.addComponent(buttonLay);
 			itemLayout.setComponentAlignment(buttonLay, Alignment.BOTTOM_CENTER);
@@ -478,6 +492,9 @@ public class PurchaseOrderUI extends SparkLogic {
 			table.addContainerProperty(TBC_QUOTATION_ID, Long.class, null, TBC_QUOTATION_ID, null, Align.CENTER);
 			table.addContainerProperty(TBC_QUOTATION_CHILD_ID, Long.class, null, TBC_QUOTATION_CHILD_ID, null,
 					Align.CENTER);
+			table.addContainerProperty(TBC_TAX_ID, Long.class, null, TBC_TAX_ID, null, Align.LEFT);
+			table.addContainerProperty(TBC_TAX_PERCENTAGE, Double.class, null, TBC_TAX_PERCENTAGE, null, Align.LEFT);
+			table.addContainerProperty(TBC_TAX_AMOUNT, Double.class, null, TBC_TAX_AMOUNT, null, Align.LEFT);
 
 			table.setColumnExpandRatio(TBC_SN, 0.35f);
 			table.setColumnExpandRatio(TBC_ITEM_CODE, 1);
@@ -924,20 +941,22 @@ public class PurchaseOrderUI extends SparkLogic {
 							List<ItemModel> itemUnderSupplierList = new ArrayList<ItemModel>();
 
 							Iterator itr = itemModelList.iterator();
-							long supplierId = (Long) supplierCombo.getValue();
-							String[] supplierIdsStringArray;
-							while (itr.hasNext()) {
-								ItemModel model = (ItemModel) itr.next();
-								if (model.getPreferred_vendor() == null
-										|| model.getPreferred_vendor().trim().length() == 0) {
-									continue;
-								}
-								supplierIdsStringArray = model.getPreferred_vendor().split(",");
+							if (supplierCombo.getValue() != null) {
+								long supplierId = (Long) supplierCombo.getValue();
+								String[] supplierIdsStringArray;
+								while (itr.hasNext()) {
+									ItemModel model = (ItemModel) itr.next();
+									if (model.getPreferred_vendor() == null
+											|| model.getPreferred_vendor().trim().length() == 0) {
+										continue;
+									}
+									supplierIdsStringArray = model.getPreferred_vendor().split(",");
 
-								for (int i = 0; i < supplierIdsStringArray.length; i++) {
-									if (Long.parseLong(supplierIdsStringArray[i]) == supplierId) {
-										itemUnderSupplierList.add(model);
-										break;
+									for (int i = 0; i < supplierIdsStringArray.length; i++) {
+										if (Long.parseLong(supplierIdsStringArray[i]) == supplierId) {
+											itemUnderSupplierList.add(model);
+											break;
+										}
 									}
 								}
 							}
@@ -1237,10 +1256,37 @@ public class PurchaseOrderUI extends SparkLogic {
 							UnitModel unitModel = untDao.getUnit((Long) unitSelect.getValue());
 							double qty = toDouble(quantityField.getValue().toString());
 							double amount = unitPriceField.getValue();
-							double netPrice = (unitPriceField.getValue() * qty);
 							String currency = new CurrencyManagementDao().getselecteditem(unitPriceField.getCurrency())
 									.getCode();
 							double conv_rat;
+							long taxId = 0;
+							double taxPer = 0;
+							double taxAmount = 0;
+							TaxModel taxModel = null;
+							if (taxEnable) {
+								taxModel = new TaxDao().getTax((Long) taxSelect.getValue());
+								if (taxModel != null) {
+									if (taxModel.getValue_type() == SConstants.tax.PERCENTAGE) {
+										taxId = taxModel.getId();
+										taxPer = taxModel.getValue();
+										taxAmount = (qty * amount * taxPer)
+												/ (100 * unitPriceField.getConversionRate());
+									} else {
+										taxId = taxModel.getId();
+										taxPer = 0;
+										taxAmount = taxModel.getValue();
+									}
+								} else {
+									taxId = SConstants.tax.PURCHASE_TAX;
+									taxPer = 0;
+									taxAmount = 0;
+								}
+							} else {
+								taxId = SConstants.tax.PURCHASE_TAX;
+								taxPer = 0;
+								taxAmount = 0;
+							}
+							double netPrice = (unitPriceField.getValue() * qty) + taxAmount;
 							try {
 								conv_rat = toDouble(convertionQuantityField.getValue());
 							} catch (Exception e) {
@@ -1249,7 +1295,8 @@ public class PurchaseOrderUI extends SparkLogic {
 							table.addItem(new Object[] { table.getItemIds().size() + 1, (long) 0, true,
 									itemModel.getId(), itemModel.getItem_code(), itemModel.getName(), roundNumber(qty),
 									roundNumber(conv_rat), roundNumber(conv_rat * qty), unitModel.getId(),
-									unitModel.getSymbol(), roundNumber(amount), unitPriceField.getCurrency(), currency,
+									unitModel.getSymbol(), roundNumber(amount), taxId, roundNumber(taxPer),
+									roundNumber(taxAmount), unitPriceField.getCurrency(), currency,
 									roundNumber(unitPriceField.getConversionRate()), roundNumber(netPrice), (long) 0,
 									(long) 0 }, table.getItemIds().size() + 1);
 							itemCombo.setValue(null);
@@ -1287,6 +1334,7 @@ public class PurchaseOrderUI extends SparkLogic {
 									roundNumber((Double) item.getItemProperty(TBC_NET_PRICE).getValue()) + "");
 							convertionQuantityField.setNewValue(
 									"" + roundNumber((Double) item.getItemProperty(TBC_CONVERTION_QTY).getValue()));
+							taxSelect.setNewValue((Long) item.getItemProperty(TBC_TAX_ID).getValue());
 							if (!(Boolean) item.getItemProperty(TBC_EDITABLE).getValue()) {
 								addItemButton.setVisible(false);
 								updateItemButton.setVisible(false);
@@ -1350,6 +1398,9 @@ public class PurchaseOrderUI extends SparkLogic {
 								item.getItemProperty(TBC_CONV_RATE)
 										.setValue(roundNumber(unitPriceField.getConversionRate()));
 								item.getItemProperty(TBC_NET_PRICE).setValue(roundNumber(netPrice));
+//								item.getItemProperty(TBC_TAX_ID).setValue(taxId);
+//								item.getItemProperty(TBC_TAX_PERCENTAGE).setValue(roundNumber(taxPer));
+//								item.getItemProperty(TBC_TAX_AMOUNT).setValue(roundNumber(taxAmount));
 								itemCombo.setValue(null);
 								quantityField.setValue("0");
 								unitSelect.setValue(null);
@@ -1397,6 +1448,14 @@ public class PurchaseOrderUI extends SparkLogic {
 								det.setQuotation_id((Long) item.getItemProperty(TBC_QUOTATION_ID).getValue());
 								det.setQuotation_child_id(
 										(Long) item.getItemProperty(TBC_QUOTATION_CHILD_ID).getValue());
+								det.setTax(new TaxModel((Long) item.getItemProperty(TBC_TAX_ID).getValue()));
+								det.setTaxPercentage(
+										roundNumber((Double) item.getItemProperty(TBC_TAX_PERCENTAGE).getValue()));
+								det.setTaxAmount(roundNumber((Double) item.getItemProperty(TBC_TAX_AMOUNT).getValue()));
+								det.setTax(new TaxModel((Long) item.getItemProperty(TBC_TAX_ID).getValue()));
+								det.setTaxPercentage(
+										roundNumber((Double) item.getItemProperty(TBC_TAX_PERCENTAGE).getValue()));
+								det.setTaxAmount(roundNumber((Double) item.getItemProperty(TBC_TAX_AMOUNT).getValue()));
 								itemsList.add(det);
 							}
 							if (savable) {
@@ -1500,6 +1559,8 @@ public class PurchaseOrderUI extends SparkLogic {
 												roundNumber(det.getQty_in_basic_unit() / det.getQunatity()),
 												roundNumber(det.getQty_in_basic_unit()), det.getUnit().getId(),
 												det.getUnit().getSymbol(), roundNumber(det.getUnit_price()),
+												det.getTax() != null ? det.getTax().getId() : 0,
+												roundNumber(det.getTaxPercentage()), roundNumber(det.getTaxAmount()),
 												det.getCurrencyId(), currency, roundNumber(det.getConversionRate()),
 												roundNumber(det.getUnit_price() * det.getQunatity()),
 												det.getQuotation_id(), det.getQuotation_child_id() },
@@ -1549,11 +1610,14 @@ public class PurchaseOrderUI extends SparkLogic {
 										savable = false;
 										break;
 									}
-									det.setItem(new ItemModel((Long) item.getItemProperty(TBC_ITEM_ID).getValue()));
+									det.setItem(det.getItem() != null ? det.getItem()
+											: itemDao.getItem((Long) item.getItemProperty(TBC_ITEM_ID).getValue()));
 									det.setQunatity(roundNumber((Double) item.getItemProperty(TBC_QTY).getValue()));
 									det.setQty_in_basic_unit(roundNumber(
 											(Double) item.getItemProperty(TBC_QTY_IN_BASIC_UNIT).getValue()));
-									det.setUnit(new UnitModel((Long) item.getItemProperty(TBC_UNIT_ID).getValue()));
+									det.setUnit(det.getUnit() != null ? det.getUnit()
+											: new UnitDao()
+													.getUnit((Long) item.getItemProperty(TBC_UNIT_ID).getValue()));
 									det.setUnit_price(
 											roundNumber((Double) item.getItemProperty(TBC_UNIT_PRICE).getValue()));
 									det.setCurrencyId((Long) item.getItemProperty(TBC_CID).getValue());
@@ -1562,6 +1626,13 @@ public class PurchaseOrderUI extends SparkLogic {
 									det.setQuotation_id((Long) item.getItemProperty(TBC_QUOTATION_ID).getValue());
 									det.setQuotation_child_id(
 											(Long) item.getItemProperty(TBC_QUOTATION_CHILD_ID).getValue());
+									det.setTax(det.getTax() != null ? det.getTax()
+											: taxDao.getTax((Long) item.getItemProperty(TBC_TAX_ID).getValue()));
+									det.setTaxPercentage(
+											roundNumber((Double) item.getItemProperty(TBC_TAX_PERCENTAGE).getValue()));
+									det.setTaxAmount(
+											roundNumber((Double) item.getItemProperty(TBC_TAX_AMOUNT).getValue()));
+
 									itemsList.add(det);
 								}
 								if (savable) {
@@ -1572,9 +1643,9 @@ public class PurchaseOrderUI extends SparkLogic {
 												CommonUtil.getSQLDateFromUtilDate(expiryDateField.getValue()));
 									else
 										mdl.setExpiryDate(null);
-									mdl.setSupplier(new LedgerModel((Long) supplierCombo.getValue()));
+//									mdl.setSupplier(new LedgerModel((Long) supplierCombo.getValue()));
 									mdl.setResponsible_employee((Long) responsilbeEmployeeCombo.getValue());
-									mdl.setOffice(new S_OfficeModel(getOfficeID()));
+//									mdl.setOffice(new S_OfficeModel(getOfficeID()));
 									mdl.setComments(comment.getValue());
 									mdl.setAmount(roundNumber(netAmountField.getValue()));
 									mdl.setCurrencyId(netAmountField.getCurrency());
@@ -1769,6 +1840,7 @@ public class PurchaseOrderUI extends SparkLogic {
 							map.put("VAT_NO_SUPP", supplier.getVatNumber());
 							map.put("VAT_NO_LABEL_OFFICE", getPropertyName("vat_num_label"));
 							map.put("VAT_NO_OFFICE", office.getVat_number());
+							map.put("VAT_LABEL", getPropertyName("VAT"));
 
 							try {
 								File headFile = new File(rootPath.trim() + office.getHeader().trim());
@@ -1791,7 +1863,9 @@ public class PurchaseOrderUI extends SparkLogic {
 							}
 
 							Iterator itr = mdl.getOrder_details_list().iterator();
+							Double vatAmount = (double) 0;
 							while (itr.hasNext()) {
+								
 								PurchaseOrderDetailsModel det = (PurchaseOrderDetailsModel) itr.next();
 								AcctReportMainBean bean = new AcctReportMainBean();
 								bean.setItem(det.getItem().getName() + " [" + det.getItem().getItem_code() + "]");
@@ -1800,11 +1874,14 @@ public class PurchaseOrderUI extends SparkLogic {
 								bean.setAmount(roundNumber(det.getUnit_price()));
 								bean.setTotal(
 										roundNumber(det.getUnit_price() * det.getQunatity() / det.getConversionRate()));
+								vatAmount += roundNumber(det.getTaxAmount());
+								bean.setVat(vatAmount);
 								reportList.add(bean);
 							}
 							map.put("TOTAL", roundNumber(mdl.getAmount()));
 							map.put("CURRENCY",
 									new CurrencyManagementDao().getselecteditem(mdl.getCurrencyId()).getCode());
+//							map.put("VAT",getPropertyName("VAT"));
 
 							Report report = new Report(getLoginID());
 							report.setJrxmlFileName(getBillName(SConstants.bills.PURCHASE_ORDER));
@@ -1867,7 +1944,7 @@ public class PurchaseOrderUI extends SparkLogic {
 							map.put("UNIT_PRICE_LABEL", getPropertyName("unit_price"));
 							map.put("NET_PRICE_LABEL", getPropertyName("net_price"));
 							map.put("TOTAL_LABEL", getPropertyName("total"));
-
+							
 							S_OfficeModel office = new OfficeDao().getOffice(mdl.getOffice().getId());
 							map.put("OFFICE_NAME", office.getName());
 
@@ -1962,9 +2039,10 @@ public class PurchaseOrderUI extends SparkLogic {
 			while (it.hasNext()) {
 				item = table.getItem(it.next());
 				qty_ttl += (Double) item.getItemProperty(TBC_QTY).getValue();
-				netTotal += (((Double) item.getItemProperty(TBC_UNIT_PRICE).getValue()
-						/ (Double) item.getItemProperty(TBC_CONV_RATE).getValue())
-						* (Double) item.getItemProperty(TBC_QTY).getValue());
+//				netTotal += (((Double) item.getItemProperty(TBC_UNIT_PRICE).getValue()
+//						/ (Double) item.getItemProperty(TBC_CONV_RATE).getValue())
+//						* (Double) item.getItemProperty(TBC_QTY).getValue());
+				netTotal += (Double) item.getItemProperty(TBC_NET_PRICE).getValue();
 			}
 			table.setColumnFooter(TBC_QTY, asString(roundNumber(qty_ttl)));
 			table.setColumnFooter(TBC_NET_PRICE, asString(roundNumber(netTotal)));

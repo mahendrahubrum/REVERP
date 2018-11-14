@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.inventory.config.stock.model.ItemModel;
+import com.inventory.config.tax.model.TaxModel;
 import com.inventory.config.unit.model.UnitModel;
 import com.webspark.common.util.SConstants;
 
@@ -34,36 +35,70 @@ public class PurchaseOrderDetailsModel implements Serializable {
 	@JoinColumn(name = "item_id")
 	private ItemModel item;
 
-	@Column(name = "quantity" ,columnDefinition ="double default 0", nullable=false)
+	@Column(name = "quantity", columnDefinition = "double default 0", nullable = false)
 	private double qunatity;
 
-	@Column(name = "qty_in_basic_unit" ,columnDefinition ="double default 0", nullable=false)
+	@Column(name = "qty_in_basic_unit", columnDefinition = "double default 0", nullable = false)
 	private double qty_in_basic_unit;
-	
+
 	@OneToOne
 	@JoinColumn(name = "unit_id")
 	private UnitModel unit;
 
-	@Column(name = "unit_price" ,columnDefinition ="double default 0", nullable=false)
+	@Column(name = "unit_price", columnDefinition = "double default 0", nullable = false)
 	private double unit_price;
-	
-	@Column(name = "currency_id" ,columnDefinition ="bigint default 0", nullable=false)
+
+	@Column(name = "currency_id", columnDefinition = "bigint default 0", nullable = false)
 	private long currencyId;
 
-	@Column(name = "conversion_rate",columnDefinition ="double default 0", nullable=false)
+	@Column(name = "conversion_rate", columnDefinition = "double default 0", nullable = false)
 	private double conversionRate;
-	
-	@Column(name = "quotation_id" ,columnDefinition ="bigint default 0", nullable=false)
+
+	@Column(name = "quotation_id", columnDefinition = "bigint default 0", nullable = false)
 	private long quotation_id;
-	
-	@Column(name = "quotation_child_id" ,columnDefinition ="bigint default 0", nullable=false)
+
+	@Column(name = "quotation_child_id", columnDefinition = "bigint default 0", nullable = false)
 	private long quotation_child_id;
-	
-	@Column(name = "quantity_received" ,columnDefinition ="double default 0", nullable=false)
+
+	@Column(name = "quantity_received", columnDefinition = "double default 0", nullable = false)
 	private double quantity_received;
+
+	@OneToOne
+	@JoinColumn(name = "tax_id")
+	private TaxModel tax;
+
+	@Column(name = "taxPercentage", columnDefinition = "double default 0", nullable = false)
+	private double taxPercentage;
+
+	@Column(name = "taxAmount", columnDefinition = "double default 0", nullable = false)
+	private double taxAmount;
 
 	public long getId() {
 		return id;
+	}
+
+	public TaxModel getTax() {
+		return tax;
+	}
+
+	public void setTax(TaxModel tax) {
+		this.tax = tax;
+	}
+
+	public double getTaxPercentage() {
+		return taxPercentage;
+	}
+
+	public void setTaxPercentage(double taxPercentage) {
+		this.taxPercentage = taxPercentage;
+	}
+
+	public double getTaxAmount() {
+		return taxAmount;
+	}
+
+	public void setTaxAmount(double taxAmount) {
+		this.taxAmount = taxAmount;
 	}
 
 	public void setId(long id) {
@@ -149,5 +184,5 @@ public class PurchaseOrderDetailsModel implements Serializable {
 	public void setQuotation_child_id(long quotation_child_id) {
 		this.quotation_child_id = quotation_child_id;
 	}
-	
+
 }
